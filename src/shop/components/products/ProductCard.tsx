@@ -1,0 +1,43 @@
+import { useNavigate } from "react-router";
+import type { Product } from "../../../interfaces/product";
+
+interface Props {
+  product: Product
+}
+
+export const ProductCard = ({ product }: Props) => {
+  const navigate = useNavigate();
+
+  const showProductDetails = () => {
+    navigate(`/product/${product.id}`);
+  }
+
+
+  return (
+    <article className="overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg cursor-pointer relative" onClick={showProductDetails}>
+      {/* <div className="absolute top-2 right-2 bg-black z-50 text-white text-xs rounded-full px-2 ">
+        <span>{product.category}</span>
+      </div> */}
+
+      <div className="relative h-52 w-full">
+        {product.images.length && <img key={product.id} src={product.images[0]} alt={product.title} className="h-full w-full object-cover" />}
+      </div>
+
+      <div className="flex flex-col gap-3 px-4 py-4">
+        <h2 className="text-sm font-semibold text-gray-700">
+          {product.title}
+        </h2>
+
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-semibold text-gray-800">
+            {product.price}
+          </span>
+
+          <button className="rounded-full bg-slate-900 text-xs py-1  font-semibold  tracking-wide text-white transition hover:bg-slate-700 cursor-pointer px-2" onClick={(e) => { e.stopPropagation() }}>
+            Agregar al carrito
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+};

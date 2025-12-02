@@ -13,7 +13,7 @@ interface MenuItem {
 
 export const BottomMenu = () => {
 
-  const totalItems = useShopStore((state) => state.totalItems);
+  const totalItems = useShopStore((state) => state.totalItems())
 
   const menuItems: MenuItem[] = [
     {
@@ -47,7 +47,7 @@ export const BottomMenu = () => {
                   {
                     item.label === 'Carrito' &&
                     <span className="absolute -top-2 -right-3 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      { totalItems() }
+                      { totalItems }
                     </span>
                   }
                 </div>

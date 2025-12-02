@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import type { Product } from "../../../interfaces/product";
 import { useShopStore } from "../../store/shop.store";
 import type { MouseEvent } from "react";
+import { currencyFormatters } from "../../../utils/currency-formatter";
 
 interface Props {
   product: Product
@@ -9,23 +10,20 @@ interface Props {
 
 export const ProductCard = ({ product }: Props) => {
   const navigate = useNavigate();
-
-  const addItem = useShopStore((state) => state.addItem);
-
+  const addItem = useShopStore((state) => state.addItem)
+  
   const showProductDetails = () => {
     navigate(`/product/${product.id}`);
   }
 
-  const handleAddToCart = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleAddItem = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-
     addItem(product);
   }
 
 
   return (
     <article className="overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg cursor-pointer relative" onClick={showProductDetails}>
-
       <div className="relative h-52 w-full">
         {product.images.length && <img key={product.id} src={product.images[0]} alt={product.title} className="h-full w-full object-cover" />}
       </div>
@@ -37,10 +35,10 @@ export const ProductCard = ({ product }: Props) => {
 
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-gray-800">
-            {product.price}
+            $ {currencyFormatters(product.price)}
           </span>
 
-          <button className="rounded-full bg-slate-900 text-xs py-1  font-semibold  tracking-wide text-white transition hover:bg-slate-700 cursor-pointer px-2" onClick={(e) => handleAddToCart(e)}>
+          <button className="rounded-full bg-slate-900 text-xs py-1  font-semibold  tracking-wide text-white transition hover:bg-slate-700 cursor-pointer px-2" onClick={(e) => handleAddItem(e)}>
             Agregar al carrito
           </button>
         </div>

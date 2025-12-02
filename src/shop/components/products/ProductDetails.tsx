@@ -1,8 +1,12 @@
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Link } from "react-router";
 import type { Product } from "../../../interfaces/product";
+import { useShopStore } from "../../store/shop.store";
+import { currencyFormatters } from "../../../utils/currency-formatter";
 
 export const ProductDetails = () => {
+
+  const addItem = useShopStore((state) => state.addItem)
 
   const product: Product = {
     id: "1",
@@ -46,20 +50,6 @@ export const ProductDetails = () => {
               }
             </div>
           }
-          <div className="grid grid-cols-4 gap-2 mt-4">
-            {/* {[1, 2, 3, 4, 5, 6].map((index) => (
-              <div
-                key={index}
-                className="overflow-hidden rounded-lg border border-gray-200 cursor-pointer hover:border-gray-400"
-              >
-                <img
-                  src={image}
-                  alt={`${name} ${index}`}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            ))} */}{ }
-          </div>
         </div>
 
         <div className="flex flex-col justify-between">
@@ -73,7 +63,7 @@ export const ProductDetails = () => {
 
             <div className="flex">
               <span className="text-4xl sm:text-5xl font-bold text-gray-900">
-                {price}
+                $ {currencyFormatters(price)}
               </span>
             </div>
 
@@ -89,7 +79,7 @@ export const ProductDetails = () => {
 
           <div className="pt-6 mt-8">
             <button
-              className="w-full py-4 px-6 rounded-xl font-semibold sm:text-lg transition-all cursor-pointer bg-gray-900 text-white hover:bg-gray-700 shadow-lg">
+              className="w-full py-4 px-6 rounded-xl font-semibold sm:text-lg transition-all cursor-pointer bg-gray-900 text-white hover:bg-gray-700 shadow-lg" onClick={() => addItem(product)}>
               Agregar al Carrito
             </button>
 

@@ -3,6 +3,7 @@ import { FaRegUser } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
 import { NavLink } from "react-router";
 import type { ReactElement } from "react";
+import { useShopStore } from "../store/shop.store";
 
 interface MenuItem {
   to: string;
@@ -11,6 +12,8 @@ interface MenuItem {
 }
 
 export const BottomMenu = () => {
+
+  const totalItems = useShopStore((state) => state.totalItems);
 
   const menuItems: MenuItem[] = [
     {
@@ -44,7 +47,7 @@ export const BottomMenu = () => {
                   {
                     item.label === 'Carrito' &&
                     <span className="absolute -top-2 -right-3 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      5
+                      { totalItems() }
                     </span>
                   }
                 </div>

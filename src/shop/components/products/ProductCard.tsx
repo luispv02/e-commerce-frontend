@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router";
 import type { Product } from "../../../interfaces/product";
+import { useShopStore } from "../../store/shop.store";
+import type { MouseEvent } from "react";
 
 interface Props {
   product: Product
@@ -8,16 +10,21 @@ interface Props {
 export const ProductCard = ({ product }: Props) => {
   const navigate = useNavigate();
 
+  const addItem = useShopStore((state) => state.addItem);
+
   const showProductDetails = () => {
     navigate(`/product/${product.id}`);
+  }
+
+  const handleAddToCart = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    addItem(product);
   }
 
 
   return (
     <article className="overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg cursor-pointer relative" onClick={showProductDetails}>
-      {/* <div className="absolute top-2 right-2 bg-black z-50 text-white text-xs rounded-full px-2 ">
-        <span>{product.category}</span>
-      </div> */}
 
       <div className="relative h-52 w-full">
         {product.images.length && <img key={product.id} src={product.images[0]} alt={product.title} className="h-full w-full object-cover" />}
@@ -33,7 +40,7 @@ export const ProductCard = ({ product }: Props) => {
             {product.price}
           </span>
 
-          <button className="rounded-full bg-slate-900 text-xs py-1  font-semibold  tracking-wide text-white transition hover:bg-slate-700 cursor-pointer px-2" onClick={(e) => { e.stopPropagation() }}>
+          <button className="rounded-full bg-slate-900 text-xs py-1  font-semibold  tracking-wide text-white transition hover:bg-slate-700 cursor-pointer px-2" onClick={(e) => handleAddToCart(e)}>
             Agregar al carrito
           </button>
         </div>

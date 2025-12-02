@@ -3,11 +3,13 @@ import logo from '../../assets/images/logo.png'
 import { Link, NavLink, useSearchParams } from 'react-router';
 import { CgShoppingCart } from 'react-icons/cg';
 import { ModalUserMenu } from './ModalUserMenu';
+import { useShopStore } from '../store/shop.store';
 
 export const Header = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') || '';
   const [isAuthenticated] = useState(true); // !Solo como prueba
+  const totalItems = useShopStore((state) => state.totalItems);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -49,7 +51,7 @@ export const Header = () => {
             <NavLink to='/cart' className="relative text-gray-700 hover:text-blue-600 transition-colors">
               <CgShoppingCart className="w-6 h-6 text-gray-500" />
               <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                0
+                { totalItems() }
               </span>
             </NavLink>
 

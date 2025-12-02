@@ -3,6 +3,7 @@ import type { Product } from "../../../interfaces/product";
 import { useShopStore } from "../../store/shop.store";
 import type { MouseEvent } from "react";
 import { currencyFormatters } from "../../../utils/currency-formatter";
+import { toast } from 'react-toastify';
 
 interface Props {
   product: Product
@@ -19,6 +20,7 @@ export const ProductCard = ({ product }: Props) => {
   const handleAddItem = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     addItem(product);
+    toast.success('Producto agregado al carrito');
   }
 
 

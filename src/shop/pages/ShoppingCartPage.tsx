@@ -34,15 +34,14 @@ export const ShoppingCartPage = () => {
                 </div>
 
                 <div className="info flex flex-col flex-1 justify-between">
-                  <div className="">
-                    <div className="font-semibold text-sm md:text-lg">
-                      {compra.product.title}
-                    </div>
+                  
+                  <div className="font-semibold text-sm md:text-lg">
+                    {compra.product.title}
                   </div>
 
                   <div className="flex gap-4 items-center">
                     <div className="text-sm flex ">
-                      $ {compra.product.price}
+                      $ {compra.product.price * compra.quantity}
                     </div>
 
                     <div className="flex justify-end bg-gray-200 rounded-full py-[3px] ml-auto">

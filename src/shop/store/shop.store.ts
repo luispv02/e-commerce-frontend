@@ -24,12 +24,14 @@ export const useShopStore = create<CartStore>()(
   devtools((set, get) => ({
     items: [],
 
+
     totalItems: () => {
       return get().items.reduce((acc, item) => item.quantity + acc, 0);
     },
     totalPrice: () => {
       return get().items.reduce((acc, item) => (item.product.price * item.quantity) + acc, 0);
     },
+    
 
     addItem: (product) => set((state) => {
       const itemExists = state.items.some(item => item.product.id === product.id);
@@ -60,11 +62,10 @@ export const useShopStore = create<CartStore>()(
       }
     }),
     decreaseQty: (id) => set((state) => {
-
       const productFound = state.items.find(item => item.product.id === id);
       if(productFound && productFound.quantity === 1){
         return {
-        items: state.items.filter(item => item.product.id !== id)
+          items: state.items.filter(item => item.product.id !== id)
         }
       }
 

@@ -1,5 +1,6 @@
 
 import type { Purchase } from "../../interfaces/purchases";
+import { currencyFormatters } from "../../utils/currency-formatter";
 
 export const PurchasesPage = () => {
 
@@ -7,7 +8,7 @@ export const PurchasesPage = () => {
     {
       id: "PUR-001",
       date: "2025-01-10",
-      total: 208,
+      total: 1250,
       items: [
         {
 
@@ -69,7 +70,7 @@ export const PurchasesPage = () => {
           product: {
             id: "P-101",
             title: "Playera Casual",
-            price: 29,
+            price: 2000,
             description: "Playera ligera y cómoda",
             stock: 15,
             category: "clothes",
@@ -111,14 +112,14 @@ export const PurchasesPage = () => {
 
                         <div className="">
                           <div className="text-[10px] text-gray-500">Cantidad: {compra.quantity}</div>
-                          <div className="text-sm flex">Precio: ${compra.product.price}</div>
+                          <div className="text-sm flex">Precio: ${currencyFormatters(compra.product.price)}</div>
                         </div>
                       </div>
                     </div>
                   ))
                 }
                 <div className="p-2 md:px-6 flex justify-end border-t border-gray-300">
-                  <div className="font-semibold">Total ${c.total}</div>
+                  <div className="font-semibold">Total ${currencyFormatters(c.total)}</div>
                 </div>
               </div>
             ))

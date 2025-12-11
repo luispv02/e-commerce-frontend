@@ -1,6 +1,7 @@
 import { FiPlus, FiEdit2, FiTrash2 } from "react-icons/fi";
 import { Link } from "react-router";
 import type { Product } from "../../interfaces/product";
+import { currencyFormatters } from "../../utils/currency-formatter";
 
 export const ProductsPage = () => {
 
@@ -12,7 +13,9 @@ export const ProductsPage = () => {
       description: "Audio premium",
       stock: 45,
       category: "technology",
-      images: ["https://placeholder.pagebee.io/api/random/300/200"]
+      images: ["https://placeholder.pagebee.io/api/random/300/200"],
+      type: '',
+      brand: '',
     },
     {
       id: "2",
@@ -21,7 +24,11 @@ export const ProductsPage = () => {
       description: "Camisa cómoda",
       stock: 120,
       category: "clothes",
-      images: ["https://placeholder.pagebee.io/api/random/300/200"]
+      images: ["https://placeholder.pagebee.io/api/random/300/200"],
+      sizes: ["m", "l"],
+      gender: "men",
+      colors: ["white"],
+      type: "t-shirts"
     }
   ]
 
@@ -29,7 +36,7 @@ export const ProductsPage = () => {
     <div className="max-w-7xl mx-auto">
       <div className="flex justify-between">
         <div>
-          <h2 className="text-gray-600 text-md">Products</h2>
+          <h2 className="text-gray-600 text-lg font-bold">Products</h2>
           <p className="text-gray-500 text-sm">Gestiona tus productos</p>
         </div>
         <Link to='/admin/products/new'>
@@ -95,7 +102,7 @@ export const ProductsPage = () => {
                 </td>
 
                 <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                  ${producto.price.toFixed(2)}
+                  ${currencyFormatters(producto.price)}
                 </td>
 
                 <td className="px-4 py-3 whitespace-nowrap text-sm">

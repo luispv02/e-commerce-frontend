@@ -1,46 +1,66 @@
-import { useState } from "react";
 import { FaRegSave } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { Link, useParams } from "react-router";
+import { Link } from "react-router";
 import { ClothingFields } from "./ClothingFields";
 import { TechFields } from "./TechFields";
 import { UploadProductImage } from "./UploadProductImage";
 import type { Filter } from "../../../interfaces/filters";
 import { clothesFilters } from "../../../data/filters/clothes-filters";
 import { technologyFilters } from "../../../data/filters/technology-filters";
-import type { ProductCategory } from "../../../interfaces/product";
+import type { ProductCategory, Product, NewProduct, ProductFormValues, } from "../../../interfaces/product";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+interface Props {
+  title: string;
+  subTitle: string;
+  product: Product | NewProduct;
+  onSubmit: (product: ProductFormValues) => void;
+}
 
-export const ProductForm = () => {
-  const { id } = useParams();
+export const ProductForm = ({ title, subTitle, product, onSubmit }: Props) => {
 
+  const { register, handleSubmit, formState: { errors }, watch, setValue, clearErrors, getValues } = useForm<ProductFormValues>({
+    defaultValues: product,
+    shouldUnregister: true,
+  });
 
-  const [categoria, setCategoria] = useState<ProductCategory | "">("");
-
-  const title = id === 'new' ? 'Nuevo Producto' : 'Editar Producto';
-  const subTitle = id === 'new' ? 'Agrega un nuevo producto' : 'Edita el producto';
-
-  const category: Record<ProductCategory, Filter[]> = {
+  const selectedCategory = watch("category");
+  const categoryFilters: Record<ProductCategory, Filter[]> = {
     clothes: clothesFilters,
     technology: technologyFilters,
     others: [],
   };
+  const filtersSelectedCategory = categoryFilters[selectedCategory as ProductCategory] || [];
 
-  const selectedCategory = category[categoria as ProductCategory] || [];
+  useEffect(() => {
+    if (!selectedCategory || product.id !== 'new') return
 
+    if (selectedCategory === 'clothes') {
+      setValue("sizes", []);
+      setValue("gender", '');
+      setValue("colors", []);
+      setValue("type", '');
+    }
+    if (selectedCategory === 'technology') {
+      setValue("brand", '');
+      setValue("type", '');
+    }
+    clearErrors()
+  }, [selectedCategory, setValue, clearErrors])
 
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex justify-end items-center">
 
         <div className="flex gap-3">
           <Link to='/admin/products'>
-            <button type="button" className="w-8 h-8 md:w-full px-2 border border-gray-300 bg-white shadow cursor-pointer flex justify-center items-center rounded hover:bg-gray-100 transition gap-2">
+            <button className="w-8 h-8 md:w-full px-2 border border-gray-300 bg-white shadow cursor-pointer flex justify-center items-center rounded hover:bg-gray-100 transition gap-2">
               <IoMdClose className="text-xl" />
               <span className="hidden md:block">Cancelar</span>
             </button>
           </Link>
 
-          <button type="button" className="w-8 h-8 md:w-full px-2 border border-gray-800 bg-gray-900 text-white cursor-pointer shadow flex justify-center items-center rounded hover:bg-gray-700 transition gap-2">
+          <button type="submit" className="w-8 h-8 md:w-full px-2 border border-gray-800 bg-gray-900 text-white cursor-pointer shadow flex justify-center items-center rounded hover:bg-gray-700 transition gap-2">
             <FaRegSave className="text-xl" />
             <span className="hidden md:block">Guardar</span>
           </button>
@@ -61,10 +81,8 @@ export const ProductForm = () => {
             </label>
             <input
               type="text"
-              id="titulo"
-              name="titulo"
-              required
-              className="w-full px-3 py-2 border text-sm border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300"
+              {...register('title', { required: true })}
+              className={`w-full px-3 py-2 border text-sm border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300 ${errors.title ? 'border-red-500' : ''}`}
               placeholder="Título del producto"
             />
           </div>
@@ -78,10 +96,8 @@ export const ProductForm = () => {
                 <span className="absolute left-3 top-2 text-gray-500">$</span>
                 <input
                   type="number"
-                  id="precio"
-                  name="precio"
-                  required
-                  className="w-full pl-7 pr-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300"
+                  {...register('price', { required: true, min: 1 })}
+                  className={`w-full pl-7 pr-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300 ${errors.price ? 'border-red-400' : ''}`}
                   placeholder="Precio del producto"
                 />
               </div>
@@ -93,11 +109,9 @@ export const ProductForm = () => {
               </label>
               <input
                 type="number"
-                id="stock"
-                name="stock"
-                required
+                {...register('stock', { required: true, min: 1 })}
                 min="0"
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300"
+                className={`w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300 ${errors.stock ? 'border-red-400' : ''}`}
                 placeholder="Stock del producto"
               />
             </div>
@@ -108,11 +122,9 @@ export const ProductForm = () => {
               Descripción
             </label>
             <textarea
-              id="descripcion"
-              name="descripcion"
-              required
+              {...register('description', { required: true })}
               rows={5}
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300 resize-none"
+              className={`w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300 resize-none ${errors.description ? 'border-red-400' : ''}`}
               placeholder="Descripción del producto"
             />
           </div>
@@ -121,29 +133,24 @@ export const ProductForm = () => {
             <label htmlFor="categoria" className="block text-sm font-medium text-gray-700 mb-1">
               Categoría
             </label>
+
             <select
-              id="categoria"
-              name="categoria"
-              required
-              value={categoria}
-              onChange={(e) => setCategoria(e.target.value as ProductCategory | "")}
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300"
+              {...register('category', { required: true })}
+              className={`w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300 ${errors.category ? 'border-red-400' : ''} disabled:bg-gray-100 disabled:text-gray-500 `}
+              disabled={product.id !== 'new'}
             >
-              <option value="">Selecciona una categoría</option>
+              <option value="" disabled>Selecciona una categoria</option>
               <option value="clothes">Ropa</option>
               <option value="technology">Tecnología</option>
               <option value="others">Otros</option>
             </select>
           </div>
 
+          {selectedCategory === "clothes" && <ClothingFields category={filtersSelectedCategory} register={register} setValue={setValue} watch={watch} errors={errors} />}
 
-          {/* Campos condicionales para Ropa */}
-          {categoria === "clothes" && <ClothingFields category={selectedCategory} /> }
+          {selectedCategory === "technology" && <TechFields category={filtersSelectedCategory} register={register} errors={errors} />}
 
-          {/* Campos condicionales para Tecnología */}
-          {categoria === "technology" && <TechFields category={selectedCategory} /> }
-
-          { categoria !== '' && <UploadProductImage /> }
+          {selectedCategory && <UploadProductImage register={register} setValue={setValue} watch={watch} errors={errors} getValues={getValues} />}
         </div>
       </div>
     </form >

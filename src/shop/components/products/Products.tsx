@@ -10,7 +10,11 @@ const products: Product[] = [
     images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70", "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=70"],
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate ipsum ut augue pulvinar tincidunt.",
     stock: 1,
-    category: "clothes"
+    category: "clothes",
+    sizes: ["m", "l"],
+    gender: "men",
+    colors: ["white"],
+    type: "t-shirts"
   },
   {
     id: "2",
@@ -19,7 +23,9 @@ const products: Product[] = [
     images: ["https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=70"],
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate ipsum ut augue pulvinar tincidunt.",
     stock: 2,
-    category: "technology"
+    category: "technology",
+    type: '',
+    brand: '',
   },
   {
     id: "3",
@@ -28,7 +34,11 @@ const products: Product[] = [
     images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70"],
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate ipsum ut augue pulvinar tincidunt.",
     stock: 2,
-    category: "clothes"
+    category: "clothes",
+    sizes: ["m", "l"],
+    gender: "men",
+    colors: ["white"],
+    type: "t-shirts"
   },
   {
     id: "4",
@@ -37,7 +47,11 @@ const products: Product[] = [
     images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70"],
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate ipsum ut augue pulvinar tincidunt.",
     stock: 3,
-    category: "clothes"
+    category: "clothes",
+    sizes: ["m", "l"],
+    gender: "men",
+    colors: ["white"],
+    type: "t-shirts"
   },
   {
     id: "5",
@@ -46,7 +60,9 @@ const products: Product[] = [
     images: ["https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=70"],
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate ipsum ut augue pulvinar tincidunt.",
     stock: 4,
-    category: "technology"
+    category: "technology",
+    type: '',
+    brand: '',
   },
   {
     id: "6",
@@ -55,7 +71,11 @@ const products: Product[] = [
     images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70"],
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate ipsum ut augue pulvinar tincidunt.",
     stock: 5,
-    category: "clothes"
+    category: "clothes",
+    sizes: ["m", "l"],
+    gender: "men",
+    colors: ["white"],
+    type: "t-shirts"
   },
 ];
 

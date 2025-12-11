@@ -13,7 +13,6 @@ interface CartStore {
 
   // actions
   addItem: (product: Product) => void;
-  // updatedItem: (id: string) => void;
   deleteItem: (id: string) => void;
   increaseQty: (id: string) => void;
   decreaseQty: (id: string) => void;

@@ -1,7 +1,16 @@
+import type { FieldErrors, UseFormRegister } from "react-hook-form";
 import type { Filter } from "../../../interfaces/filters";
+import type { ProductFormValues, TechnologyProduct } from "../../../interfaces/product";
 
-export const TechFields = ({ category }: { category: Filter[] }) => {
-  
+interface Props {
+  category: Filter[];
+  register: UseFormRegister<ProductFormValues>
+  errors: FieldErrors<ProductFormValues>;
+}
+
+
+export const TechFields = ({ category, register, errors }: Props) => {
+
   return (
     <div className="border-t border-gray-200 pt-6 space-y-6">
       <h3 className="text-lg font-semibold text-gray-900">Información adicional - Tecnología</h3>
@@ -13,10 +22,14 @@ export const TechFields = ({ category }: { category: Filter[] }) => {
               {c.title}
             </label>
 
-            <select name={c.filterKey} id={c.filterKey} className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300">
+            <select
+              {...register(c.filterKey as keyof TechnologyProduct, { required: true })}
+              className={`w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300 ${errors[c.filterKey as keyof TechnologyProduct] ? 'border-red-500' : ''}`}
+            >
+              <option value="" disabled>Selecciona una opción</option>
               {
                 c.options.map(option => (
-                  <option key={option.id} value={option.id}>{ option.label }</option>
+                  <option key={option.id} value={option.id}>{option.label}</option>
                 ))
               }
             </select>

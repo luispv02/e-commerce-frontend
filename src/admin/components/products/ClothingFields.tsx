@@ -1,34 +1,39 @@
-import { useState } from "react";
-import type { Filter, FilterOption } from "../../../interfaces/filters";
+import type { Filter } from "../../../interfaces/filters";
+import type { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import type { ClothingProduct, ProductFormValues, Size } from "../../../interfaces/product";
 
+interface Props {
+  category: Filter[];
+  register: UseFormRegister<ProductFormValues>
+  setValue: UseFormSetValue<ProductFormValues>
+  watch: UseFormWatch<ProductFormValues>
+  errors: FieldErrors<ProductFormValues>;
+}
 
-export const ClothingFields = ({ category }: { category: Filter[] }) => {
+export const ClothingFields = ({ category, register, setValue, watch, errors }: Props) => {
+  const sizes = watch("sizes") || [];
+  const colors = watch("colors") || [];
 
-  const [tallas, setTallas] = useState<string[]>([]);
-  const [colores, setColores] = useState<string[]>([]);
-  const [genero, setGenero] = useState<string>('man')
-  const [tipo, setTipo] = useState<string>('shirts')
+  const handleSizeColor = (filterKey: string, value: string) => {
+    if (filterKey === 'size') {
+      const updatedSizes = sizes.includes(value as Size)
+        ? sizes.filter(s => s !== value)
+        : [...sizes, value as Size];
 
-  const handleSizeColor = (filter: Filter, value: string) => {
-    const isColor = filter.filterKey === "color";
-    const list = isColor ? colores : tallas;
-    const setList = isColor ? setColores : setTallas;
-
-    const updated = list.includes(value)
-      ? list.filter(v => v !== value)
-      : [...list, value];
-
-    setList(updated);
+      setValue("sizes", updatedSizes, { shouldValidate: true });
+    }
+    if (filterKey === 'color') {
+      const updatedColors = colors.includes(value)
+        ? colors.filter(c => c !== value)
+        : [...colors, value];
+      setValue("colors", updatedColors, { shouldValidate: true });
+    }
   };
 
-  const handleSelect = (filter: Filter, value: string) => {
-    if (filter.filterKey === 'gender') setGenero(value);
-    if (filter.filterKey === 'clothingType') return setTipo(value);
-  }
-  
-
   const isOptionSelected = (filterKey: string, optionId: string) => {
-    return (filterKey === 'color' ? colores : tallas).includes(optionId);
+    if (filterKey === 'size') return sizes.includes(optionId as Size);
+    if (filterKey === 'color') return colors.includes(optionId);
+    return false;
   }
 
   return (
@@ -42,38 +47,47 @@ export const ClothingFields = ({ category }: { category: Filter[] }) => {
 
             {
               (c.filterKey === 'size' || c.filterKey === 'color') ? (
-                <div className="flex flex-wrap gap-2">
-                  {
-                    c.options.map(option => (
-                      <button
-                        key={option.id}
-                        type="button"
-                        onClick={() => handleSizeColor(c, option.id)}
-                        className={`px-4 py-1 rounded-full text-xs font-medium transition-all cursor-pointer flex items-center gap-2 ${isOptionSelected(c.filterKey, option.id)
-                          ? "bg-blue-400 text-white border border-blue-500 shadow-md"
-                          : "bg-white text-gray-700 border border-gray-300 hover:border-blue-400 hover:bg-blue-100"
-                          }`}
-                      >
-                        {c.filterKey === 'color' && <div className="w-4 h-4 rounded-full border border-gray-300" style={{ backgroundColor: option.hex }} />}
-                        {option.label}
-                      </button>
-                    ))
-                  }
-                </div>
+                <>
+                  <input
+                    type="hidden"
+                    {...register(c.filterKey === 'size' ? 'sizes' : 'colors', { required: "Este campo es requerido" })}
+                  />
+
+                  <div className="flex flex-wrap gap-2">
+                    {
+                      c.options.map(option => (
+                        <button
+                          key={option.id}
+                          type="button"
+                          onClick={() => handleSizeColor(c.filterKey, option.id)}
+                          className={`px-4 py-1 rounded-full text-xs font-medium transition-all cursor-pointer flex items-center gap-2 ${isOptionSelected(c.filterKey, option.id)
+                            ? "bg-blue-400 text-white border border-blue-500 shadow-md"
+                            : "bg-white text-gray-700 border border-gray-300 hover:border-blue-400 hover:bg-blue-100"
+                            }`}
+                        >
+                          {c.filterKey === 'color' && <div className="w-4 h-4 rounded-full border border-gray-300" style={{ backgroundColor: option.hex }} />}
+                          <span>{option.label}</span>
+                        </button>
+                      ))
+                    }
+                  </div>
+                  {c.filterKey === 'color' && errors.colors && <p className="text-red-500 text-sm ml-2">Selecciona al menos un color</p>}
+                  {c.filterKey === 'size' && errors.sizes && <p className="text-red-500 text-sm ml-2">Selecciona al menos una talla</p>}
+                </>
               ) : (
-                <select
-                  id={c.filterKey}
-                  name={c.filterKey}
-                  required
-                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300"
-                  onChange={(e) => handleSelect(c, e.target.value)}
-                >
-                  {
-                    c.options.map(option => (
-                      <option key={option.id} value={option.id}>{option.label}</option>
-                    ))
-                  }
-                </select>
+                <>
+                  <select
+                    {...register(c.filterKey as keyof ClothingProduct, { required: true })}
+                    className={`w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300 ${errors[c.filterKey as keyof ClothingProduct] ? 'border-red-400' : ''}`}
+                  >
+                    <option value="" disabled>Selecciona una opción</option>
+                    {
+                      c.options.map(option => (
+                        <option key={option.id} value={option.id}>{option.label}</option>
+                      ))
+                    }
+                  </select>
+                </>
               )
             }
           </div>

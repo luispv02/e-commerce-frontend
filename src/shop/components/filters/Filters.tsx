@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { IoMdClose } from "react-icons/io";
 import { LiaFilterSolid } from "react-icons/lia";
 import { FiltersGeneral } from "./FiltersGeneral";
 import { useSearchParams } from "react-router";

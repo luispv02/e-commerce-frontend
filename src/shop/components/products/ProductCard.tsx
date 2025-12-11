@@ -20,7 +20,6 @@ export const ProductCard = ({ product }: Props) => {
   const handleAddItem = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     addItem(product);
-    toast.success('Producto agregado al carrito');
   }
 
 

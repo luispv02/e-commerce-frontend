@@ -17,7 +17,7 @@ export const clothesFilters: Filter[] = [
     title: "Género",
     filterKey: "gender",
     options: [
-      { id: "man", label: "Hombres" },
+      { id: "men", label: "Hombres" },
       { id: "women", label: "Mujeres" },
       { id: "kid", label: "Niños" },
     ],
@@ -43,7 +43,8 @@ export const clothesFilters: Filter[] = [
     options: [
       { id: "shirts", label: "Camisas" },
       { id: "t-shirts", label: "Playeras" },
-      { id: "pants", label: "Pantalones" }
+      { id: "pants", label: "Pantalones" },
+      { id: "others", label: "Otros" }
     ],
   },
 ];

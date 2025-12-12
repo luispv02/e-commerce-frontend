@@ -1,20 +1,8 @@
-import type { ReactElement } from "react";
-import { CgShoppingCart } from "react-icons/cg";
-import { MdArrowBackIosNew, MdLogout, MdOutlineDashboard } from "react-icons/md";
+import { MdArrowBackIosNew, MdLogout } from "react-icons/md";
 import { Link, NavLink } from "react-router";
-
-interface MenuItem {
-  to: string;
-  label: string;
-  icon: ReactElement;
-}
+import { adminMenuItems } from "../../data/admin/menu-items";
 
 export const AdminSidebar = () => {
-
-  const menuItems: MenuItem[] = [
-    { to: "/admin", label: "Dashboard", icon: <MdOutlineDashboard size={20} /> },
-    { to: "/admin/products", label: "Productos", icon: <CgShoppingCart size={20} /> },
-  ];
 
   return (
     <div className="h-screen flex flex-col">
@@ -30,13 +18,13 @@ export const AdminSidebar = () => {
       </div>
 
       <ul className="flex flex-col mt-4">
-        {menuItems.map(item => (
+        {adminMenuItems.map(item => (
           <li key={item.to} className="">
             <NavLink
               to={item.to}
               end
               className={({ isActive }) => `flex items-center gap-3 px-6 py-4 cursor-pointer transition ${isActive ? "bg-blue-200 text-blue-700" : "text-gray-700 hover:bg-gray-200"}`} >
-              {item.icon}
+              <item.icon size={20}/>
               <span>{item.label}</span>
             </NavLink>
           </li>

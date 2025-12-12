@@ -1,7 +1,7 @@
 import { useEffect, useRef, type ChangeEvent } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
-import type { NewProduct, Product, ProductFormValues } from "../../../interfaces/product";
+import type { ProductFormValues } from "../../../interfaces/product";
 import { FaTrashAlt } from "react-icons/fa";
 import type { FieldErrors, UseFormGetValues, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
 
@@ -57,7 +57,7 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
 
   useEffect(() => {
     setValue('images', productImages)
-  }, [])
+  }, [setValue])
 
   return (
     <div>
@@ -80,16 +80,16 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
       </div>
       {
         productImages.length > 0
-          ? <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-8 gap-3">
+          ? <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-8 gap-2">
             {productImages.map((img, id) => (
               <div
                 key={id}
-                className="relative group rounded-md overflow-hidden border border-gray-200"
+                className="relative group rounded-md overflow-hidden border border-gray-200 box-shadow-md"
               >
                 <img
                   src={img}
                   alt={`imagen-${id + 1}`}
-                  className="w-30 h-30 object-cover"
+                  className="w-full h-25 object-cover"
                 />
                 <button
                   type="button"
@@ -120,12 +120,12 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
           <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-8 gap-2">
             {
               files.map((file, index) => (
-                <div key={index} className="relative">
+                <div key={index} className="relative group rounded-md overflow-hidden border border-gray-200 box-shadow-md">
                   <img
                     src={URL.createObjectURL(file)}
                     alt="Product"
                     key={index}
-                    className="w-30 h-30 object-cover rounded-lg"
+                    className="w-full h-25 object-cover"
                   />
 
                   <button

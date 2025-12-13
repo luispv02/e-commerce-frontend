@@ -22,10 +22,10 @@ export const PurchasesPage = () => {
             stock: 10,
             category: "clothes",
             images: ["https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=70"],
-            // sizes: ["S", "M", "L"],
-            // gender: "men",
-            // color: "gray",
-            // clothingType: ["shirts"]
+            sizes: ["s", "m", "l"],
+            gender: "men",
+            colors: ["gray"],
+            type: "shirts"
           },
         },
         {
@@ -39,8 +39,8 @@ export const PurchasesPage = () => {
             stock: 5,
             category: "technology",
             images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70"],
-            // techType: ["wearable"],
-            // brand: ["Nordic"]
+            type: "smartwatches",
+            brand: "others"
           },
 
         }
@@ -61,7 +61,9 @@ export const PurchasesPage = () => {
             description: "Laptop de alto rendimiento",
             stock: 3,
             category: "technology",
-            images: ["https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=70"]
+            images: ["https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auzto=format&fit=crop&w=600&q=70"],
+            brand: "algo",
+            type: "laptops"
           },
         },
         {
@@ -74,7 +76,11 @@ export const PurchasesPage = () => {
             description: "Playera ligera y cómoda",
             stock: 15,
             category: "clothes",
-            images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70"]
+            images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70"],
+            sizes: ["s", "m", "l"],
+            gender: "men",
+            colors: ["gray"],
+            type: "shirts"
           },
         }
       ]

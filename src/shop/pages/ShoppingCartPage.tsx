@@ -1,6 +1,8 @@
 import { MdDeleteOutline } from "react-icons/md";
 import { useShopStore } from "../store/shop.store";
 import { currencyFormatters } from "../../utils/currency-formatter";
+import { useAuthStore } from "../../auth/store/auth.store";
+import { NotAuthenticated } from "../../auth/components/NotAuthenticated";
 
 export const ShoppingCartPage = () => {
   const compras = useShopStore((state) => state.items);
@@ -9,6 +11,9 @@ export const ShoppingCartPage = () => {
   const decreaseQty = useShopStore((state) => state.decreaseQty);
   const totalPrice = useShopStore((state) => state.totalPrice());
   const totalItems = useShopStore((state) => state.totalItems());
+  const isAuth = useAuthStore((state) => state.isAuthenticated)
+
+  if(!isAuth) return <NotAuthenticated />
 
   return (
     <div className="pb-20">

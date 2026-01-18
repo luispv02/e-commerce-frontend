@@ -1,13 +1,18 @@
 import { MdArrowBackIosNew } from "react-icons/md";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import type { Product } from "../../../interfaces/product";
 import { useShopStore } from "../../store/shop.store";
 import { currencyFormatters } from "../../../utils/currency-formatter";
 import { useState } from "react";
+import { useAuthStore } from "../../../auth/store/auth.store";
 
 export const ProductDetails = () => {
 
-  const addItem = useShopStore((state) => state.addItem)
+  const addItem = useShopStore((state) => state.addItem);
+  const isAuth = useAuthStore((state) => state.isAuthenticated);
+  const setSelectedProduct = useShopStore((state) => state.setSelectedProduct)
+  const navigate = useNavigate();
+
   const product: Product = {
     id: "1",
     title: "Playera muy moderna",
@@ -24,6 +29,15 @@ export const ProductDetails = () => {
 
   const { images, title, price, description } = product;
   const [selectedProductImg, setSelectedProductImg] = useState(images[0]);
+
+  const handleAddItem = () => {
+    if(!isAuth){
+      setSelectedProduct(product)
+      navigate('/auth/login');
+      return;
+    }
+    addItem(product)
+  }
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-10">
@@ -83,7 +97,7 @@ export const ProductDetails = () => {
 
           <div className="pt-6 mt-8">
             <button
-              className="w-full py-4 px-6 rounded-xl font-semibold sm:text-lg transition-all cursor-pointer bg-gray-900 text-white hover:bg-gray-700 shadow-lg" onClick={() => addItem(product)}>
+              className="w-full py-4 px-6 rounded-xl font-semibold sm:text-lg transition-all cursor-pointer bg-gray-900 text-white hover:bg-gray-700 shadow-lg" onClick={handleAddItem}>
               Agregar al Carrito
             </button>
 

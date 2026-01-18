@@ -5,28 +5,34 @@ import { FaArrowRight, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { GoStarFill } from "react-icons/go";
 import { LuShoppingBag } from "react-icons/lu";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../../hooks/useAuth";
+import type { UserFormValues } from "../../interface/auth";
+import { Loading } from "../../../components/ui/Loading";
 
-interface RegisterFormValues {
-  name: string;
-  email: string;
-  password: string;
-}
 
 export const RegisterPage = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormValues>();
+
+  const { registerMutation } = useAuth();
+  const navigate = useNavigate()
+
+  const { register, handleSubmit, formState: { errors } } = useForm<UserFormValues>();
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit: SubmitHandler<RegisterFormValues> = (data) => {
-    console.log("submit form", data);
+  const onSubmit: SubmitHandler<UserFormValues> = (data) => {
+    registerMutation.mutate(data, {
+      onSuccess: () => {
+        navigate('/')
+      }
+    })
   };
 
   return (
     <>
       <div className="flex-1 flex items-center justify-center px-6 lg:px-0">
-        <div className="w-full max-w-md backdrop-blur-md bg-white/10 rounded-3xl shadow-xl  border border-white/30 px-6 md:px-8 py-10">
-          <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+        <div className="w-full max-w-md backdrop-blur-md bg-white/10 rounded-3xl shadow-xl border border-white/30 px-6 md:px-6 py-6">
+          <div className="mb-6 text-center">
+            <h1 className="text-3xl font-bold text-white drop-shadow-lg">
               E-commerce
             </h1>
             <p className="text-white text-sm ">
@@ -34,11 +40,11 @@ export const RegisterPage = () => {
             </p>
           </div>
 
-          <h2 className="text-3xl font-bold text-white mb-8 drop-shadow-lg text-center">
+          <h2 className="text-3xl font-bold text-white mb-6 drop-shadow-lg text-center">
             Registrate ahora
           </h2>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <label
                 htmlFor="email"
@@ -138,13 +144,19 @@ export const RegisterPage = () => {
               )}
             </div>
 
-            <button
-              type="submit"
-              className="w-full cursor-pointer bg-white text-black/80 hover:bg-gray-100 font-semibold py-3  rounded-lg transition-all flex items-center justify-center gap-2 shadow-md border border-white/30 hover:border-white/50"
-            >
-              REGISTRARSE
-              <FaArrowRight />
-            </button>
+            {
+              registerMutation.isPending 
+              ? <Loading />
+              : <button
+                  type="submit"
+                  className="w-full cursor-pointer bg-white text-black/80 hover:bg-gray-100 font-semibold py-3  rounded-lg transition-all flex items-center justify-center gap-2 shadow-md border border-white/30 hover:border-white/50"
+                >
+                  REGISTRARSE
+                  <FaArrowRight />
+                </button>
+            }
+
+            
           </form>
 
           <div className="mt-8 text-center">

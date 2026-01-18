@@ -1,11 +1,12 @@
 import { create } from 'zustand'
 import type { CartItem } from '../../interfaces/cart';
-import type { Product } from '../../interfaces/product';
 import { devtools } from 'zustand/middleware';
+import type { Product } from '../../interfaces/product';
 
 
 interface CartStore {
   items: CartItem[];
+  selectedProduct: Product | null
 
   // getters
   totalItems: () => number;
@@ -16,13 +17,14 @@ interface CartStore {
   deleteItem: (id: string) => void;
   increaseQty: (id: string) => void;
   decreaseQty: (id: string) => void;
+  setSelectedProduct: (product: Product | null) => void;
 }
 
 
 export const useShopStore = create<CartStore>()(
   devtools((set, get) => ({
     items: [],
-
+    selectedProduct: null,
 
     totalItems: () => {
       return get().items.reduce((acc, item) => item.quantity + acc, 0);
@@ -46,12 +48,12 @@ export const useShopStore = create<CartStore>()(
       return {
         items: [...state.items, { product, quantity: 1 }]
       }
-    }),
+    }, false, 'cart/addItem'),
     deleteItem: (id) => set((state) => {
       return {
         items: state.items.filter(item => item.product.id !== id)
       }
-    }),
+    }, false, 'cart/deleteItem'),
     increaseQty: (id) => set((state) => {
       return {
         items: state.items.map(item => item.product.id === id
@@ -59,7 +61,7 @@ export const useShopStore = create<CartStore>()(
           : item
         )
       }
-    }),
+    }, false, 'cart/increaseQty'),
     decreaseQty: (id) => set((state) => {
       const productFound = state.items.find(item => item.product.id === id);
       if(productFound && productFound.quantity === 1){
@@ -74,7 +76,11 @@ export const useShopStore = create<CartStore>()(
           : item
         )
       }
-    }),
+    }, false, 'cart/decreaseQty'),
+
+    setSelectedProduct: (product) => {
+      set({selectedProduct: product}, false, 'cart/setSelectedProduct')
+    }
   }))
 )
 

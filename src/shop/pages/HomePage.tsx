@@ -1,6 +1,6 @@
 
-import { Carousel } from "../components/Carousel";
-import { Categories } from "../components/Categories";
+import { Carousel } from "../components/layout/Carousel";
+import { Categories } from "../components/layout/Categories";
 import { Filters } from "../components/filters/Filters";
 import { Products } from "../components/products/Products";
 

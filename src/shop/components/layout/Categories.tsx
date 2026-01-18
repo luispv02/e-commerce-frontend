@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router";
-import { categories } from "../../data/categories/categories";
-import type { Category } from "../../interfaces/category";
+import { categories } from "../../../data/categories/categories";
+import type { Category } from "../../../interfaces/category";
 
 
 export const Categories = () => {

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
-import { Header } from "../components/Header";
-import { BottomMenu } from "../components/BottomMenu";
+import { Header } from "../components/layout/Header";
+import { BottomMenu } from "../components/layout/BottomMenu";
 
 const ShopLayout = () => {
   return (

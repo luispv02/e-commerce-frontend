@@ -5,19 +5,33 @@ import { FaArrowRight, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { GoStarFill } from "react-icons/go";
 import { LuShoppingBag } from "react-icons/lu";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { Link } from "react-router";
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+import { Link, useNavigate } from "react-router";
+import type { UserFormValues } from "../../interface/auth";
+import { useAuth } from "../../hooks/useAuth";
+import { Loading } from "../../../components/ui/Loading";
+import { useShopStore } from "../../../shop/store/shop.store";
 
 export const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const { register, handleSubmit,  formState: { errors } } = useForm<LoginFormValues>();
 
-  const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
-    console.log("submit form", data);
+  const { loginMutation } = useAuth();
+  const { register, handleSubmit,  formState: { errors } } = useForm<UserFormValues>();
+  const [showPassword, setShowPassword] = useState(false);
+  const selectedProduct = useShopStore((state) => state.selectedProduct)
+  const setSelectedProduct = useShopStore((state) => state.setSelectedProduct)
+  const addItem = useShopStore((state) => state.addItem)
+
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<UserFormValues> = (data) => {
+    loginMutation.mutate(data, {
+      onSuccess: () => {
+        if(selectedProduct){
+          addItem(selectedProduct);
+          setSelectedProduct(null)
+        }
+        navigate('/')
+      }
+    });
   };
 
   return (
@@ -112,13 +126,17 @@ export const LoginPage = () => {
               )}
             </div>
 
-            <button
-              type="submit"
-              className="w-full cursor-pointer bg-white text-black/80 hover:bg-gray-100 font-semibold py-3  rounded-lg transition-all flex items-center justify-center gap-2 shadow-md border border-white/30 hover:border-white/50"
-            >
-              INICIAR SESIÓN
-              <FaArrowRight />
-            </button>
+            {
+              loginMutation.isPending
+              ? <Loading />
+              : <button
+                  type="submit"
+                  className="w-full cursor-pointer bg-white text-black/80 hover:bg-gray-100 font-semibold py-3  rounded-lg transition-all flex items-center justify-center gap-2 shadow-md border border-white/30 hover:border-white/50"
+                >
+                  INICIAR SESIÓN
+                  <FaArrowRight />
+                </button>
+                }
           </form>
 
           <div className="mt-8 text-center">

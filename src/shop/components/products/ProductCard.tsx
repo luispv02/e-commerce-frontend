@@ -3,6 +3,7 @@ import type { Product } from "../../../interfaces/product";
 import { useShopStore } from "../../store/shop.store";
 import type { MouseEvent } from "react";
 import { currencyFormatters } from "../../../utils/currency-formatter";
+import { useAuthStore } from "../../../auth/store/auth.store";
 
 interface Props {
   product: Product
@@ -11,13 +12,22 @@ interface Props {
 export const ProductCard = ({ product }: Props) => {
   const navigate = useNavigate();
   const addItem = useShopStore((state) => state.addItem)
-  
+  const isAuth = useAuthStore((state) => state.isAuthenticated)
+  const setSelectedProduct = useShopStore((state) => state.setSelectedProduct)
+
+
   const showProductDetails = () => {
     navigate(`/product/${product.id}`);
   }
 
-  const handleAddItem = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleAddItem = (e: MouseEvent<HTMLButtonElement>, product: Product) => {
     e.stopPropagation();
+
+    if(!isAuth){
+      setSelectedProduct(product)
+      navigate('/auth/login');
+      return;
+    }
     addItem(product);
   }
 
@@ -38,7 +48,7 @@ export const ProductCard = ({ product }: Props) => {
             $ {currencyFormatters(product.price)}
           </span>
 
-          <button className="rounded-full bg-slate-900 text-xs py-1  font-semibold  tracking-wide text-white transition hover:bg-slate-700 cursor-pointer px-2" onClick={(e) => handleAddItem(e)}>
+          <button className="rounded-full bg-slate-900 text-xs py-1  font-semibold  tracking-wide text-white transition hover:bg-slate-700 cursor-pointer px-2" onClick={(e) => handleAddItem(e, product)}>
             Agregar al carrito
           </button>
         </div>

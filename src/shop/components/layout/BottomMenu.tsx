@@ -3,7 +3,8 @@ import { FaRegUser } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
 import { NavLink, useLocation } from "react-router";
 import { useEffect, useState, type ReactElement } from "react";
-import { useShopStore } from "../store/shop.store";
+import { useShopStore } from "../../store/shop.store";
+import { useAuthStore } from "../../../auth/store/auth.store";
 
 interface MenuItem {
   to: string;
@@ -16,6 +17,7 @@ export const BottomMenu = () => {
   const totalItems = useShopStore((state) => state.totalItems())
   const [iconCartAnimation, setIconCartAnimation] = useState(false);
   const { pathname } = useLocation();
+  const isAuth = useAuthStore((state) => state.isAuthenticated)
 
   const menuItems: MenuItem[] = [
     {
@@ -36,7 +38,7 @@ export const BottomMenu = () => {
   ]
 
   useEffect(() => {
-      if(totalItems === 0) return;
+      if(totalItems === 0 || !isAuth) return;
   
       setIconCartAnimation(true);
   
@@ -47,7 +49,8 @@ export const BottomMenu = () => {
       return () => {
         clearTimeout(timeout);
       }
-    }, [totalItems])
+    }, [totalItems, isAuth])
+
 
   return (
     <nav className="w-full flex justify-around items-center text-center mx-auto bottom-0 fixed bg-white">
@@ -61,7 +64,7 @@ export const BottomMenu = () => {
                   {item.icon}
 
                   {
-                    item.label === 'Carrito' &&
+                    isAuth && item.label === 'Carrito' &&
                     <span className="absolute -top-2 -right-3 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                       { totalItems }
                     </span>

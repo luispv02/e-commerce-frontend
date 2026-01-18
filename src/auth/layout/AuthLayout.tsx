@@ -6,7 +6,7 @@ const AuthLayout = () => {
     <div className="bg-cover bg-center" style={{ backgroundImage: `url(${bgImage})` }}>
       <div className="max-w-5xl min-h-screen  m-auto flex">
         
-        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="fixed inset-0 bg-black/60"></div>
 
         <Outlet />
       </div>

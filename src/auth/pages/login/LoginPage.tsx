@@ -22,16 +22,17 @@ export const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<UserFormValues> = (data) => {
-    loginMutation.mutate(data, {
-      onSuccess: () => {
-        if(selectedProduct){
-          addItem(selectedProduct);
-          setSelectedProduct(null)
-        }
-        navigate('/')
+  const onSubmit: SubmitHandler<UserFormValues> = async(data) => {
+    try {
+      await loginMutation.mutateAsync(data);
+      if(selectedProduct){
+        addItem(selectedProduct);
+        setSelectedProduct(null)
       }
-    });
+      navigate('/')
+    } catch {
+      // Error handled from onError
+    }
   };
 
   return (

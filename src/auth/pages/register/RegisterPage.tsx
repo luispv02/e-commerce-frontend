@@ -9,22 +9,31 @@ import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import type { UserFormValues } from "../../interface/auth";
 import { Loading } from "../../../components/ui/Loading";
+import { useShopStore } from "../../../shop/store/shop.store";
 
 
 export const RegisterPage = () => {
 
   const { registerMutation } = useAuth();
-  const navigate = useNavigate()
+  const selectedProduct = useShopStore((state) => state.selectedProduct)
+  const setSelectedProduct = useShopStore((state) => state.setSelectedProduct)
+  const addItem = useShopStore((state) => state.addItem)
 
   const { register, handleSubmit, formState: { errors } } = useForm<UserFormValues>();
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate()
 
-  const onSubmit: SubmitHandler<UserFormValues> = (data) => {
-    registerMutation.mutate(data, {
-      onSuccess: () => {
-        navigate('/')
+  const onSubmit: SubmitHandler<UserFormValues> = async(data) => {
+    try {
+      await registerMutation.mutateAsync(data);
+      if(selectedProduct){
+        addItem(selectedProduct);
+        setSelectedProduct(null)
       }
-    })
+      navigate('/')
+    } catch {
+      // Error handled from onError
+    }
   };
 
   return (

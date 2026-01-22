@@ -11,6 +11,7 @@ import { DashboardPage } from "../admin/pages/DashboardPage";
 import { ProductsPage } from "../admin/pages/ProductsPage";
 import { AdminProductPage } from "../admin/pages/AdminProductPage";
 import { ProductDetails } from "../shop/components/products/ProductDetails";
+import { NotAuthenticatedRoute } from "../components/routes/ProtectedRoutes";
 
 const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'))
 const AdminLayout = lazy(() => import('../admin/layout/AdminLayout'))
@@ -18,6 +19,7 @@ const ShopLayout = lazy(() => import('../shop/layout/ShopLayout'))
 
 export const appRouter = createBrowserRouter([
   
+  // Shop - Products
   {
     path: "/",
     element: <ShopLayout />,
@@ -46,6 +48,7 @@ export const appRouter = createBrowserRouter([
     ]
   },
 
+  // Admin
   {
     path: '/admin',
     element: <AdminLayout />,
@@ -65,21 +68,27 @@ export const appRouter = createBrowserRouter([
     ]
   },
 
+  // Auth
   {
-    path: '/auth',
-    element: <AuthLayout />,
+    element: <NotAuthenticatedRoute />,
     children: [
       {
-        index: true,
-        element: <Navigate to="/auth/login" />
-      },
-      {
-        path: 'login',
-        element: <LoginPage />
-      },
-      {
-        path: 'register',
-        element: <RegisterPage />
+        path: '/auth',
+        element: <AuthLayout />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to="/auth/login" />
+          },
+          {
+            path: 'login',
+            element: <LoginPage />
+          },
+          {
+            path: 'register',
+            element: <RegisterPage />
+          }
+        ]
       }
     ]
   },

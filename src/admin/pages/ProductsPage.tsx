@@ -13,7 +13,12 @@ export const ProductsPage = () => {
       description: "Audio premium",
       stock: 45,
       category: "technology",
-      images: ["https://placeholder.pagebee.io/api/random/300/200"],
+      images: [
+       {
+          url: "https://placeholder.pagebee.io/api/random/300/200",
+          _id: "123"
+       }
+      ],
       type: '',
       brand: '',
     },
@@ -24,7 +29,12 @@ export const ProductsPage = () => {
       description: "Camisa cómoda",
       stock: 120,
       category: "clothes",
-      images: ["https://placeholder.pagebee.io/api/random/300/200"],
+      images: [
+        {
+          url: "https://placeholder.pagebee.io/api/random/300/200",
+          _id: "456"
+       }
+      ],
       sizes: ["m", "l"],
       gender: "men",
       colors: ["white"],
@@ -77,7 +87,7 @@ export const ProductsPage = () => {
               <tr key={producto.id} className="hover:bg-gray-50 transition-colors">
 
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <img src={producto.images[0]} alt={`Producto ${producto.id}`} className="w-12 h-12 object-cover rounded" />
+                  <img src={producto.images[0].url} alt={`Producto ${producto.id}`} className="w-12 h-12 object-cover rounded" />
                 </td>
 
                 <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">

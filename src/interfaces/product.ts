@@ -46,7 +46,7 @@ export type ProductFormValues = {
   description: string;
   stock: number;
   category: ProductCategory | "";
-  images: string[];
+  images: ProductImage[];
 
   files?: File[];
   sizes?: Size[];

@@ -17,8 +17,25 @@ export const ProductDetails = () => {
     id: "1",
     title: "Playera muy moderna",
     price: 100,
-    images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70", "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=70", "https://plus.unsplash.com/premium_photo-1764601209257-593473bf212e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2fHx8ZW58MHx8fHx8", "https://images.unsplash.com/photo-1764708844823-00d2188dafd8?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vulputate ipsum ut augue pulvinar tincidunt.",
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70",
+        _id: "1"
+      },
+      {
+        url: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=70",
+        _id: "2"
+      },
+      {
+        url: "https://plus.unsplash.com/premium_photo-1764601209257-593473bf212e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2fHx8ZW58MHx8fHx8",
+        _id: "3"
+      },
+      {
+        url: "https://images.unsplash.com/photo-1764708844823-00d2188dafd8?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        _id: "4"
+      }
+    ],
     stock: 1,
     category: "clothes",
     sizes: ["m", "l"],
@@ -28,7 +45,7 @@ export const ProductDetails = () => {
   };
 
   const { images, title, price, description } = product;
-  const [selectedProductImg, setSelectedProductImg] = useState(images[0]);
+  const [selectedProductImg, setSelectedProductImg] = useState(images[0].url);
 
   const handleAddItem = () => {
     if(!isAuth){
@@ -61,8 +78,8 @@ export const ProductDetails = () => {
             <div className="grid grid-cols-4 gap-2 mt-4">
               {
                 images.map((img, i) => (
-                  <div key={i} className={`overflow-hidden rounded-lg cursor-pointer border hover:border-gray-400 ${selectedProductImg === img ? "border-blue-500" : "border-gray-200"}`} onClick={() => setSelectedProductImg(img)}>
-                    <img src={img} alt={img} className="h-full w-full object-cover"/>
+                  <div key={i} className={`overflow-hidden rounded-lg cursor-pointer border hover:border-gray-400 ${selectedProductImg === img.url ? "border-blue-500" : "border-gray-200"}`} onClick={() => setSelectedProductImg(img.url)}>
+                    <img src={img.url} alt={img.url} className="h-full w-full object-cover"/>
                   </div>
                 ))
               }

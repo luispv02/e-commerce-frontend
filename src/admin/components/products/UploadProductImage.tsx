@@ -34,7 +34,7 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
       setValue('files', updatedFiles, { shouldValidate: true });
       return;
     }
-    const updatedUrls = productImages.filter(url => url !== image);
+    const updatedUrls = productImages.filter(img => img.url !== image);
     setValue("images", updatedUrls, { shouldValidate: true });
   }
 
@@ -87,7 +87,7 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
                 className="relative group rounded-md overflow-hidden border border-gray-200 box-shadow-md"
               >
                 <img
-                  src={img}
+                  src={img.url}
                   alt={`imagen-${id + 1}`}
                   className="w-full h-25 object-cover"
                 />
@@ -95,7 +95,7 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
                   type="button"
                   className="absolute top-1 right-1 bg-white/90 text-red-600 hover:bg-white rounded-full p-2 shadow-md transition cursor-pointer"
                   aria-label="Eliminar imagen"
-                  onClick={() => handleRemoveImage(img)}
+                  onClick={() => handleRemoveImage(img._id)}
                 >
                   <FaTrashAlt size={14} />
                 </button>

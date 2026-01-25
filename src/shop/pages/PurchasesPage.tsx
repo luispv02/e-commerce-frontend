@@ -21,7 +21,10 @@ export const PurchasesPage = () => {
             description: "Sudadera cómoda de algodón",
             stock: 10,
             category: "clothes",
-            images: ["https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=70"],
+            images: [{
+              url: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=70",
+              _id: "1"
+            }],
             sizes: ["s", "m", "l"],
             gender: "men",
             colors: ["gray"],
@@ -38,7 +41,12 @@ export const PurchasesPage = () => {
             description: "Reloj elegante diseño minimalista",
             stock: 5,
             category: "technology",
-            images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70"],
+            images: [
+              {
+                url: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70",
+                _id: "2"
+              }
+            ],
             type: "smartwatches",
             brand: "others"
           },
@@ -61,7 +69,12 @@ export const PurchasesPage = () => {
             description: "Laptop de alto rendimiento",
             stock: 3,
             category: "technology",
-            images: ["https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auzto=format&fit=crop&w=600&q=70"],
+            images: [
+              {
+                url: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auzto=format&fit=crop&w=600&q=70",
+                _id: "123"
+              }
+            ],
             brand: "algo",
             type: "laptops"
           },
@@ -76,7 +89,12 @@ export const PurchasesPage = () => {
             description: "Playera ligera y cómoda",
             stock: 15,
             category: "clothes",
-            images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70"],
+            images: [
+              {
+                url: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=70",
+                _id: "j35"
+              }
+            ],
             sizes: ["s", "m", "l"],
             gender: "men",
             colors: ["gray"],
@@ -107,7 +125,7 @@ export const PurchasesPage = () => {
                   c.items.map(compra => (
                     <div key={compra.product.id} className="flex border-t border-gray-400 px-2 md:px-6 py-3 gap-3">
                       <div className="image">
-                        <img src={compra.product.images[0]} alt={compra.product.title} className="w-22 md:w-30 object-cover" />
+                        <img src={compra.product.images[0].url} alt={compra.product.title} className="w-22 md:w-30 object-cover" />
                       </div>
 
                       <div className="info flex flex-col flex-1 justify-between items-start">

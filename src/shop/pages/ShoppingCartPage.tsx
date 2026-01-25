@@ -32,7 +32,7 @@ export const ShoppingCartPage = () => {
               >
                 <div className="image">
                   <img
-                    src={compra.product.images[0]}
+                    src={compra.product.images[0].url}
                     alt={compra.product.title}
                     className="w-22 md:w-30 object-cover"
                   />

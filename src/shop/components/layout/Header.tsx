@@ -7,7 +7,7 @@ import { useAuthStore } from '../../../auth/store/auth.store';
 
 export const Header = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('query') || '';
+  const query = searchParams.get('q') || '';
   const [iconCartAnimation, setIconCartAnimation] = useState(false);
   const { pathname } = useLocation();
   const isAuth = useAuthStore((state) => state.isAuthenticated);
@@ -23,9 +23,9 @@ export const Header = () => {
     const query = (inputRef.current?.value)?.trim();
     const newSearchParams = new URLSearchParams();
     if (!query) {
-      newSearchParams.delete('query');
+      newSearchParams.delete('q');
     } else {
-      newSearchParams.set('query', query);
+      newSearchParams.set('q', query);
     }
     setSearchParams(newSearchParams);
   }

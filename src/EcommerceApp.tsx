@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router";
 import { appRouter } from "./router/app.router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ToastGlobal } from "./components/ui/ToastGlobal";
+import { ToastGlobal } from "./components/shared/ToastGlobal";
 import { useAuth } from "./auth/hooks/useAuth";
 import { useEffect, type PropsWithChildren } from "react";
 import { useAuthStore } from "./auth/store/auth.store";

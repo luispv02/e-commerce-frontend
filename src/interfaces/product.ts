@@ -1,4 +1,3 @@
-
 export interface BaseProduct {
   id: string;
   title: string;
@@ -6,7 +5,7 @@ export interface BaseProduct {
   description: string;
   stock: number;
   category: ProductCategory;
-  images: string[];
+  images: ProductImage[];
 }
 
 export interface ClothingProduct extends BaseProduct {
@@ -56,3 +55,8 @@ export type ProductFormValues = {
   type?: string;
   brand?: string;
 };
+
+interface ProductImage {
+  _id: string;
+  url: string;
+}

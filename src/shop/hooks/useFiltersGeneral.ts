@@ -18,6 +18,7 @@ export const useFiltersGeneral = () => {
     const orderBy = event.target.value;
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set('order', orderBy);
+    newSearchParams.set('page', '1');
     setSearchParams(newSearchParams)
   }
 
@@ -37,6 +38,7 @@ export const useFiltersGeneral = () => {
       newSearchParams.delete('price');
     } else {
       newSearchParams.set('price', formatted);
+      newSearchParams.set('page', '1');
     }
     setSearchParams(newSearchParams)
   }

@@ -3,7 +3,7 @@ import type { Filter } from "../../interfaces/filters";
 export const clothesFilters: Filter[] = [
   {
     title: "Talla",
-    filterKey: "size",
+    filterKey: "sizes",
     options: [
       { id: "xs", label: "XS" },
       { id: "s", label: "S" },
@@ -24,7 +24,7 @@ export const clothesFilters: Filter[] = [
   },
   {
     title: "Color",
-    filterKey: "color",
+    filterKey: "colors",
     options: [
       { id: "white", label: "Blanco", hex: "#FFFFFF" },
       { id: "black", label: "Negro", hex: "#000000" },

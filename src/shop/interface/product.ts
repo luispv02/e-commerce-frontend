@@ -1,10 +1,10 @@
 import type { Product } from "../../interfaces/product";
 
-export interface ProductResponse {
-  ok: string;
+export interface ProductsResponse {
+  ok: boolean;
   data: {
     pagination: Pagination;
-    products: Product[]
+    products: Product[];
   }
 }
 
@@ -26,4 +26,14 @@ export interface ProductsFilters {
   color?: string;
   brand?: string;
   type?: string;
+}
+
+export interface ProductResponse {
+  ok: boolean;
+  product: Product;
+}
+
+export interface ProductError {
+  ok: boolean;
+  msg: string;
 }

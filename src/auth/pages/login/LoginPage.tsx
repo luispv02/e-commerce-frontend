@@ -5,7 +5,7 @@ import { FaArrowRight, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { GoStarFill } from "react-icons/go";
 import { LuShoppingBag } from "react-icons/lu";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import type { UserFormValues } from "../../interface/auth";
 import { useAuth } from "../../hooks/useAuth";
 import { Loading } from "../../../components/ui/Loading";
@@ -21,6 +21,8 @@ export const LoginPage = () => {
   const addItem = useShopStore((state) => state.addItem)
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || '/';
 
   const onSubmit: SubmitHandler<UserFormValues> = async(data) => {
     try {
@@ -29,7 +31,7 @@ export const LoginPage = () => {
         addItem(selectedProduct);
         setSelectedProduct(null)
       }
-      navigate('/')
+      navigate(from, { replace: true });
     } catch {
       // Error handled from onError
     }
@@ -145,6 +147,7 @@ export const LoginPage = () => {
               ¿No tienes una cuenta?{" "}
               <Link
                 to="/auth/register"
+                state={location.state}
                 className="text-white font-semibold hover:text-white/80 transition-colors underline underline-offset-2"
               >
                 Regístrate

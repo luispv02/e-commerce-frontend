@@ -5,7 +5,7 @@ import { FaArrowRight, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { GoStarFill } from "react-icons/go";
 import { LuShoppingBag } from "react-icons/lu";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import type { UserFormValues } from "../../interface/auth";
 import { Loading } from "../../../components/ui/Loading";
@@ -22,6 +22,8 @@ export const RegisterPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<UserFormValues>();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate()
+  const location = useLocation();
+  const from = location.state?.from || '/';
 
   const onSubmit: SubmitHandler<UserFormValues> = async(data) => {
     try {
@@ -30,7 +32,7 @@ export const RegisterPage = () => {
         addItem(selectedProduct);
         setSelectedProduct(null)
       }
-      navigate('/')
+      navigate(from, { replace: true });
     } catch {
       // Error handled from onError
     }
@@ -173,6 +175,7 @@ export const RegisterPage = () => {
               ¿Ya tienes cuenta?{" "}
               <Link
                 to="/auth/login"
+                state={location.state}
                 className="text-white font-semibold hover:text-white/80 transition-colors underline underline-offset-2"
               >
                 Inicia sesión

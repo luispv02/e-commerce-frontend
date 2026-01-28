@@ -10,13 +10,14 @@ import { useAuth } from "../../hooks/useAuth";
 import type { UserFormValues } from "../../interface/auth";
 import { Loading } from "../../../components/ui/Loading";
 import { useShopStore } from "../../../shop/store/shop.store";
+import { useProductsStore } from "../../../shop/store/products.store";
 
 
 export const RegisterPage = () => {
 
   const { registerMutation } = useAuth();
-  const selectedProduct = useShopStore((state) => state.selectedProduct)
-  const setSelectedProduct = useShopStore((state) => state.setSelectedProduct)
+  const selectedProduct = useProductsStore((state) => state.selectedProduct)
+  const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
   const addItem = useShopStore((state) => state.addItem)
 
   const { register, handleSubmit, formState: { errors } } = useForm<UserFormValues>();

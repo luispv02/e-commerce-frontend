@@ -1,14 +1,15 @@
 import { useSearchParams } from "react-router";
+import { useProductsStore } from "../store/products.store";
 
 
 export const useFilters = (filterKey: string) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const currentFilter = searchParams.get(filterKey)?.split(',') || []
-
-
+  const setLoading = useProductsStore((state) => state.setLoading);
+  
   const handleFilterChange = (value: string) => {
-
+    setLoading(true);
     const isMultiSelect = filterKey !== 'gender';
     const existsValue = currentFilter.includes(value);
 

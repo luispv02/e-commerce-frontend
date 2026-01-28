@@ -10,14 +10,15 @@ import type { UserFormValues } from "../../interface/auth";
 import { useAuth } from "../../hooks/useAuth";
 import { Loading } from "../../../components/ui/Loading";
 import { useShopStore } from "../../../shop/store/shop.store";
+import { useProductsStore } from "../../../shop/store/products.store";
 
 export const LoginPage = () => {
 
   const { loginMutation } = useAuth();
   const { register, handleSubmit,  formState: { errors } } = useForm<UserFormValues>();
   const [showPassword, setShowPassword] = useState(false);
-  const selectedProduct = useShopStore((state) => state.selectedProduct)
-  const setSelectedProduct = useShopStore((state) => state.setSelectedProduct)
+  const selectedProduct = useProductsStore((state) => state.selectedProduct)
+  const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
   const addItem = useShopStore((state) => state.addItem)
 
   const navigate = useNavigate();

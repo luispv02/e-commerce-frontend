@@ -6,7 +6,6 @@ import type { Product } from '../../interfaces/product';
 
 interface CartStore {
   items: CartItem[];
-  selectedProduct: Product | null
 
   // getters
   totalItems: () => number;
@@ -17,7 +16,6 @@ interface CartStore {
   deleteItem: (id: string) => void;
   increaseQty: (id: string) => void;
   decreaseQty: (id: string) => void;
-  setSelectedProduct: (product: Product | null) => void;
 }
 
 
@@ -76,11 +74,7 @@ export const useShopStore = create<CartStore>()(
           : item
         )
       }
-    }, false, 'cart/decreaseQty'),
-
-    setSelectedProduct: (product) => {
-      set({selectedProduct: product}, false, 'cart/setSelectedProduct')
-    }
+    }, false, 'cart/decreaseQty')
   }))
 )
 

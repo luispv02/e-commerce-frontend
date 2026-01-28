@@ -4,6 +4,7 @@ import { useShopStore } from "../../store/shop.store";
 import type { MouseEvent } from "react";
 import { currencyFormatters } from "../../../utils/currency-formatter";
 import { useAuthStore } from "../../../auth/store/auth.store";
+import { useProductsStore } from "../../store/products.store";
 
 interface Props {
   product: Product
@@ -13,7 +14,7 @@ export const ProductCard = ({ product }: Props) => {
   const navigate = useNavigate();
   const addItem = useShopStore((state) => state.addItem)
   const isAuth = useAuthStore((state) => state.isAuthenticated)
-  const setSelectedProduct = useShopStore((state) => state.setSelectedProduct)
+  const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
 
 
   const showProductDetails = () => {

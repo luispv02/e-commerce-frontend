@@ -1,9 +1,10 @@
 interface Props {
+  message?: string;
   borderColor?: string;
   textColor?: string;
 }
 
-export const Loading = ({ borderColor = 'white', textColor = 'white' }: Props) => {
+export const Loading = ({ message = 'Cargando...', borderColor = 'white', textColor = 'white' }: Props) => {
   return (
     <div className="flex flex-col items-center">
         
@@ -12,7 +13,7 @@ export const Loading = ({ borderColor = 'white', textColor = 'white' }: Props) =
         </div>
         
         <p className={`text-${textColor} font-medium animate-pulse`}>
-          Cargando...
+          { message }
         </p>
     </div>
   )

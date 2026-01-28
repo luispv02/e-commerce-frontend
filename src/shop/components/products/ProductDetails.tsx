@@ -1,18 +1,19 @@
 import { MdArrowBackIosNew } from "react-icons/md";
-import { Link, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useShopStore } from "../../store/shop.store";
 import { currencyFormatters } from "../../../utils/currency-formatter";
 import { useState, useEffect } from "react";
 import { useAuthStore } from "../../../auth/store/auth.store";
 import { useProduct } from "../../hooks/useProduct";
 import { Loading } from "../../../components/ui/Loading";
+import { useProductsStore } from "../../store/products.store";
 
 export const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   
   const addItem = useShopStore((state) => state.addItem);
-  const setSelectedProduct = useShopStore((state) => state.setSelectedProduct)
+  const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
   const isAuth = useAuthStore((state) => state.isAuthenticated);
   
   const { data, isLoading, error } = useProduct(id || "");
@@ -42,9 +43,9 @@ export const ProductDetails = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-10">
-      <Link to="/" className="mb-6 cursor-pointer block">
+      <button onClick={() => navigate(-1)} className="mb-6 cursor-pointer block">
         <MdArrowBackIosNew className="w-5 h-5" />
-      </Link>
+      </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20">
         <div className="w-full">

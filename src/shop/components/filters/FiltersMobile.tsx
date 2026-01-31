@@ -23,7 +23,7 @@ export const FiltersMobile = ({open, onClose, selectedCategory}: Props) => {
         {
           (open && loading) && (
             <div className="absolute inset-0 bg-black/60 text-white flex justify-center items-center z-50 backdrop-blur-xs">
-              <Loading message="Cargando productos..." borderColor="white" textColor="white"/>
+              <Loading message="Cargando productos..." textColor="text-white" borderStyle="border-t-white"/>
             </div>
           )
         }

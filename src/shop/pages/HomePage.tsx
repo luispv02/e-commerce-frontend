@@ -28,7 +28,7 @@ export const HomePage = () => {
   }, [productsQuery.isSuccess])
 
   // show loading only once
-  if(productsQuery.isLoading && isShownInitialLoading.current) return <Loading message="Cargando productos..." borderColor="black" textColor="black" />
+  if(productsQuery.isLoading && isShownInitialLoading.current) return <Loading width="w-10" height="h-10" message="Cargando productos..." spinMargin="my-6"/>
 
   if(productsQuery.error) return <p className="text-center text-sm text-red-600">{ productsQuery.error.response?.data.msg || 'Error al obtener productos' }</p>
 

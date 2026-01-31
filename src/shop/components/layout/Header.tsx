@@ -2,22 +2,23 @@ import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Link, NavLink, useLocation, useSearchParams } from 'react-router';
 import { CgShoppingCart } from 'react-icons/cg';
 import { ModalUserMenu } from '../user/ModalUserMenu';
-import { useShopStore } from '../../store/shop.store';
 import { useAuthStore } from '../../../auth/store/auth.store';
+import { useCart } from '../../hooks/useCart';
 
 export const Header = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { data } = useCart();
+
   const query = searchParams.get('q') || '';
   const [iconCartAnimation, setIconCartAnimation] = useState(false);
   const { pathname } = useLocation();
   const isAuth = useAuthStore((state) => state.isAuthenticated);
 
-  const totalItems = useShopStore((state) => state.totalItems())
+  const totalItems = data?.cart.items.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = (e: KeyboardEvent<HTMLInputElement>) => {
-    console.log(e.key)
     if (e.key !== 'Enter') return;
 
     const query = (inputRef.current?.value)?.trim();

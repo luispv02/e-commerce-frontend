@@ -1,18 +1,20 @@
 interface Props {
   message?: string;
-  borderColor?: string;
+  borderStyle?: string;
   textColor?: string;
+  width?: string;
+  height?: string;
+  spinMargin?: string
 }
 
-export const Loading = ({ message = 'Cargando...', borderColor = 'white', textColor = 'white' }: Props) => {
+export const Loading = ({ width = 'w-8', height = 'h-8', message = 'Cargando...', borderStyle = 'border-t-black', textColor = 'text-black', spinMargin = 'my-2' }: Props) => {
   return (
-    <div className="flex flex-col items-center">
-        
-        <div className="relative w-8 h-8 mb-2">
-          <div className={`border-2 border-transparent border-t-${borderColor} rounded-full absolute inset-0  animate-spin`}></div>
+    <div className={`flex flex-col items-center`}>
+        <div className={`${width} ${height} ${spinMargin} relative`}>
+          <div className={`border-2 border-transparent ${borderStyle} rounded-full absolute inset-0  animate-spin`}></div>
         </div>
         
-        <p className={`text-${textColor} font-medium animate-pulse`}>
+        <p className={`${textColor} font-medium animate-pulse`}>
           { message }
         </p>
     </div>

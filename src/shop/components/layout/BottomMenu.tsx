@@ -3,8 +3,8 @@ import { FaRegUser } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
 import { NavLink, useLocation } from "react-router";
 import { useEffect, useState, type ReactElement } from "react";
-import { useShopStore } from "../../store/shop.store";
 import { useAuthStore } from "../../../auth/store/auth.store";
+import { useCart } from "../../hooks/useCart";
 
 interface MenuItem {
   to: string;
@@ -14,10 +14,12 @@ interface MenuItem {
 
 export const BottomMenu = () => {
 
-  const totalItems = useShopStore((state) => state.totalItems())
-  const [iconCartAnimation, setIconCartAnimation] = useState(false);
-  const { pathname } = useLocation();
+  const { data } = useCart();
   const isAuth = useAuthStore((state) => state.isAuthenticated)
+  const { pathname } = useLocation();
+  const [iconCartAnimation, setIconCartAnimation] = useState(false);
+
+  const totalItems = data?.cart.items.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
   const menuItems: MenuItem[] = [
     {

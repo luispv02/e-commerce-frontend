@@ -9,8 +9,8 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import type { UserFormValues } from "../../interface/auth";
 import { Loading } from "../../../components/ui/Loading";
-import { useShopStore } from "../../../shop/store/shop.store";
 import { useProductsStore } from "../../../shop/store/products.store";
+import { useCartMutations } from "../../../shop/hooks/useCartMutations";
 
 
 export const RegisterPage = () => {
@@ -18,7 +18,7 @@ export const RegisterPage = () => {
   const { registerMutation } = useAuth();
   const selectedProduct = useProductsStore((state) => state.selectedProduct)
   const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
-  const addItem = useShopStore((state) => state.addItem)
+  const { addItemMutation } = useCartMutations();
 
   const { register, handleSubmit, formState: { errors } } = useForm<UserFormValues>();
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +30,7 @@ export const RegisterPage = () => {
     try {
       await registerMutation.mutateAsync(data);
       if(selectedProduct){
-        addItem(selectedProduct);
+        await addItemMutation.mutateAsync({ productId: selectedProduct, quantity: 1 });
         setSelectedProduct(null)
       }
       navigate(from, { replace: true });
@@ -158,7 +158,7 @@ export const RegisterPage = () => {
 
             {
               registerMutation.isPending 
-              ? <Loading />
+              ? <Loading textColor="text-white" borderStyle="border-t-white"/>
               : <button
                   type="submit"
                   className="w-full cursor-pointer bg-white text-black/80 hover:bg-gray-100 font-semibold py-3  rounded-lg transition-all flex items-center justify-center gap-2 shadow-md border border-white/30 hover:border-white/50"

@@ -1,20 +1,14 @@
 import { MdArrowBackIosNew } from "react-icons/md";
 import { useNavigate, useParams } from "react-router";
-import { useShopStore } from "../../store/shop.store";
 import { currencyFormatters } from "../../../utils/currency-formatter";
 import { useState, useEffect } from "react";
-import { useAuthStore } from "../../../auth/store/auth.store";
 import { useProduct } from "../../hooks/useProduct";
 import { Loading } from "../../../components/ui/Loading";
-import { useProductsStore } from "../../store/products.store";
+import { AddToCartButton } from "./AddToCartButton";
 
 export const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
-  const addItem = useShopStore((state) => state.addItem);
-  const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
-  const isAuth = useAuthStore((state) => state.isAuthenticated);
   
   const { data, isLoading, error } = useProduct(id || "");
 
@@ -26,20 +20,11 @@ export const ProductDetails = () => {
     }
   }, [data])
 
-  if(isLoading) return <Loading borderColor="black" textColor="black"/>
+  if(isLoading) return <Loading spinMargin="my-6"/>
   if(error || !data) return <p className="text-center text-sm mt-10">{ error?.response?.data.msg || 'Error al obtener producto.' }</p>
 
   const product = data.product;
   const { images, title, price, description, stock, category } = product;
-
-  const handleAddItem = () => {
-    if(!isAuth){
-      setSelectedProduct(product)
-      navigate('/auth/login', { state: { from: location.pathname }});
-      return;
-    }
-    addItem(product)
-  }
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-10">
@@ -125,7 +110,7 @@ export const ProductDetails = () => {
                         <div className="flex gap-2">
                           {
                             product.sizes.map((size) => (
-                              <span key={size} className="border border-gray-400 px-4 py-1 rounded capitalize text-gray-700">{size}</span>
+                              <span key={size} className="border border-gray-400 px-4 py-1 rounded  text-gray-700">{size}</span>
                             ))
                           }
                         </div>
@@ -172,11 +157,7 @@ export const ProductDetails = () => {
           </div>
 
           <div className="pt-6 mt-8">
-            <button
-              disabled={stock === 0}
-              className={`w-full py-4 px-6 rounded-xl font-semibold sm:text-lg transition-all bg-gray-900 text-white shadow-lg ${stock === 0 ? 'opacity-50' : 'cursor-pointer hover:bg-gray-700'}`} onClick={handleAddItem}>
-              {stock === 0 ? 'Producto sin stock' : 'Agregar al Carrito'}
-            </button>
+            <AddToCartButton product={product} className="py-4 rounded-xl sm:text-lg"/>
           </div>
         </div>
       </div>

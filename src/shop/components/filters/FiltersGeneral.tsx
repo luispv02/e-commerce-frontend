@@ -39,7 +39,11 @@ export const FiltersGeneral = () => {
             </div>
           </div>
 
-          <button className="cursor-pointer text-gray-900" onClick={handlePrices}>
+          <button 
+            className="cursor-pointer text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed" 
+            onClick={handlePrices}
+            disabled={!prices.min && !prices.max}
+          >
             <FaArrowRight/>
           </button>
           

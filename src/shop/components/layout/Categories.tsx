@@ -17,7 +17,7 @@ export const Categories = () => {
   }
 
   return (
-    <div className="flex justify-start gap-4 items-center">
+    <div className="flex justify-start gap-2 items-center">
       {
         categories.map((category) => (
           <button

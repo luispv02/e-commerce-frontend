@@ -33,7 +33,7 @@ export interface ProductResponse {
   product: Product;
 }
 
-export interface ProductError {
+export interface Error {
   ok: boolean;
   msg: string;
 }

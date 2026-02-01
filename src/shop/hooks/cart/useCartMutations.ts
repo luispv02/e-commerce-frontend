@@ -1,10 +1,10 @@
 
-import { addToCart, deleteCartItem, updateItem } from '../actions/cart-action'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'react-toastify'
-import type { CartProductData, CartResponse } from '../interface/cart'
-import type { Error } from '../interface/product'
-import type { AxiosError } from 'axios'
+import { addToCart, deleteCartItem, updateItem } from "../../actions/cart-action";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import type { CartProductData, CartResponse } from "../../interface/cart";
+import type { Error } from "../../interface/product";
+import type { AxiosError } from "axios";
 
 export const useCartMutations = () => {
   const queryClient = useQueryClient();

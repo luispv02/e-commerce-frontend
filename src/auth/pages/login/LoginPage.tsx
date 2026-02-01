@@ -10,7 +10,7 @@ import type { UserFormValues } from "../../interface/auth";
 import { useAuth } from "../../hooks/useAuth";
 import { Loading } from "../../../components/ui/Loading";
 import { useProductsStore } from "../../../shop/store/products.store";
-import { useCartMutations } from "../../../shop/hooks/useCartMutations";
+import { useCartMutations } from "../../../shop/hooks/cart/useCartMutations";
 
 export const LoginPage = () => {
 

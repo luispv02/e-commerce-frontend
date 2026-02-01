@@ -1,5 +1,5 @@
 import { BiDollar } from "react-icons/bi";
-import { useFiltersGeneral } from "../../hooks/useFiltersGeneral";
+import { useFiltersGeneral } from "../../hooks/filters/useFiltersGeneral";
 import { FaArrowRight } from "react-icons/fa";
 
 export const FiltersGeneral = () => {

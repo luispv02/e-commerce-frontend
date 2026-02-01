@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
-import { getProducts } from '../actions/get-products.action'
-import type { Error, ProductsFilters, ProductsResponse } from '../interface/product'
-import type { AxiosError } from 'axios'
+import { useQuery } from "@tanstack/react-query"
+import { getProducts } from "../../actions/get-products.action"
+import type { Error, ProductsFilters, ProductsResponse } from "../../interface/product"
+import type { AxiosError } from "axios"
 
 export const useProducts = (filters: ProductsFilters) => {
 

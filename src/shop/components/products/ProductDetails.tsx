@@ -2,7 +2,7 @@ import { MdArrowBackIosNew } from "react-icons/md";
 import { useNavigate, useParams } from "react-router";
 import { currencyFormatters } from "../../../utils/currency-formatter";
 import { useState, useEffect } from "react";
-import { useProduct } from "../../hooks/useProduct";
+import { useProduct } from "../../hooks/products/useProduct";
 import { Loading } from "../../../components/ui/Loading";
 import { AddToCartButton } from "./AddToCartButton";
 

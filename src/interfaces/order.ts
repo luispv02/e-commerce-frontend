@@ -1,13 +1,15 @@
 import type { Product } from "./product";
 
-export interface Purchase {
+export interface Order {
   id: string;
-  date: string;
+  user: string;
+  items: OrderItem[];
   total: number;
-  items: PurchaseItem[];
+  createdAt: string;
+  updatedAt: string;
 }
 
-interface PurchaseItem {
+interface OrderItem {
   product: Product;
   quantity: number;
   pricePaid: number;

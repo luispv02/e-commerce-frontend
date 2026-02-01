@@ -1,6 +1,6 @@
 import { useEffect, useState, type ChangeEvent } from "react";
 import { useSearchParams } from "react-router";
-import { useProductsStore } from "../store/products.store";
+import { useProductsStore } from "../../store/products.store";
 
 export const useFiltersGeneral = () => {
 

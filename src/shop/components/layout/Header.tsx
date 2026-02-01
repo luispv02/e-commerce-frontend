@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation, useSearchParams } from 'react-router';
 import { CgShoppingCart } from 'react-icons/cg';
 import { ModalUserMenu } from '../user/ModalUserMenu';
 import { useAuthStore } from '../../../auth/store/auth.store';
-import { useCart } from '../../hooks/useCart';
+import { useCart } from '../../hooks/cart/useCart';
 
 export const Header = () => {
   const [searchParams, setSearchParams] = useSearchParams();

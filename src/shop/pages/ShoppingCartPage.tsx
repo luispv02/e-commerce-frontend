@@ -1,15 +1,17 @@
 import { currencyFormatters } from "../../utils/currency-formatter";
 import { useAuthStore } from "../../auth/store/auth.store";
 import { NotAuthenticated } from "../../auth/components/NotAuthenticated";
-import { useCart } from "../hooks/useCart";
-import { useCartMutations } from "../hooks/useCartMutations";
+import { useCart } from "../hooks/cart/useCart";
+import { useCartMutations } from "../hooks/cart/useCartMutations";
 import { CartItem } from "../components/cart/CartItem";
 import { Loading } from "../../components/ui/Loading";
 import type { CartProductData } from "../interface/cart";
+import { usePurchaseCart } from "../hooks/orders/usePurchaseCart";
 
 export const ShoppingCartPage = () => {
   const { data, error, isLoading } = useCart();
   const { deleteItemMutation, updateQuantityItem } = useCartMutations();
+  const { mutate, isPending } = usePurchaseCart()
   const isAuth = useAuthStore((state) => state.isAuthenticated)
 
   if(!isAuth) return <NotAuthenticated />
@@ -53,8 +55,8 @@ export const ShoppingCartPage = () => {
             </div>
 
             <div className="mt-8 md:border-t border-gray-300 pt-4">
-              <button className="bg-gray-700 w-full py-2 rounded hover:bg-gray-800 transition cursor-pointer text-white">
-                Pagar
+              <button className={`bg-gray-700 w-full py-2 rounded hover:bg-gray-800 transition cursor-pointer text-white ${isPending ? 'opacity-50' : ''}`} onClick={() =>  mutate()} disabled={isPending}>
+                { isPending ? <Loading width="w-6" height="h-6" message="" textColor="text-white" borderStyle="border-t-white" spinMargin="my-0" /> : 'Pagar' }
               </button>
             </div>
           </aside>

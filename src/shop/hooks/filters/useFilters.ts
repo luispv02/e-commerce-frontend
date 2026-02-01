@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router";
-import { useProductsStore } from "../store/products.store";
+import { useProductsStore } from "../../store/products.store";
 
 
 export const useFilters = (filterKey: string) => {

@@ -1,6 +1,7 @@
+
 import { useQuery } from "@tanstack/react-query"
-import { getProductById } from "../actions/get-products.action"
-import type { Error, ProductResponse } from "../interface/product"
+import { getProductById } from "../../actions/get-products.action"
+import type { Error, ProductResponse } from "../../interface/product"
 import type { AxiosError } from "axios"
 
 export const useProduct = (productId: string) => {

@@ -1,5 +1,5 @@
 import type { Filter } from "../../../interfaces/filters";
-import { useFilters } from "../../hooks/useFilters";
+import { useFilters } from "../../hooks/filters/useFilters";
 
 
 export const FiltersGroup = ({ title, filterKey, options }: Filter) => {

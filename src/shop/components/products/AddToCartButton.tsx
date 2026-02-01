@@ -3,7 +3,7 @@ import type { Product } from '../../../interfaces/product';
 import { useAuthStore } from "../../../auth/store/auth.store";
 import { useProductsStore } from "../../store/products.store";
 import { useNavigate } from "react-router";
-import { useCartMutations } from "../../hooks/useCartMutations";
+import { useCartMutations } from "../../hooks/cart/useCartMutations";
 
 interface Props {
   product: Product;

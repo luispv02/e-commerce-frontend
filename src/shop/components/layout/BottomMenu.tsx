@@ -4,7 +4,7 @@ import { IoHomeOutline } from "react-icons/io5";
 import { NavLink, useLocation } from "react-router";
 import { useEffect, useState, type ReactElement } from "react";
 import { useAuthStore } from "../../../auth/store/auth.store";
-import { useCart } from "../../hooks/useCart";
+import { useCart } from "../../hooks/cart/useCart";
 
 interface MenuItem {
   to: string;

@@ -26,7 +26,7 @@ export const ModalUserMenu = () => {
         <FaRegUser className={`w-6 h-6 text-gray-500 ${isMenuOpen ? 'text-gray-900' : ''}`} />
       </button>
 
-      <div className={`absolute top-10 right-4 w-58 bg-white rounded-md ring ring-gray-300 shadow-lg transition-all duration-300 ${isMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"}`}
+      <div className={`absolute top-10 right-4 w-58 bg-white rounded-md ring ring-gray-300 shadow-lg transition-all duration-300 ${isMenuOpen ? "opacity-100 translate-x-0 pointer-events-auto" : "opacity-0 translate-x-6 pointer-events-none"}`}
       >
         <UserMenu />
       </div>

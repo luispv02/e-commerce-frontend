@@ -3,7 +3,7 @@ import { Header } from "../components/layout/Header";
 import { BottomMenu } from "../components/layout/BottomMenu";
 import { ScrollToTop } from "../../components/shared/ScrollToTop";
 
-const ShopLayout = () => {
+export const ShopLayout = () => {
   return (
   <div className="pb-20">
     <ScrollToTop />
@@ -26,5 +26,3 @@ const ShopLayout = () => {
   </div>
   );
 };
-
-export default ShopLayout;

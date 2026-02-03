@@ -12,11 +12,10 @@ import { ProductsPage } from "../admin/pages/ProductsPage";
 import { AdminProductPage } from "../admin/pages/AdminProductPage";
 import { ProductDetails } from "../shop/components/products/ProductDetails";
 import { NotAuthenticatedRoute } from "../components/routes/ProtectedRoutes";
+import { ShopLayout } from "../shop/layout/ShopLayout";
 
 const AuthLayout = lazy(() => import('../auth/layout/AuthLayout'))
 const AdminLayout = lazy(() => import('../admin/layout/AdminLayout'))
-const ShopLayout = lazy(() => import('../shop/layout/ShopLayout'))
-
 export const appRouter = createBrowserRouter([
   
   // Shop - Products

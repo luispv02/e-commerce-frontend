@@ -5,7 +5,7 @@ import { useProductsStore } from "../../store/products.store";
 export const useFiltersGeneral = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const setLoading = useProductsStore((state) => state.setLoading);
+  const setIsProductFiltersOpen = useProductsStore((state) => state.setIsProductFilterOpen);
 
   const currentOrderBy = searchParams.get('order') || 'any';
   const currentPrice = searchParams.get('price');
@@ -19,7 +19,7 @@ export const useFiltersGeneral = () => {
   const handleOrderChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const orderBy = event.target.value;
     const newSearchParams = new URLSearchParams(searchParams);
-    setLoading(true);
+    setIsProductFiltersOpen(false)
     newSearchParams.set('order', orderBy);
     newSearchParams.set('page', '1');
     setSearchParams(newSearchParams)
@@ -34,7 +34,7 @@ export const useFiltersGeneral = () => {
   }
 
   const handlePrices = () => {
-    setLoading(true);
+    setIsProductFiltersOpen(false)
     const formatted = `${prices.min || ''}-${prices.max || ''}`;
 
     const newSearchParams = new URLSearchParams(searchParams);

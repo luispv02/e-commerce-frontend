@@ -1,5 +1,5 @@
 
-import { Carousel } from "../components/layout/Carousel";
+// import { Carousel } from "../components/layout/Carousel";
 import { Categories } from "../components/layout/Categories";
 import { Filters } from "../components/filters/Filters";
 import { Products } from "../components/products/Products";
@@ -18,8 +18,14 @@ export const HomePage = () => {
 
   // hide loading when applying filter on mobile
   useEffect(() => {
-    setLoading(false);
-  }, [productsQuery.dataUpdatedAt, setLoading]);
+    if(productsQuery.data){
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 300);
+
+      return () => {clearTimeout(timer)}
+    }
+  }, [productsQuery.data, setLoading]);
 
   useEffect(() => {
     if(productsQuery.isSuccess){
@@ -35,7 +41,7 @@ export const HomePage = () => {
   return (
     <div className="space-y-10">
       <Categories />
-      <Carousel />
+      {/* <Carousel /> */}
 
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1">

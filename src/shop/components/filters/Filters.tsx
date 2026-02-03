@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { LiaFilterSolid } from "react-icons/lia";
 import { FiltersGeneral } from "./FiltersGeneral";
 import { useSearchParams } from "react-router";
@@ -8,6 +7,7 @@ import type { Filter } from "../../../interfaces/filters";
 import { CategoryFilters } from "./CategoryFilters";
 import type { Category } from "../../../interfaces/category";
 import { FiltersMobile } from "./FiltersMobile";
+import { useProductsStore } from "../../store/products.store";
 
 const CATEGORY_FILTERS: Record<Category, Filter[]> = {
   all: [],
@@ -17,7 +17,7 @@ const CATEGORY_FILTERS: Record<Category, Filter[]> = {
 };
 
 export const Filters = () => {
-  const [open, setOpen] = useState(false);
+  const setIsProductFiltersOpen = useProductsStore((state) => state.setIsProductFilterOpen);
 
   const [searchParams] = useSearchParams();
   const currentCategory = (searchParams.get('category') as Category) || 'all';
@@ -27,7 +27,7 @@ export const Filters = () => {
   return (
     <section>
       <div className="flex justify-end items-center lg:hidden">
-        <button className="cursor-pointer" onClick={() => setOpen(true)}>
+        <button className="cursor-pointer" onClick={() => setIsProductFiltersOpen(true)}>
           <LiaFilterSolid className="h-6 w-6" />
         </button>
       </div>
@@ -39,9 +39,7 @@ export const Filters = () => {
       </div>
 
       {/* Mobile */}
-      <FiltersMobile 
-        open={open}
-        onClose={() => setOpen(false)} 
+      <FiltersMobile
         selectedCategory={selectedCategory}
       />
     </section>

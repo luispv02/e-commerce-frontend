@@ -8,12 +8,13 @@ import { useAuthStore } from "../../../auth/store/auth.store";
 
 export const useCart = () => {
   const isAuth = useAuthStore((state) => state.isAuthenticated);
+  const userId = useAuthStore((state) => state.user?.id);
 
   return useQuery<CartResponse, AxiosError<Error>>({
-    queryKey: ['cart'],
+    queryKey: ['cart', userId],
     queryFn: getCart,
     staleTime: 1000 * 60 * 5,
-    enabled: isAuth
+    enabled: isAuth && !!userId
   })
 }
 

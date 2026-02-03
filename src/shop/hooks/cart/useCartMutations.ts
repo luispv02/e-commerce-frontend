@@ -5,15 +5,20 @@ import { toast } from "react-toastify";
 import type { CartProductData, CartResponse } from "../../interface/cart";
 import type { Error } from "../../interface/product";
 import type { AxiosError } from "axios";
+import { useAuthStore } from "../../../auth/store/auth.store";
 
 export const useCartMutations = () => {
   const queryClient = useQueryClient();
 
+  const setCartCache = (data: CartResponse) => {
+    const userId = useAuthStore.getState().user?.id;
+    if (!userId) return;
+    queryClient.setQueryData(['cart', userId], data);
+  };
+
   const addItemMutation = useMutation<CartResponse, AxiosError<Error>, CartProductData>({
     mutationFn: addToCart,
-    onSuccess: (data) => {
-      queryClient.setQueryData(['cart'], data)
-    },
+    onSuccess: setCartCache,
     onError: (error) => {
       toast.error(error.response?.data.msg || 'Error al agregar producto al carrito')
     }
@@ -21,9 +26,7 @@ export const useCartMutations = () => {
 
   const updateQuantityItem = useMutation<CartResponse, AxiosError<Error>, CartProductData>({
     mutationFn: updateItem,
-    onSuccess: (data) => {
-      queryClient.setQueryData(['cart'], data)
-    },
+    onSuccess: setCartCache,
     onError: (error) => {
       toast.error(error.response?.data.msg || 'Error al actualizar producto')
     }
@@ -31,9 +34,7 @@ export const useCartMutations = () => {
 
   const deleteItemMutation = useMutation<CartResponse, AxiosError<Error>, string>({
      mutationFn: deleteCartItem,
-     onSuccess: (data) => {
-      queryClient.setQueryData(['cart'], data)
-     },
+     onSuccess: setCartCache,
      onError: (error) => {
       toast.error(error.response?.data.msg || 'Error al eliminar producto')
      }

@@ -3,7 +3,7 @@ import { addToCart, deleteCartItem, updateItem } from "../../actions/cart-action
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import type { CartProductData, CartResponse } from "../../interface/cart";
-import type { Error } from "../../interface/product";
+import type { ApiError } from "../../../interfaces/product";
 import type { AxiosError } from "axios";
 import { useAuthStore } from "../../../auth/store/auth.store";
 
@@ -16,7 +16,7 @@ export const useCartMutations = () => {
     queryClient.setQueryData(['cart', userId], data);
   };
 
-  const addItemMutation = useMutation<CartResponse, AxiosError<Error>, CartProductData>({
+  const addItemMutation = useMutation<CartResponse, AxiosError<ApiError>, CartProductData>({
     mutationFn: addToCart,
     onSuccess: setCartCache,
     onError: (error) => {
@@ -24,7 +24,7 @@ export const useCartMutations = () => {
     }
   })
 
-  const updateQuantityItem = useMutation<CartResponse, AxiosError<Error>, CartProductData>({
+  const updateQuantityItem = useMutation<CartResponse, AxiosError<ApiError>, CartProductData>({
     mutationFn: updateItem,
     onSuccess: setCartCache,
     onError: (error) => {
@@ -32,7 +32,7 @@ export const useCartMutations = () => {
     }
   })
 
-  const deleteItemMutation = useMutation<CartResponse, AxiosError<Error>, string>({
+  const deleteItemMutation = useMutation<CartResponse, AxiosError<ApiError>, string>({
      mutationFn: deleteCartItem,
      onSuccess: setCartCache,
      onError: (error) => {

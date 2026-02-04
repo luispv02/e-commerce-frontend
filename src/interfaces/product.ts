@@ -1,3 +1,4 @@
+// Product entities
 export interface BaseProduct {
   id: string;
   title: string;
@@ -28,12 +29,14 @@ export interface OtherProduct extends BaseProduct {
 
 export type Product = ClothingProduct | TechnologyProduct | OtherProduct;
 
+// Types
 export type Size = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
 export type Gender = 'men' | 'women' | 'kid';
 export type TypeClothing = 'shirts' | 't-shirts' | 'pants';
 export type ProductCategory =  'clothes' | 'technology' | 'others';
 
 
+// Product Form
 export type NewProduct = Omit<BaseProduct, 'category'> & {
   id: 'new',
   category: '';
@@ -56,7 +59,46 @@ export type ProductFormValues = {
   brand?: string;
 };
 
+// Api Response
+export interface ProductsResponse {
+  ok: boolean;
+  data: {
+    pagination: Pagination;
+    products: Product[];
+  }
+}
+
+export interface ProductResponse {
+  ok: boolean;
+  product: Product;
+}
+
+export interface Pagination {
+  page: number;
+  limit: number;
+  totalProducts: number;
+  totalPages: number;
+}
+
+export interface ProductsFilters {
+  q?: string;
+  category: string;
+  order?: string;
+  price?: string;
+  page: number;
+  size?: string;
+  gender?: string;
+  color?: string;
+  brand?: string;
+  type?: string;
+}
+
 interface ProductImage {
   _id: string;
   url: string;
+}
+
+export interface ApiError {
+  ok: boolean;
+  msg: string;
 }

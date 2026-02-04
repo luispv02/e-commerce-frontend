@@ -3,12 +3,12 @@ import { checkoutPurchaseCart } from "../../actions/orders.action"
 import { toast } from "react-toastify"
 import type { CheckoutResponse } from "../../interface/order";
 import type { AxiosError } from "axios";
-import type { Error } from "../../interface/product";
+import type { ApiError } from "../../../interfaces/product";
 
 export const usePurchaseCart = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<CheckoutResponse, AxiosError<Error>, void>({
+  return useMutation<CheckoutResponse, AxiosError<ApiError>, void>({
     mutationFn: checkoutPurchaseCart,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['cart'] });

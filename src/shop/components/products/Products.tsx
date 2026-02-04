@@ -3,11 +3,11 @@ import { ProductList } from "./ProductList";
 import { Pagination } from "../../../components/shared/Pagination";
 import { Loading } from "../../../components/ui/Loading";
 import type { UseQueryResult } from "@tanstack/react-query";
-import type { Error, ProductsResponse } from "../../interface/product";
+import type { ApiError, ProductsResponse } from "../../../interfaces/product";
 import type { AxiosError } from "axios";
 
 interface Props {
-  productsQuery: UseQueryResult<ProductsResponse, AxiosError<Error>> 
+  productsQuery: UseQueryResult<ProductsResponse, AxiosError<ApiError>> 
   category: string;
 }
 

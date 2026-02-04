@@ -1,6 +1,6 @@
 
 import ecommerceApi from "../../api/ecommerceApi"
-import type { ProductsResponse, ProductsFilters, ProductResponse } from "../interface/product";
+import type { ProductResponse, ProductsFilters, ProductsResponse } from "../../interfaces/product";
 
 
 export const getProducts  = async(filters: ProductsFilters): Promise<ProductsResponse> => {

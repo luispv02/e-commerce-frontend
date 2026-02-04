@@ -15,14 +15,14 @@ export const ClothingFields = ({ category, register, setValue, watch, errors }: 
   const colors = watch("colors") || [];
 
   const handleSizeColor = (filterKey: string, value: string) => {
-    if (filterKey === 'size') {
+    if (filterKey === 'sizes') {
       const updatedSizes = sizes.includes(value as Size)
         ? sizes.filter(s => s !== value)
         : [...sizes, value as Size];
 
       setValue("sizes", updatedSizes, { shouldValidate: true });
     }
-    if (filterKey === 'color') {
+    if (filterKey === 'colors') {
       const updatedColors = colors.includes(value)
         ? colors.filter(c => c !== value)
         : [...colors, value];
@@ -31,8 +31,8 @@ export const ClothingFields = ({ category, register, setValue, watch, errors }: 
   };
 
   const isOptionSelected = (filterKey: string, optionId: string) => {
-    if (filterKey === 'size') return sizes.includes(optionId as Size);
-    if (filterKey === 'color') return colors.includes(optionId);
+    if (filterKey === 'sizes') return sizes.includes(optionId as Size);
+    if (filterKey === 'colors') return colors.includes(optionId);
     return false;
   }
 
@@ -46,11 +46,11 @@ export const ClothingFields = ({ category, register, setValue, watch, errors }: 
             <label htmlFor={c.filterKey} className="block text-sm font-medium text-gray-700 mb-1">{c.title}</label>
 
             {
-              (c.filterKey === 'size' || c.filterKey === 'color') ? (
+              (c.filterKey === 'sizes' || c.filterKey === 'colors') ? (
                 <>
                   <input
                     type="hidden"
-                    {...register(c.filterKey === 'size' ? 'sizes' : 'colors', { required: "Este campo es requerido" })}
+                    {...register(c.filterKey === 'sizes' ? 'sizes' : 'colors', { required: "Este campo es requerido" })}
                   />
 
                   <div className="flex flex-wrap gap-2">
@@ -65,14 +65,14 @@ export const ClothingFields = ({ category, register, setValue, watch, errors }: 
                             : "bg-white text-gray-700 border border-gray-300 hover:border-blue-400 hover:bg-blue-100"
                             }`}
                         >
-                          {c.filterKey === 'color' && <div className="w-4 h-4 rounded-full border border-gray-300" style={{ backgroundColor: option.hex }} />}
+                          {c.filterKey === 'colors' && <div className="w-4 h-4 rounded-full border border-gray-300" style={{ backgroundColor: option.hex }} />}
                           <span>{option.label}</span>
                         </button>
                       ))
                     }
                   </div>
-                  {c.filterKey === 'color' && errors.colors && <p className="text-red-500 text-sm ml-2">Selecciona al menos un color</p>}
-                  {c.filterKey === 'size' && errors.sizes && <p className="text-red-500 text-sm ml-2">Selecciona al menos una talla</p>}
+                  {c.filterKey === 'colors' && errors.colors && <p className="text-red-500 text-sm ml-2">Selecciona al menos un color</p>}
+                  {c.filterKey === 'sizes' && errors.sizes && <p className="text-red-500 text-sm ml-2">Selecciona al menos una talla</p>}
                 </>
               ) : (
                 <>

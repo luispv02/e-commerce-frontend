@@ -26,3 +26,18 @@ export const NotAuthenticatedRoute = () => {
 
   return <Outlet />;
 };
+
+export const AdminRoute = () => {
+
+  const isAuth = useAuthStore((state) => state.isAuthenticated);
+  const authStatus = useAuthStore((state) => state.authStatus);
+  const role = useAuthStore((state) => state.role)
+
+  if(authStatus === 'checking') return null;
+
+  if(!isAuth || role !== 'admin'){
+    return <Navigate to="/" replace/>;
+  }
+
+  return <Outlet />;
+};

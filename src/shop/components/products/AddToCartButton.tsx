@@ -12,6 +12,7 @@ interface Props {
 
 export const AddToCartButton = ({product, className = ""}: Props) => {
   const isAuth = useAuthStore((state) => state.isAuthenticated)
+  const userRole = useAuthStore((state) => state.role);
   const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
   const navigate = useNavigate();
   const { addItemMutation } = useCartMutations();
@@ -29,8 +30,8 @@ export const AddToCartButton = ({product, className = ""}: Props) => {
 
   return (
     <button 
-      disabled={product.stock === 0 || addItemMutation.isPending}
-      className={`w-full bg-slate-900 font-semibold text-white transition hover:bg-slate-700 cursor-pointer flex flex-col items-center ${product.stock === 0 || addItemMutation.isPending ? 'opacity-50' : 'cursor-pointer hover:bg-gray-700'} ${className}`} 
+      disabled={product.stock === 0 || addItemMutation.isPending || userRole === 'admin'}
+      className={`w-full bg-slate-900 font-semibold text-white transition hover:bg-slate-700 cursor-pointer flex flex-col items-center ${product.stock === 0 || addItemMutation.isPending || userRole === 'admin' ? 'opacity-50' : 'cursor-pointer hover:bg-gray-700'} ${className}`} 
       onClick={(e) => handleAddItem(e)}>
       { 
         addItemMutation.isPending 

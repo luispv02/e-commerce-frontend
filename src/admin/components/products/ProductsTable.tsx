@@ -3,6 +3,11 @@ import type { Pagination as PaginationType, Product } from "../../../interfaces/
 import { currencyFormatters } from "../../../utils/currency-formatter";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import { Pagination } from "../../../components/shared/Pagination";
+import { useProductMutations } from "../../hooks/useProductMutations";
+import { Modal } from "../../../components/ui/Modal";
+import { useState } from "react";
+import { Loading } from "../../../components/ui/Loading";
+import { ToggleActiveProduct } from "./ToggleActiveProduct";
 
 
 interface Props {
@@ -11,6 +16,23 @@ interface Props {
 }
 
 export const ProductsTable = ({ products, pagination }: Props) => {
+
+  const { deleteProductMutation } = useProductMutations();
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null);
+
+  const handleDeleteClick = (product: Product) => {
+    setProductToDelete(product);
+  }
+
+  const handleDelete = () => {
+    if(!productToDelete?.id) return;
+    
+    deleteProductMutation.mutate(productToDelete.id, {
+      onSuccess: () => {
+        setProductToDelete(null)
+      }
+    })
+  }
 
   return (
     <>
@@ -34,6 +56,9 @@ export const ProductsTable = ({ products, pagination }: Props) => {
                 Precio
               </th>
               <th className="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wide">
+                Activo
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wide">
                 Acción
               </th>
             </tr>
@@ -44,10 +69,10 @@ export const ProductsTable = ({ products, pagination }: Props) => {
               <tr key={producto.id} className="hover:bg-gray-50 transition-colors">
 
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <img src={producto.images[0].url} alt={`Producto ${producto.id}`} className="w-12 h-12 object-cover rounded" />
+                  <img src={producto.images[0].url ?? "/placeholder.png"} alt={`Producto ${producto.id}`} className="w-12 h-12 object-contain rounded" />
                 </td>
 
-                <td className="px-4 py-3 text-sm text-gray-900">
+                <td className="px-4 py-3 whitespace-nowrap lg:whitespace-normal text-sm text-gray-900">
                   {producto.title}
                 </td>
 
@@ -73,25 +98,43 @@ export const ProductsTable = ({ products, pagination }: Props) => {
                 </td>
 
                 <td className="px-4 py-3 whitespace-nowrap text-sm">
-                  <div className="flex items-center gap-2">
-                    <Link to={`/admin/products/${producto.id}`}>
-                      <button className="cursor-pointer p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Editar">
-                        <FiEdit2 className="w-4 h-4" />
-                      </button></Link>
+                  <ToggleActiveProduct product={producto} />
+                </td>
 
-                    <button className="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded transition-colors" title="Eliminar">
+                <td className="px-4 py-3 whitespace-nowrap text-sm">
+                  <div className="flex items-center gap-2">
+                    <Link to={`/admin/products/${producto.id}`} className="cursor-pointer p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors">
+                      <FiEdit2 className="w-4 h-4" />
+                    </Link>
+
+                    <button className="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded transition-colors" title="Eliminar" onClick={() => handleDeleteClick(producto)}>
                       <FiTrash2 className="w-4 h-4" />
                     </button>
                   </div>
                 </td>
-
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <Pagination totalPages={pagination.totalPages}/>
+      <Modal title="¿Quieres eliminar este producto?" isOpen={!!productToDelete} onClose={() => setProductToDelete(null)}>
+        <div className="">
+          <p className="text-center text-sm">{productToDelete?.title}</p>
+          <p className="text-xs text-center">{productToDelete?.id}</p>
+
+          {
+            deleteProductMutation.isPending 
+            ? <Loading message="Eliminando producto..." width="w-6" height="h-6" spinMargin="my-4"/>
+            : <div className="flex justify-center gap-3 mt-8">
+                <button className="bg-red-500 text-white  border-red-600 border text-sm py-1 px-2 rounded cursor-pointer hover:bg-red-600 hover:text-white transition" onClick={handleDelete}>Eliminar</button>
+                <button className="border text-sm py-1 px-2 rounded cursor-pointer hover:bg-black hover:text-white transition" onClick={() => setProductToDelete(null)}>Cancelar</button>
+              </div>
+          }
+        </div>
+      </Modal>
+
+      <Pagination totalPages={pagination.totalPages} />
     </>
   )
 }

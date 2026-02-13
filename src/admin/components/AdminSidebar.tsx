@@ -1,8 +1,17 @@
 import { MdArrowBackIosNew, MdLogout } from "react-icons/md";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { adminMenuItems } from "../../data/admin/menu-items";
+import { useAuthStore } from "../../auth/store/auth.store";
 
 export const AdminSidebar = () => {
+
+  const logout = useAuthStore((state) => state.logout)
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout()
+    navigate('/', { replace: true })
+  }
 
   return (
     <div className="h-screen flex flex-col">
@@ -19,7 +28,7 @@ export const AdminSidebar = () => {
 
       <ul className="flex flex-col mt-4">
         {adminMenuItems.map(item => (
-          <li key={item.to} className="">
+          <li key={item.to}>
             <NavLink
               to={item.to}
               end
@@ -32,7 +41,7 @@ export const AdminSidebar = () => {
       </ul>
 
       <div className="mt-auto p-4 border-t border-gray-300">
-        <button className="w-full bg-red-100 border border-red-300 rounded text-[12px] px-2 py-2 flex items-center justify-center gap-1 text-red-700 cursor-pointer hover:bg-red-200 hover:border-red-400 transition">
+        <button className="w-full bg-red-100 border border-red-300 rounded text-[12px] px-2 py-2 flex items-center justify-center gap-1 text-red-700 cursor-pointer hover:bg-red-200 hover:border-red-400 transition" onClick={handleLogout}>
           Cerrar sesión
           <MdLogout className="text-sm" />
         </button>

@@ -124,7 +124,7 @@ export const ProductDetails = () => {
                         <h3 className="text-lg font-semibold text-gray-900 mb-3">
                           Colores
                         </h3>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-wrap">
                           {
                             product.colors.map((color) => (
                               <span key={color} className="border border-gray-400 px-4 py-1 rounded capitalize text-gray-700">{color}</span>

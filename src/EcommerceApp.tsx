@@ -25,7 +25,7 @@ const CheckAuthProvider = ({ children }: PropsWithChildren) => {
     }else{
       logout();
     }
-  }, [token, renewMutation, authStatus, logout])
+  }, [token, authStatus, logout])
 
 
   if(authStatus === 'checking') return <FullScreenLoading />

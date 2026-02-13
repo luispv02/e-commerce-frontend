@@ -18,6 +18,7 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
   const fileInputRef = useRef<HTMLInputElement>(null);
   const files = watch('files') || [];
   const productImages = watch('images') ?? [];
+  const deletedImages = watch('deletedImages') ?? [];
   const category = watch('category');
   const handleImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -34,8 +35,9 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
       setValue('files', updatedFiles, { shouldValidate: true });
       return;
     }
-    const updatedUrls = productImages.filter(img => img.url !== image);
+    const updatedUrls = productImages.filter(img => img.public_id !== image);
     setValue("images", updatedUrls, { shouldValidate: true });
+    setValue('deletedImages', [...deletedImages, image], { shouldValidate: true })
   }
 
   useEffect(() => {
@@ -81,21 +83,21 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
       {
         productImages.length > 0
           ? <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-8 gap-2">
-            {productImages.map((img, id) => (
+            {productImages.map((img) => (
               <div
-                key={id}
+                key={img._id}
                 className="relative group rounded-md overflow-hidden border border-gray-200 box-shadow-md"
               >
                 <img
                   src={img.url}
-                  alt={`imagen-${id + 1}`}
-                  className="w-full h-25 object-cover"
+                  alt={`imagen-${img._id}`}
+                  className="w-full h-25 object-contain"
                 />
                 <button
                   type="button"
                   className="absolute top-1 right-1 bg-white/90 text-red-600 hover:bg-white rounded-full p-2 shadow-md transition cursor-pointer"
                   aria-label="Eliminar imagen"
-                  onClick={() => handleRemoveImage(img._id)}
+                  onClick={() => handleRemoveImage(img.public_id)}
                 >
                   <FaTrashAlt size={14} />
                 </button>
@@ -117,7 +119,7 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
         files.length > 0 &&
         <div className="mt-5">
           <div className="block text-sm font-medium text-gray-700 mb-1">Imagenes por cargar ({files.length}) </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-8 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-8 gap-2">
             {
               files.map((file, index) => (
                 <div key={index} className="relative group rounded-md overflow-hidden border border-gray-200 box-shadow-md">
@@ -125,7 +127,7 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
                     src={URL.createObjectURL(file)}
                     alt="Product"
                     key={index}
-                    className="w-full h-25 object-cover"
+                    className="w-full h-25 object-contain"
                   />
 
                   <button

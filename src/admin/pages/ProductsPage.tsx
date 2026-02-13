@@ -1,14 +1,34 @@
 import { FiPlus } from "react-icons/fi";
-import { Link } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { useProducts } from "../hooks/useProducts";
 import { Loading } from "../../components/ui/Loading";
 import { ProductsTable } from "../components/products/ProductsTable";
 import { useProductsFilters } from "../../shop/hooks/products/useProductsFilters";
+import { useEffect } from "react";
 
 export const ProductsPage = () => {
-
+  const [searchParams] = useSearchParams();
   const { filters } = useProductsFilters()
-  const { data, isLoading, error } = useProducts(filters);
+  const { data, isLoading, error, isFetching } = useProducts(filters);
+  const navigate = useNavigate();
+  const currentPage = Number((searchParams.get('page')) ) || 1;
+
+  // update page when creating/deleting product
+  useEffect(() => {
+    const pagination = data?.data.pagination;
+  
+    if(!pagination || isFetching) return;
+
+    const totalPages = data.data.pagination.totalPages || 1;
+    const pageParam = searchParams.get('page');
+
+    if(pageParam === 'last' || currentPage > totalPages) {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set('page', totalPages.toString());
+      navigate(`?${newParams.toString()}`, { replace: true });
+    }
+  }, [data, isFetching, navigate, currentPage]);
+
 
   if(isLoading) return <Loading />;
   if(error) return <p className="text-center text-sm mt-10">{error.response?.data.msg || 'Error al obtener productos.'}</p>

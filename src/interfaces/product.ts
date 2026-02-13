@@ -7,6 +7,7 @@ export interface BaseProduct {
   stock: number;
   category: ProductCategory;
   images: ProductImage[];
+  isActive: boolean;
 }
 
 export interface ClothingProduct extends BaseProduct {
@@ -50,9 +51,11 @@ export type ProductFormValues = {
   stock: number;
   category: ProductCategory | "";
   images: ProductImage[];
+  isActive: boolean;
 
   files?: File[];
   sizes?: Size[];
+  deletedImages?: string[];
   colors?: string[];
   gender?: string;
   type?: string;
@@ -70,6 +73,7 @@ export interface ProductsResponse {
 
 export interface ProductResponse {
   ok: boolean;
+  msg?: string;
   product: Product;
 }
 
@@ -96,9 +100,21 @@ export interface ProductsFilters {
 interface ProductImage {
   _id: string;
   url: string;
+  public_id: string;
 }
 
 export interface ApiError {
   ok: boolean;
   msg: string;
+}
+
+export interface ProductValidationError {
+  msg: string;
+  ok: false;
+  errors: ValidationError[];
+}
+
+interface ValidationError {
+  msg: string;
+  path: string;
 }

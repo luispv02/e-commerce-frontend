@@ -8,7 +8,6 @@ export const useProducts = (filters: ProductsFilters) => {
   return useQuery<ProductsResponse, AxiosError<ApiError>>({
     queryKey: ['products', 'admin', filters],
     queryFn: () => getProducts(filters),
-    staleTime: 1000 * 60 * 5,
-    retry: false,
+    staleTime: 1000 * 60 * 5
   })
 }

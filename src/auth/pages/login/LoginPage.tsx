@@ -38,6 +38,10 @@ export const LoginPage = () => {
     }
   };
 
+  const handleLoginAdmin = () => {
+    loginMutation.mutate({email: 'admin@demo.com', password: 'Admin.1234'});
+  }
+
   return (
     <>
       <div className="flex-1 flex items-center justify-center px-6 lg:px-0">
@@ -133,14 +137,20 @@ export const LoginPage = () => {
             {
               loginMutation.isPending
               ? <Loading textColor="text-white" borderStyle="border-t-white"/>
-              : <button
-                  type="submit"
-                  className="w-full cursor-pointer bg-white text-black/80 hover:bg-gray-100 font-semibold py-3  rounded-lg transition-all flex items-center justify-center gap-2 shadow-md border border-white/30 hover:border-white/50"
-                >
-                  INICIAR SESIÓN
-                  <FaArrowRight />
-                </button>
-                }
+              : <div className="text-center space-y-6">
+                  <button
+                    type="submit"
+                    className="w-full cursor-pointer bg-white text-black/80 hover:bg-gray-100 font-semibold py-3  rounded-lg transition-all flex items-center justify-center gap-2 shadow-md border border-white/30 hover:border-white/50"
+                  >
+                    INICIAR SESIÓN
+                    <FaArrowRight />
+                  </button>
+
+                  <button type="button" className="text-white underline cursor-pointer text-sm" onClick={handleLoginAdmin}>
+                    Iniciar sesión como Admin(demo)
+                  </button>
+                </div>
+            }
           </form>
 
           <div className="mt-8 text-center">

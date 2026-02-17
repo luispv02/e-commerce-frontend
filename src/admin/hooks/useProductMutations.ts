@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { ApiError, ProductResponse, ProductValidationError } from '../../interfaces/product'
+import type { ApiError, ProductResponse, ProductsResponse, ProductValidationError } from '../../interfaces/product'
 import type { AxiosError } from 'axios'
 import { createUpdateProduct, deleteProduct } from '../actions/products.action'
 import { toast } from 'react-toastify'
@@ -8,10 +8,40 @@ export const useProductMutations = () => {
 
   const queryClient = useQueryClient();
 
+  const updateProductsCache = (delta: number) => {
+
+    queryClient.setQueriesData<ProductsResponse>(
+      { queryKey: ['products', 'admin'] },
+      (oldData) => {
+        if (!oldData) return oldData;
+        const pagination = oldData.data.pagination;
+
+        const newTotalProducts = pagination.totalProducts + delta;
+        const newTotalPages = Math.ceil(newTotalProducts / pagination.limit);
+
+        return {
+          ...oldData,
+          data: {
+            ...oldData.data,
+            pagination: {
+              ...pagination,
+              totalProducts: newTotalProducts,
+              totalPages: newTotalPages,
+            },
+          }
+        }
+      }
+    )
+  };
+
   const createUpdateProductMutation = useMutation<ProductResponse, AxiosError<ApiError>, { product: FormData, productId: string }>({
     mutationFn: createUpdateProduct,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['products', 'admin'], refetchType: "all" })
+    onSuccess: (data, { productId }) => {
+
+      const isNewProduct = productId === '';
+      if(isNewProduct) updateProductsCache(+1);
+
+      queryClient.invalidateQueries({ queryKey: ['products', 'admin'] })
       queryClient.invalidateQueries({ queryKey: ['product', 'admin', data.product.id] })
     },
     onError: (error) => {
@@ -31,7 +61,8 @@ export const useProductMutations = () => {
   const deleteProductMutation = useMutation<ProductResponse, AxiosError<ApiError>, string>({
     mutationFn: deleteProduct,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products', 'admin'], refetchType: 'all' })
+      updateProductsCache(-1)
+      queryClient.invalidateQueries({ queryKey: ['products', 'admin'] })
       toast.success('Producto eliminado')
     },
     onError: (error) => {

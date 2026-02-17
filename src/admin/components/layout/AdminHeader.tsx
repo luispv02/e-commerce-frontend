@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router';
 import { MdArrowBackIosNew, MdLogout } from 'react-icons/md';
-import { useAuthStore } from '../../auth/store/auth.store';
+import { useAuthStore } from '../../../auth/store/auth.store';
 
 export const AdminHeader = () => {
 

@@ -1,7 +1,7 @@
 import { MdArrowBackIosNew, MdLogout } from "react-icons/md";
 import { Link, NavLink, useNavigate } from "react-router";
-import { adminMenuItems } from "../../data/admin/menu-items";
-import { useAuthStore } from "../../auth/store/auth.store";
+import { useAuthStore } from "../../../auth/store/auth.store";
+import { adminMenuItems } from "../../../data/admin/menu-items";
 
 export const AdminSidebar = () => {
 

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import { adminMenuItems } from "../../data/admin/menu-items";
+import { adminMenuItems } from "../../../data/admin/menu-items";
 
 
 export const AdminBottomMenu = () => {

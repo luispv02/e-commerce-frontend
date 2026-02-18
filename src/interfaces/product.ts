@@ -97,7 +97,7 @@ export interface ProductsFilters {
   type?: string;
 }
 
-interface ProductImage {
+export interface ProductImage {
   _id: string;
   url: string;
   public_id: string;

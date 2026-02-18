@@ -1,24 +1,16 @@
 import { MdArrowBackIosNew } from "react-icons/md";
 import { useNavigate, useParams } from "react-router";
 import { currencyFormatters } from "../../../utils/currency-formatter";
-import { useState, useEffect } from "react";
 import { useProduct } from "../../hooks/products/useProduct";
 import { Loading } from "../../../components/ui/Loading";
 import { AddToCartButton } from "./AddToCartButton";
+import { ProductImageCarousel } from "./ProductImageCarousel";
 
 export const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   
   const { data, isLoading, error } = useProduct(id || "");
-
-  const [selectedProductImg, setSelectedProductImg] = useState<string | null>(null);
-
-  useEffect(() => {
-    if(data?.product && data.product.images.length > 0){
-      setSelectedProductImg(data.product.images[0].url);
-    }
-  }, [data])
 
   if(isLoading) return <Loading spinMargin="my-6"/>
   if(error || !data) return <p className="text-center text-sm mt-10">{ error?.response?.data.msg || 'Error al obtener producto.' }</p>
@@ -33,28 +25,7 @@ export const ProductDetails = () => {
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20">
-        <div className="w-full">
-          <div className="h-96 w-full">
-            <img
-              src={selectedProductImg ?? 'https://placehold.co/600x400'}
-              alt={title}
-              className="h-full w-full object-contain transition-transform duration-300 hover:scale-105"
-            />
-          </div>
-
-          {
-            images.length > 0 &&
-            <div className="grid grid-cols-4 gap-2 mt-4">
-              {
-                images.map((img) => (
-                  <div key={img._id} className={`overflow-hidden rounded-lg cursor-pointer border hover:border-gray-400 ${selectedProductImg === img.url ? "border-blue-500" : "border-gray-200"}`} onClick={() => setSelectedProductImg(img.url)}>
-                    <img src={img.url} alt={img.url} className="h-full w-full object-contain"/>
-                  </div>
-                ))
-              }
-            </div>
-          }
-        </div>
+        { images.length > 0 && <ProductImageCarousel images={images} /> }
 
         <div className="flex flex-col justify-between">
           <div className="space-y-6">

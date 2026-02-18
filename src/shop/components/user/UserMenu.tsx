@@ -12,8 +12,8 @@ export const UserMenu = () => {
 
   const handleLoginLogout = () => {
     if(isAuth){
-      localStorage.removeItem('token');
       logout()
+      navigate('/', { replace: true })
     }else{
       navigate('/auth/login')
     }

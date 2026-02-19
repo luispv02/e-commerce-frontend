@@ -4,6 +4,7 @@ import { FiPlus } from "react-icons/fi";
 import type { ProductFormValues } from "../../../interfaces/product";
 import { FaTrashAlt } from "react-icons/fa";
 import type { FieldErrors, UseFormGetValues, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { toast } from "react-toastify";
 
 interface Props {
   register: UseFormRegister<ProductFormValues>;
@@ -20,13 +21,34 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
   const productImages = watch('images') ?? [];
   const deletedImages = watch('deletedImages') ?? [];
   const category = watch('category');
-  const handleImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
 
-    const filesArr = Array.from(files);
+  const handleImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = e.target.files;
+
+    const maxFiles = 8;
+    const maxFileSize = 8 * 1024 * 1024;
+
+    if(!selectedFiles) return;
+
+    const newFilesArr = Array.from(selectedFiles);
+    const totalFiles = files.length + newFilesArr.length;
+
+    if(totalFiles > maxFiles){
+      toast.error(`Solo puedes subir máximo ${maxFiles} imágenes`)
+      e.target.value = "";
+      return;
+    }
+
+    for(const file of newFilesArr) {
+      if(file.size > maxFileSize) {
+        toast.error(`La imagen ${file.name} debe pesar máximo 8MB`);
+        e.target.value = "";
+        return;
+      }
+    }
+  
     const currentFiles = getValues('files') || [];
-    setValue("files", [...currentFiles, ...filesArr], { shouldValidate: true });
+    setValue("files", [...currentFiles, ...newFilesArr], { shouldValidate: true });
   }
 
   const handleRemoveImage = (image: string | File) => {
@@ -105,12 +127,13 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
             ))}
           </div>
           : <div
-            className={`border-2 flex flex-col items-center text-center border-dashed border-gray-300 rounded-md p-4 md:p-6  text-gray-500 mb-3 cursor-pointer ${errors.files ? 'border-red-400 text-red-400' : ''}`}
+            className={`border-2 flex flex-col items-center text-center border-dashed border-gray-300 rounded-md p-4  text-gray-500 mb-3 cursor-pointer ${errors.files ? 'border-red-400 text-red-400' : ''}`}
             onClick={() => fileInputRef.current?.click()}
           >
-            <CiImageOn size={50} />
-            <p className="text-sm md:text-md">
-              Agregar imagenes
+            <CiImageOn size={40} />
+            <p className="text-xs md:text-md">
+              Agregar imágenes <br />
+              Máximo 8 imágenes
             </p>
           </div>
       }
@@ -118,7 +141,7 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
       {
         files.length > 0 &&
         <div className="mt-5">
-          <div className="block text-sm font-medium text-gray-700 mb-1">Imagenes por cargar ({files.length}) </div>
+          <div className="block text-sm font-medium text-gray-700 mb-1">imágenes por guardar ({files.length}) </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-8 gap-2">
             {
               files.map((file, index) => (

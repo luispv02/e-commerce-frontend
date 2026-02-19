@@ -32,6 +32,8 @@ export const ShoppingCartPage = () => {
     deleteItemMutation.mutate(productId);
   }
 
+  const someProductsAreUnavailable = items.some(item => item.product.isActive === false);
+
   return (
     <div className="pb-20">
       <h2 className="text-lg text-gray-700 font-bold border-b--2 border-gray-300 mt-6">
@@ -55,9 +57,10 @@ export const ShoppingCartPage = () => {
             </div>
 
             <div className="mt-8 md:border-t border-gray-300 pt-4">
-              <button className={`bg-gray-700 w-full py-2 rounded hover:bg-gray-800 transition cursor-pointer text-white ${isPending ? 'opacity-50' : ''}`} onClick={() =>  mutate()} disabled={isPending}>
+              <button className={`bg-gray-700 w-full py-2 rounded hover:bg-gray-800 transition text-white ${isPending || someProductsAreUnavailable ? 'opacity-50' : ' cursor-pointer'}`} onClick={() =>  mutate()} disabled={isPending || someProductsAreUnavailable}>
                 { isPending ? <Loading width="w-6" height="h-6" message="" textColor="text-white" borderStyle="border-t-white" spinMargin="my-0" /> : 'Pagar' }
               </button>
+              { someProductsAreUnavailable && <p className="text-red-500 text-xs  mt-4 mb-2"> Tienes productos no disponibles. Eliminálos para continuar. </p> }
             </div>
           </aside>
         </div>

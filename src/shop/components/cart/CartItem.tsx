@@ -26,6 +26,11 @@ export const CartItem = ({item, onUpdateQuantity, onDeleteItem, isUpdating, isDe
      <article className="border-b relative border-gray-400 flex flex-col items-end lg:flex-row lg:items-end py-4">
       
         { isDeleting && <div className="bg-white/70 absolute inset-0 flex justify-center items-center"><Loading message=""/></div>}
+        { !item.product.isActive && 
+          <div className="bg-white/70 absolute inset-0 ">
+            <p className="text-red-500 text-xs">Producto no disponible</p>
+          </div> 
+        }
 
         <div className="w-full flex gap-4">
           {/* Image */}
@@ -70,7 +75,7 @@ export const CartItem = ({item, onUpdateQuantity, onDeleteItem, isUpdating, isDe
               </div>
 
               <button
-                className={`${isUpdating ? 'opacity-50' : 'cursor-pointer'}`}
+                className={`z-50 ${isUpdating ? 'opacity-50' : 'cursor-pointer'}`}
                 aria-label="Eliminar producto"
                 onClick={() => onDeleteItem(item.product.id)}
                 disabled={isUpdating}

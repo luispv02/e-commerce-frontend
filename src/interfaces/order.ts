@@ -1,4 +1,4 @@
-import type { Product } from "./product";
+import type { ProductImage } from "./product";
 
 export interface Order {
   id: string;
@@ -10,7 +10,10 @@ export interface Order {
 }
 
 interface OrderItem {
-  product: Product;
+  productId: string;
+  title: string;
+  description: string;
+  images: ProductImage[];
   quantity: number;
   pricePaid: number;
 }

@@ -11,7 +11,7 @@ export const PurchasesPage = () => {
   if(isLoading) return <Loading message="Cargando compras..." />
   if(error) return <p className="text-center text-sm">{error.response?.data.msg || 'Error al obtener productos'}</p>
 
-  const purchases = data?.orders ?? [];
+  const orders = data?.orders ?? [];
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -20,37 +20,37 @@ export const PurchasesPage = () => {
       <div className="mt-6">
         <div>
           {
-            purchases.length > 0
-            ? purchases.map(p => (
-              <div key={p.id} className="border border-gray-300 rounded bg-gray-100 mb-4">
+            orders.length > 0
+            ? orders.map(order => (
+              <div key={order.id} className="border border-gray-300 rounded bg-gray-100 mb-4">
                 <div className="p-2 md:px-6 flex justify-between items-center">
-                  <div className="text-xs">{p.id}</div>
-                  <div className="text-xs text-end">{dateFormatter(p.createdAt)}</div>
+                  <div className="text-xs">{order.id}</div>
+                  <div className="text-xs text-end">{dateFormatter(order.createdAt)}</div>
                 </div>
 
                 {
-                  p.items.map(c => (
-                    <div key={c.product.id} className="flex border-t border-gray-400 px-2 md:px-6 py-3 gap-3">
+                  order.items.map(item => (
+                    <div key={item.productId} className="flex border-t border-gray-400 px-2 md:px-6 py-3 gap-3">
                       <div className="image">
-                        <img src={c.product.images[0].url} alt={c.product.title} className="w-22 h-30 md:w-30 object-contain" />
+                        <img src={item.images[0].url} alt={item.title} className="w-22 h-30 md:w-30 object-contain" />
                       </div>
 
                       <div className="info flex flex-col flex-1 justify-between items-start">
                         <div className="md:text-left">
-                          <h4 className="font-semibold text-sm md:text-lg">{c.product.title}</h4>
+                          <h4 className="font-semibold text-sm md:text-lg">{item.title}</h4>
                         </div>
 
                         <div>
-                          <p className="text-xs lg:text-base">Cantidad: <span className="font-bold">{c.quantity}</span></p>
-                          <p className="text-xs lg:text-base">Precio unidad: <span className="font-bold">${currencyFormatters(c.pricePaid)}</span></p>
-                          <p className="text-xs lg:text-base">Subtotal: <span className="font-bold">${currencyFormatters(c.pricePaid * c.quantity)}</span></p>
+                          <p className="text-xs lg:text-base">Cantidad: <span className="font-bold">{item.quantity}</span></p>
+                          <p className="text-xs lg:text-base">Precio unidad: <span className="font-bold">${currencyFormatters(item.pricePaid)}</span></p>
+                          <p className="text-xs lg:text-base">Subtotal: <span className="font-bold">${currencyFormatters(item.pricePaid * item.quantity)}</span></p>
                         </div>
                       </div>
                     </div>
                   ))
                 }
                 <div className="p-2 md:px-6 flex justify-end border-t border-gray-300">
-                  <p className="font-semibold">Total: ${currencyFormatters(p.total)}</p>
+                  <p className="font-semibold">Total: ${currencyFormatters(order.total)}</p>
                 </div>
               </div>
             ))

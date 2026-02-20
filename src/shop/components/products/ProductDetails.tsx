@@ -27,7 +27,7 @@ export const ProductDetails = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20">
         { images.length > 0 && <ProductImageCarousel images={images} /> }
 
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col justify-start">
           <div className="space-y-6">
 
             <div>

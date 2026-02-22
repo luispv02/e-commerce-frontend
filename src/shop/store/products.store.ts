@@ -1,16 +1,22 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware';
+import type { Product, ProductVariant } from '../../interfaces/product';
 
 
 interface ProductsStore {
-  selectedProduct: string | null;
+  selectedProduct: Product | null;
   loading: boolean;
   isProductFiltersOpen: boolean;
+  isModalOpen: boolean;
+  productVariant: ProductVariant,
 
 
-  setSelectedProduct: (productId: string | null) => void;
+  setSelectedProduct: (product: Product | null) => void;
   setLoading: (isLoading: boolean) => void;
   setIsProductFilterOpen: (isOpen: boolean) => void;
+  setModalOpen: (isOpen: boolean) => void;
+  setProductVariant: (variant: ProductVariant) => void;
+  resetProductVariant: () => void;
 }
 
 
@@ -19,10 +25,15 @@ export const useProductsStore = create<ProductsStore>()(
     selectedProduct: null,
     loading:false,
     isProductFiltersOpen: false,
+    isModalOpen: false,
+    productVariant: {
+      selectedColor: null,
+      selectedSize: null
+    },
 
 
-    setSelectedProduct: (productId) => {
-      set({selectedProduct: productId}, false, 'products/setSelectedProduct')
+    setSelectedProduct: (product) => {
+      set({selectedProduct: product}, false, 'products/setSelectedProduct')
     },
 
     setLoading: (isLoading) => {
@@ -31,6 +42,18 @@ export const useProductsStore = create<ProductsStore>()(
 
     setIsProductFilterOpen: (isOpen) => {
       set({isProductFiltersOpen: isOpen}, false, 'products/setIsProductFiltersOpen')
+    },
+
+    setModalOpen: (isOpen) => {
+      set({ isModalOpen: isOpen }, false, 'products/setModalOpen')
+    },
+
+    setProductVariant: (variant) => {
+      set({ productVariant: variant }, false, 'products/setProductVariant')
+    },
+
+    resetProductVariant: () => {
+      set({ productVariant: { selectedColor: null, selectedSize: null }}, false, 'products/resetProductVariant')
     }
   }))
 )

@@ -5,12 +5,27 @@ import { useProduct } from "../../hooks/products/useProduct";
 import { Loading } from "../../../components/ui/Loading";
 import { AddToCartButton } from "./AddToCartButton";
 import { ProductImageCarousel } from "./ProductImageCarousel";
+import { ClothingProductVariants } from "./ClothingProductVariants";
+import { useProductsStore } from "../../store/products.store";
+import { useAuthStore } from "../../../auth/store/auth.store";
+import { useAddToCart } from "../../hooks/cart/useAddToCart";
+import { useEffect } from "react";
 
 export const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const { addProductoToCart, loading } = useAddToCart();
+  const productVariant = useProductsStore((state) => state.productVariant);
+  const resetProductVariant = useProductsStore((state) => state.resetProductVariant);
+
+  const role = useAuthStore((state) => state.role);
   
   const { data, isLoading, error } = useProduct(id || "");
+
+  useEffect(() => {
+    return () => { resetProductVariant()};
+  }, []);
 
   if(isLoading) return <Loading spinMargin="my-6"/>
   if(error || !data) return <p className="text-center text-sm mt-10">{ error?.response?.data.msg || 'Error al obtener producto.' }</p>
@@ -18,9 +33,13 @@ export const ProductDetails = () => {
   const product = data.product;
   const { images, title, price, description, stock, category } = product;
 
+  const btnDisabled = stock === 0 || category === 'clothes' && (!productVariant.selectedSize || !productVariant.selectedColor);
+
+  
+
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-10">
-      <button onClick={() => navigate(-1)} className="mb-6 cursor-pointer block">
+      <button onClick={() => navigate('/')} className="mb-6 cursor-pointer block">
         <MdArrowBackIosNew className="w-5 h-5" />
       </button>
 
@@ -54,60 +73,7 @@ export const ProductDetails = () => {
               </p>
             </div>
             
-            {
-              category === 'clothes' && (
-                <div className="pt-4 border-t border-gray-200 space-y-4">
-                  {
-                    product.gender && (
-                      <>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                          Género
-                        </h3>
-                        <div className="flex gap-2">
-                          <span className="border border-gray-400 px-4 py-1 rounded capitalize text-gray-700">
-                            {product.gender === 'men' ? 'Hombre' : product.gender === 'women' ? 'Mujer' : 'Niño'}
-                          </span>
-                        </div>
-                      </>
-                    )
-                  }
-
-                  {
-                    product.sizes && product.sizes.length > 0 && (
-                      <>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                          Tallas
-                        </h3>
-                        <div className="flex gap-2">
-                          {
-                            product.sizes.map((size) => (
-                              <span key={size} className="border border-gray-400 px-4 py-1 rounded  text-gray-700">{size}</span>
-                            ))
-                          }
-                        </div>
-                      </>
-                    )
-                  }
-
-                  {
-                    product.colors && product.colors.length > 0 && (
-                      <>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                          Colores
-                        </h3>
-                        <div className="flex gap-2 flex-wrap">
-                          {
-                            product.colors.map((color) => (
-                              <span key={color} className="border border-gray-400 px-4 py-1 rounded capitalize text-gray-700">{color}</span>
-                            ))
-                          }
-                        </div>
-                      </>
-                    )
-                  }
-                </div>
-              )
-            }
+            <ClothingProductVariants product={product} />
 
             {
               category === 'technology' && (
@@ -127,9 +93,12 @@ export const ProductDetails = () => {
             }
           </div>
 
-          <div className="pt-6 mt-8">
-            <AddToCartButton product={product} className="py-4 rounded-xl sm:text-lg"/>
-          </div>
+          {
+            role !== 'admin' && 
+            <div className="mt-8">
+              <AddToCartButton product={product} onAddProduct={() => addProductoToCart(product)} disabled={btnDisabled} loading={loading} className="rounded-md py-3"/>
+            </div>
+          }
         </div>
       </div>
     </div>

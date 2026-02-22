@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router";
+import { Navigate, Outlet, useLocation } from "react-router";
 import { useAuthStore } from "../../auth/store/auth.store";
 
 export const AuthenticatedRoute = () => {
@@ -17,11 +17,13 @@ export const AuthenticatedRoute = () => {
 export const NotAuthenticatedRoute = () => {
   const isAuth = useAuthStore((state) => state.isAuthenticated);
   const authStatus = useAuthStore((state) => state.authStatus);
+  const location = useLocation();
 
   if(authStatus === 'checking') return null;
   
   if(isAuth){
-    return <Navigate to="/" replace/>;
+    const from = location.state?.from || "/";
+    return <Navigate to={from} replace />;
   }
 
   return <Outlet />;

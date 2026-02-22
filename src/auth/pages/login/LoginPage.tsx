@@ -20,6 +20,8 @@ export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const selectedProduct = useProductsStore((state) => state.selectedProduct)
   const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
+  const setModalOpen = useProductsStore((state) => state.setModalOpen)
+  const resetProductVariant = useProductsStore((state) => state.resetProductVariant);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,8 +31,10 @@ export const LoginPage = () => {
     try {
       await loginMutation.mutateAsync(data);
       if(selectedProduct){
-        await addItemMutation.mutateAsync({ productId: selectedProduct, quantity: 1 });
+        setModalOpen(false);
+        await addItemMutation.mutateAsync({ productId: selectedProduct.id, quantity: 1 });
         setSelectedProduct(null)
+        resetProductVariant();
       }
       navigate(from, { replace: true });
     } catch {
@@ -39,6 +43,7 @@ export const LoginPage = () => {
   };
 
   const handleLoginAdmin = () => {
+    setModalOpen(false)
     loginMutation.mutate({email: 'admin@demo.com', password: 'Admin.1234'});
   }
 

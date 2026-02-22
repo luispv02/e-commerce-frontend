@@ -2,6 +2,8 @@ import { useNavigate } from "react-router";
 import type { Product } from "../../../interfaces/product";
 import { currencyFormatters } from "../../../utils/currency-formatter";
 import { AddToCartButton } from "./AddToCartButton";
+import { useAuthStore } from "../../../auth/store/auth.store";
+import { useAddToCart } from "../../hooks/cart/useAddToCart";
 
 interface Props {
   product: Product
@@ -9,6 +11,9 @@ interface Props {
 
 export const ProductCard = ({ product }: Props) => {
   const navigate = useNavigate();
+  
+  const { addProductoToCart } = useAddToCart();
+  const role = useAuthStore((state) => state.role);
 
   const showProductDetails = () => {
     navigate(`/product/${product.id}`);
@@ -52,7 +57,10 @@ export const ProductCard = ({ product }: Props) => {
           $ {currencyFormatters(product.price)}
         </div>
 
-        <AddToCartButton product={product} className="rounded-full text-xs py-2 tracking-wide"/>
+        {
+          role !== 'admin' && <AddToCartButton product={product} onAddProduct={() => addProductoToCart(product)} disabled={product.stock === 0} className="rounded-full py-1" />
+        }
+       
       </div>
     </article>
   );

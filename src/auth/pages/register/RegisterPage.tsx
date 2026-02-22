@@ -19,6 +19,8 @@ export const RegisterPage = () => {
   const selectedProduct = useProductsStore((state) => state.selectedProduct)
   const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
   const { addItemMutation } = useCartMutations();
+  const setModalOpen = useProductsStore((state) => state.setModalOpen);
+  const resetProductVariant = useProductsStore((state) => state.resetProductVariant);
 
   const { register, handleSubmit, formState: { errors } } = useForm<UserFormValues>();
   const [showPassword, setShowPassword] = useState(false);
@@ -27,11 +29,13 @@ export const RegisterPage = () => {
   const from = location.state?.from || '/';
 
   const onSubmit: SubmitHandler<UserFormValues> = async(data) => {
+    setModalOpen(false)
     try {
       await registerMutation.mutateAsync(data);
       if(selectedProduct){
-        await addItemMutation.mutateAsync({ productId: selectedProduct, quantity: 1 });
+        await addItemMutation.mutateAsync({ productId: selectedProduct.id, quantity: 1 });
         setSelectedProduct(null)
+        resetProductVariant()
       }
       navigate(from, { replace: true });
     } catch {

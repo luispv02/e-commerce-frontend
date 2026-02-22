@@ -5,6 +5,11 @@ import { Loading } from "../../../components/ui/Loading";
 import type { UseQueryResult } from "@tanstack/react-query";
 import type { ApiError, ProductsResponse } from "../../../interfaces/product";
 import type { AxiosError } from "axios";
+import { useProductsStore } from "../../store/products.store";
+import { Modal } from "../../../components/ui/Modal";
+import { ClothingProductVariants } from "./ClothingProductVariants";
+import { AddToCartButton } from "./AddToCartButton";
+import { useAddToCart } from "../../hooks/cart/useAddToCart";
 
 interface Props {
   productsQuery: UseQueryResult<ProductsResponse, AxiosError<ApiError>> 
@@ -12,6 +17,14 @@ interface Props {
 }
 
 export const Products = ({productsQuery, category}: Props) => {
+
+  const { addProductoToCart, loading } = useAddToCart();
+
+  const isModalOpen = useProductsStore((state) => state.isModalOpen)
+  const setModalOpen = useProductsStore((state) => state.setModalOpen)
+  const selectedProduct = useProductsStore((state) => state.selectedProduct)
+  const productVariant = useProductsStore((state) => state.productVariant)
+  const resetProductVariant = useProductsStore((state) => state.resetProductVariant)
 
   if(productsQuery.isLoading) return <Loading message="Cargando productos..." />
   if(!productsQuery.data || productsQuery.data.data.products.length === 0) return <p className="text-center text-sm">No se encontrarón productos</p>
@@ -26,6 +39,10 @@ export const Products = ({productsQuery, category}: Props) => {
     }
 
     return categoryNames[category] || 'Todos los productos';
+  }
+  const handleHiddenModal = () => {
+    resetProductVariant();
+    setModalOpen(false)
   }
 
   return (
@@ -44,6 +61,18 @@ export const Products = ({productsQuery, category}: Props) => {
       <div>
         <Pagination totalPages={pagination.totalPages}/> 
       </div>
+
+      {
+        selectedProduct &&
+        <Modal title="Selecciona las variantes del producto" isOpen={isModalOpen} onClose={handleHiddenModal}>
+          <div className="space-y-6">
+            <p className="mb-2 text-sm">Producto: {selectedProduct.title}</p>
+            <ClothingProductVariants product={selectedProduct} />
+            <AddToCartButton product={selectedProduct} onAddProduct={() => addProductoToCart(selectedProduct)} disabled={!productVariant.selectedColor || !productVariant.selectedSize} loading={loading} className="py-1 rounded-sm"/>
+          </div>
+        </Modal>
+      }
+      
     </section>
   );
 };

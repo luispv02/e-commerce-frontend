@@ -118,3 +118,9 @@ interface ValidationError {
   msg: string;
   path: string;
 }
+
+// product variant
+export interface ProductVariant {
+  selectedSize: string | null;
+  selectedColor: string | null;
+}

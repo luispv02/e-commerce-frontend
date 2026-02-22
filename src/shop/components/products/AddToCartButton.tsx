@@ -1,41 +1,31 @@
-import type { MouseEvent } from "react";
 import type { Product } from '../../../interfaces/product';
-import { useAuthStore } from "../../../auth/store/auth.store";
-import { useProductsStore } from "../../store/products.store";
-import { useNavigate } from "react-router";
-import { useCartMutations } from "../../hooks/cart/useCartMutations";
 
 interface Props {
   product: Product;
+  onAddProduct: () => void;
+  disabled: boolean;
+  loading?: boolean;
   className?: string;
 }
 
-export const AddToCartButton = ({product, className = ""}: Props) => {
-  const isAuth = useAuthStore((state) => state.isAuthenticated)
-  const userRole = useAuthStore((state) => state.role);
-  const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
-  const navigate = useNavigate();
-  const { addItemMutation } = useCartMutations();
+export const AddToCartButton = ({product, onAddProduct, disabled, loading, className = ""}: Props) => {
 
-  const handleAddItem = (e: MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-
-    if(!isAuth){
-      setSelectedProduct(product.id)
-      navigate('/auth/login', { state: { from: location.pathname }});
-      return;
-    }
-    addItemMutation.mutate({productId: product.id, quantity: 1});
-  }
+  const isDisabled = disabled || loading;
 
   return (
     <button 
-      disabled={product.stock === 0 || addItemMutation.isPending || userRole === 'admin'}
-      className={`w-full bg-slate-900 font-semibold text-white transition hover:bg-slate-700 cursor-pointer flex flex-col items-center ${product.stock === 0 || addItemMutation.isPending || userRole === 'admin' ? 'opacity-50' : 'cursor-pointer hover:bg-gray-700'} ${className}`} 
-      onClick={(e) => handleAddItem(e)}>
+      type="button"
+      disabled={isDisabled}
+      className={`w-full bg-slate-900 font-semibold text-white transition flex flex-col items-center ${isDisabled ? 'opacity-50' : 'cursor-pointer hover:bg-gray-700'} ${className}`} 
+      onClick={(e) => {
+        e.stopPropagation();
+        onAddProduct()
+      }}
+    >
+      
       { 
-        addItemMutation.isPending 
-        ? <div className="w-4 h-4 border border-transparent border-t-white rounded-full animate-spin"></div>
+        loading 
+        ? <div className="w-4 h-4 border border-transparent border-t-white rounded-full animate-spin my-1"></div>
         : <span> {product.stock === 0 ? 'Producto sin stock' : 'Agregar al Carrito'} </span>
       }
       

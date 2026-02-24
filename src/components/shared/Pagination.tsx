@@ -12,6 +12,7 @@ interface NavButtonProps {
   onClick: () => void;
   disabled?: boolean;
   className?: string;
+  ariaLabel: string;
 }
 
 
@@ -60,8 +61,8 @@ export const Pagination = ({ totalPages }: Props) => {
     setSearchParams(newSearchParams);
   }
 
-  const NavButton = ({ icon, onClick, disabled, className = '' }: NavButtonProps) => (
-    <button className={`cursor-pointer ${className} ${disabled ? 'opacity-50 pointer-events-none' : ''}`} onClick={onClick} >
+  const NavButton = ({ icon, onClick, disabled, className = '', ariaLabel }: NavButtonProps) => (
+    <button aria-label={ariaLabel} className={`cursor-pointer ${className} ${disabled ? 'opacity-50 pointer-events-none' : ''}`} onClick={onClick} >
       {icon}
     </button>
   );
@@ -74,6 +75,7 @@ export const Pagination = ({ totalPages }: Props) => {
         onClick={() => handleChangePage(1)}
         disabled={currentPage <= 1}
         className="md:hidden"
+        ariaLabel="Ir a la primera página"
       />
 
       
@@ -81,6 +83,7 @@ export const Pagination = ({ totalPages }: Props) => {
         icon={<IoIosArrowBack size={20} />}
         onClick={() => handleChangePage(currentPage - 1)}
         disabled={currentPage <= 1}
+        ariaLabel="Ir a la página anteior"
       />
 
 
@@ -104,6 +107,7 @@ export const Pagination = ({ totalPages }: Props) => {
         icon={<IoIosArrowForward size={20} />}
         onClick={() => handleChangePage(currentPage + 1)}
         disabled={currentPage === totalPages}
+         ariaLabel="Ir a la página siguiente"
       />
 
       <NavButton 
@@ -111,6 +115,7 @@ export const Pagination = ({ totalPages }: Props) => {
         onClick={() => handleChangePage(totalPages)}
         disabled={currentPage === totalPages}
         className="md:hidden"
+        ariaLabel="Ir a la ultima página"
       />
     </div>
   )

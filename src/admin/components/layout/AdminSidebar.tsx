@@ -17,7 +17,7 @@ export const AdminSidebar = () => {
     <div className="h-screen flex flex-col">
 
       <div className="flex items-center justify-center gap-5">
-        <Link to="/">
+        <Link to="/" aria-label="Volver al inicio">
           <MdArrowBackIosNew className="w-5 h-5"/>
         </Link>
         

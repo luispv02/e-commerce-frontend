@@ -38,7 +38,7 @@ export const ClothingFields = ({ category, register, setValue, watch, errors }: 
 
   return (
     <div className="border-t border-gray-200 pt-6 space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900">Información adicional - Ropa</h3>
+      <h2 className="text-lg font-semibold text-gray-900">Información adicional - Ropa</h2>
 
       {
         category.map(c => (
@@ -77,6 +77,7 @@ export const ClothingFields = ({ category, register, setValue, watch, errors }: 
               ) : (
                 <>
                   <select
+                    id={c.filterKey}
                     {...register(c.filterKey as keyof ClothingProduct, { required: true })}
                     className={`w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300 ${errors[c.filterKey as keyof ClothingProduct] ? 'border-red-400' : ''}`}
                   >

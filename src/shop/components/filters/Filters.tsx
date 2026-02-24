@@ -27,7 +27,7 @@ export const Filters = () => {
   return (
     <section>
       <div className="flex justify-end items-center lg:hidden">
-        <button className="cursor-pointer" onClick={() => setIsProductFiltersOpen(true)}>
+        <button name="Abrir filtros" className="cursor-pointer" onClick={() => setIsProductFiltersOpen(true)}>
           <LiaFilterSolid className="h-6 w-6" />
         </button>
       </div>

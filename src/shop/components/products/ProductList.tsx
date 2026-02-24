@@ -12,8 +12,8 @@ export const ProductList = ({ products }: Props) => {
   return (
     <>
       {
-        products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+        products.map((product, index) => (
+          <ProductCard key={product.id} product={product} priority={index === 0}  />
         ))
       }
     </>

@@ -78,18 +78,18 @@ export const ProductForm = ({ title, subTitle, product, onSubmit, isPending }: P
 
                 {
                   product.id !== 'new' && 
-                  <button type="button" className="w-8 h-8 md:w-full px-2 border border-red-300 bg-red-500 text-white cursor-pointer shadow flex justify-center items-center rounded hover:bg-red-700 transition gap-2" onClick={() => setIsModalOpen(true)}>
+                  <button type="button" aria-label="Eliminar producto" className="w-8 h-8 md:w-full px-2 border border-red-300 bg-red-500 text-white cursor-pointer shadow flex justify-center items-center rounded hover:bg-red-700 transition gap-2" onClick={() => setIsModalOpen(true)}>
                     <FiTrash2 className="text-xl" />
                     <span className="hidden md:block">Eliminar</span>
                   </button>
                 }
 
-                <button type="button" onClick={() => navigate(-1)} className="w-8 h-8 md:w-full px-2 border border-gray-300 bg-white shadow cursor-pointer flex justify-center items-center rounded hover:bg-gray-100 transition gap-2">
+                <button type="button" aria-label="Cancelar" onClick={() => navigate(-1)} className="w-8 h-8 md:w-full px-2 border border-gray-300 bg-white shadow cursor-pointer flex justify-center items-center rounded hover:bg-gray-100 transition gap-2">
                   <IoMdClose className="text-xl" />
                   <span className="hidden md:block">Cancelar</span>
                 </button>
 
-                <button type="submit" className="w-8 h-8 md:w-full px-2 border border-gray-800 bg-gray-900 text-white cursor-pointer shadow flex justify-center items-center rounded hover:bg-gray-700 transition gap-2">
+                <button type="submit" aria-label="Guardar" className="w-8 h-8 md:w-full px-2 border border-gray-800 bg-gray-900 text-white cursor-pointer shadow flex justify-center items-center rounded hover:bg-gray-700 transition gap-2">
                   <FaRegSave className="text-xl" />
                   <span className="hidden md:block">Guardar</span>
                 </button>
@@ -166,6 +166,7 @@ export const ProductForm = ({ title, subTitle, product, onSubmit, isPending }: P
               </label>
 
               <select
+                id="categoria"
                 {...register('category', { required: true })}
                 className={`w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-300 focus:border-blue-300 ${errors.category ? 'border-red-400' : ''} disabled:bg-gray-100 disabled:text-gray-500 `}
                 disabled={product.id !== 'new'}

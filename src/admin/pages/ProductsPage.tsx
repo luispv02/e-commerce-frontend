@@ -43,7 +43,7 @@ export const ProductsPage = () => {
           <h2 className="text-gray-600 text-lg font-bold">Productos</h2>
           <p className="text-gray-500 text-sm">Gestiona tus productos</p>
         </div>
-        <Link to='/admin/products/new' className="bg-cyan-200 p-1 rounded border border-cyan-300 hover:bg-cyan-300 transition cursor-pointer">
+        <Link to='/admin/products/new' aria-label="Crear producto nuevo" className="bg-cyan-200 p-1 rounded border border-cyan-300 hover:bg-cyan-300 transition cursor-pointer">
           <FiPlus className="text-xl text-cyan-700" />
         </Link>
       </div>

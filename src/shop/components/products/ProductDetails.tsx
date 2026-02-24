@@ -39,7 +39,7 @@ export const ProductDetails = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-10">
-      <button onClick={() => navigate('/')} className="mb-6 cursor-pointer block">
+      <button aria-label="Volver al inicio" onClick={() => navigate('/')} className="mb-6 cursor-pointer block">
         <MdArrowBackIosNew className="w-5 h-5" />
       </button>
 

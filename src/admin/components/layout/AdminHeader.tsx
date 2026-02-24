@@ -17,7 +17,7 @@ export const AdminHeader = () => {
     <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
 
       <div>
-        <Link to="/" className='lg:hidden'>
+        <Link to="/" aria-label='Volver al inicio' className='lg:hidden'>
           <MdArrowBackIosNew className="w-5 h-5" />
         </Link>
 

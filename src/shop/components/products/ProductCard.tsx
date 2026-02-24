@@ -6,13 +6,14 @@ import { useAuthStore } from "../../../auth/store/auth.store";
 import { useAddToCart } from "../../hooks/cart/useAddToCart";
 
 interface Props {
-  product: Product
+  product: Product;
+  priority?: boolean;
 }
 
-export const ProductCard = ({ product }: Props) => {
+export const ProductCard = ({ product, priority }: Props) => {
   const navigate = useNavigate();
   
-  const { addProductoToCart } = useAddToCart();
+  const { addProductoToCart, loading } = useAddToCart();
   const role = useAuthStore((state) => state.role);
 
   const showProductDetails = () => {
@@ -24,12 +25,19 @@ export const ProductCard = ({ product }: Props) => {
     return <div className={`text-sm text-white px-2 rounded-full ml-auto ${color}`}>Stock: {stock}</div>
   }
 
+  const optimizedImage = product.images[0].url.replace('/upload/','/upload/f_auto,q_auto,w_400/');
+
   return (
     <article className="flex flex-col justify-between overflow-hidden rounded-2xl border border-gray-300 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg cursor-pointer relative" onClick={showProductDetails}>
       <div className="image relative h-52 w-full">
         {
           product.images[0] && (
-            <img src={product.images[0].url} alt={product.title} className="h-full w-full object-contain" />
+            <img 
+              src={optimizedImage} alt={product.title} 
+              className="h-full w-full object-contain" 
+              fetchPriority={priority ? 'high' : 'auto'} 
+              loading={priority ? 'eager' : 'lazy'}
+            />
           )
         }
       </div>
@@ -58,7 +66,7 @@ export const ProductCard = ({ product }: Props) => {
         </div>
 
         {
-          role !== 'admin' && <AddToCartButton product={product} onAddProduct={() => addProductoToCart(product)} disabled={product.stock === 0} className="rounded-full py-1" />
+          role !== 'admin' && <AddToCartButton product={product} onAddProduct={() => addProductoToCart(product)} disabled={product.stock === 0} loading={loading} className="rounded-full py-1" />
         }
        
       </div>

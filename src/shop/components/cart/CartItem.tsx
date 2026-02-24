@@ -75,10 +75,10 @@ export const CartItem = ({item, onUpdateQuantity, onDeleteItem, isUpdating, isDe
               </div>
 
               <button
-                className={`z-50 ${isUpdating ? 'opacity-50' : 'cursor-pointer'}`}
+                className={`z-10 ${isUpdating || isDeleting ? 'opacity-50' : 'cursor-pointer'}`}
                 aria-label="Eliminar producto"
                 onClick={() => onDeleteItem(item.product.id)}
-                disabled={isUpdating}
+                disabled={isUpdating || isDeleting}
               >
                 <MdDeleteOutline className="w-5 h-5 text-gray-700" />
               </button>

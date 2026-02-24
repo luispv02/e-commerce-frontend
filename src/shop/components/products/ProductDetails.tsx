@@ -39,7 +39,7 @@ export const ProductDetails = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-10">
-      <button aria-label="Volver al inicio" onClick={() => navigate('/')} className="mb-6 cursor-pointer block">
+      <button aria-label="Volver atrás" onClick={() => navigate(-1)} className="mb-6 cursor-pointer block">
         <MdArrowBackIosNew className="w-5 h-5" />
       </button>
 
@@ -68,7 +68,7 @@ export const ProductDetails = () => {
               <h2 className="text-lg font-semibold text-gray-900 mb-3">
                 Descripción
               </h2>
-              <p className="text-gray-600 text-base sm:text-lg">
+              <p className="text-gray-600 text-base sm:text-lg whitespace-pre-line">
                 {description}
               </p>
             </div>

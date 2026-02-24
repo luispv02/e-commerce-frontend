@@ -30,12 +30,12 @@ export const FiltersGeneral = () => {
           <div className="flex gap-2">
             <div className="flex items-center border border-gray-300 rounded-full py-1 px-2 gap-1 focus-within:border-gray-500">
               <BiDollar className="text-gray-500" />
-              <input type="number" name="min" placeholder="min" onChange={handleChangePrices} value={prices.min} className="w-full text-sm outline-0 text-gray-500" />
+              <input type="text" name="min" inputMode="numeric" placeholder="min" onChange={handleChangePrices} value={prices.min} className="w-full text-sm outline-0 text-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
             </div>
 
             <div className="flex items-center border border-gray-300 rounded-full py-1 px-2 gap-1 focus-within:border-gray-500">
               <BiDollar className="text-gray-500" />
-              <input type="number" name="max" placeholder="max" onChange={handleChangePrices} value={prices.max} className="w-full text-sm outline-0 text-gray-500" />
+              <input type="text" name="max" inputMode="numeric" placeholder="max" onChange={handleChangePrices} value={prices.max} className="w-full text-sm outline-0 text-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
             </div>
           </div>
 

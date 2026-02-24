@@ -9,7 +9,6 @@ export const useFiltersGeneral = () => {
 
   const currentOrderBy = searchParams.get('order') || 'any';
   const currentPrice = searchParams.get('price');
-  const currentCategory = searchParams.get('category');
   const [minPrice, maxPrice] = currentPrice ? currentPrice.split("-") : ["", ""];
   const [prices, setPrices] = useState({
     min: minPrice,
@@ -27,9 +26,11 @@ export const useFiltersGeneral = () => {
 
   const handleChangePrices = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const newValue = value.replace(/[^0-9]/g, '');
+
     setPrices(prev => ({
       ...prev,
-      [name]: value
+      [name]: newValue
     })) 
   }
 
@@ -48,8 +49,10 @@ export const useFiltersGeneral = () => {
   }
 
   useEffect(() => {
-    setPrices({ min: "", max: "" });
-  }, [currentCategory])
+    if(!currentPrice){
+      setPrices({ min: "", max: "" });
+    }
+  }, [currentPrice])
   
 
   return {

@@ -52,8 +52,8 @@ export const ClothingProductVariants = ({ product }: Props) => {
                             key={size} 
                             type="button"
                             disabled={product.stock === 0}
-                            className={`border px-3 py-1 rounded text-gray-700 uppercase transition-all text-xs ${size === productVariant.selectedSize ? 'bg-black text-white' : 'border-gray-300'} ${product.stock === 0 ? 'opacity-55' : 'cursor-pointer hover:shadow-md' }`} 
-                            onClick={() => setProductVariant({...productVariant, selectedSize: size})}
+                            className={`border px-3 py-1 rounded text-gray-700 uppercase transition-all text-xs ${size === productVariant.size ? 'bg-black text-white' : 'border-gray-300'} ${product.stock === 0 ? 'opacity-55' : 'cursor-pointer hover:shadow-md' }`} 
+                            onClick={() => setProductVariant({...productVariant, size: size})}
                           >
                             {size}
                           </button>
@@ -80,8 +80,8 @@ export const ClothingProductVariants = ({ product }: Props) => {
                             key={color.id}
                             type="button"
                             disabled={product.stock === 0}
-                            onClick={() => setProductVariant({...productVariant, selectedColor: color.id})}
-                            className={`px-2 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-2 ${product.stock === 0 ? 'opacity-55' : 'cursor-pointer hover:shadow-md' } ${color.id === productVariant.selectedColor
+                            onClick={() => setProductVariant({...productVariant, color: color.id})}
+                            className={`px-2 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-2 ${product.stock === 0 ? 'opacity-55' : 'cursor-pointer hover:shadow-md' } ${color.id === productVariant.color
                               ? "border shadow-md"
                               : "bg-white text-gray-700 border border-gray-300"
                               }`}

@@ -121,6 +121,6 @@ interface ValidationError {
 
 // product variant
 export interface ProductVariant {
-  selectedSize: string | null;
-  selectedColor: string | null;
+  size: string | null;
+  color: string | null;
 }

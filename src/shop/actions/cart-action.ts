@@ -1,5 +1,5 @@
 import ecommerceApi from "../../api/ecommerceApi";
-import type { CartProductData, CartResponse } from "../interface/cart";
+import type { AddCartItemDTO, CartResponse, UpdateCartItemDTO } from "../interface/cart";
 
 
 export const getCart  = async(): Promise<CartResponse> => {
@@ -7,13 +7,13 @@ export const getCart  = async(): Promise<CartResponse> => {
   return response.data;
 }
 
-export const addToCart  = async(product: CartProductData): Promise<CartResponse> => {
+export const addToCart  = async(product: AddCartItemDTO): Promise<CartResponse> => {
   const response = await ecommerceApi.post<CartResponse>('/cart', product);
   return response.data;
 }
 
-export const updateItem  = async({ productId, quantity }: CartProductData): Promise<CartResponse> => {
-  const response = await ecommerceApi.put<CartResponse>(`/cart/${productId}`, {quantity});
+export const updateItem  = async({ cartItemId, quantity }: UpdateCartItemDTO): Promise<CartResponse> => {
+  const response = await ecommerceApi.put<CartResponse>(`/cart/${cartItemId}`, {quantity});
   return response.data;
 }
 

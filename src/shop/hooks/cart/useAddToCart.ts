@@ -16,8 +16,8 @@ export const useAddToCart = () => {
   const isAuth = useAuthStore((state) => state.isAuthenticated);
   
 
-  const selectedColor = productVariant.selectedColor;
-  const selectedSize = productVariant.selectedSize;
+  const selectedColor = productVariant.color;
+  const selectedSize = productVariant.size;
 
 
   const addProductoToCart = (product: Product) => {
@@ -35,7 +35,13 @@ export const useAddToCart = () => {
       return;
     }
 
-    addItemMutation.mutate({productId: product.id, quantity: 1}, {
+    const newProductData = {
+      productId: product.id,
+      quantity: 1,
+      ...(isClothingProduct && { variants: productVariant })
+    }
+
+    addItemMutation.mutate(newProductData, {
       onSuccess: () => {
         resetProductVariant()
         setModalOpen(false)

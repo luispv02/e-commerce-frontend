@@ -1,19 +1,16 @@
 import { useNavigate } from "react-router";
 import { currencyFormatters } from "../../../utils/currency-formatter"
-import type { Product } from "../../../interfaces/product";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { Loading } from "../../../components/ui/Loading";
-import type { CartProductData } from "../../interface/cart";
+import type { CartItem as CartItemType, UpdateCartItemDTO } from "../../interface/cart";
+import { clothesFilters } from "../../../data/filters/clothes-filters";
 
-interface Item {
-  product: Product;
-  quantity: number;
-}
+const ALL_COLORS = clothesFilters.find(v => v.filterKey === 'colors')?.options || [];
 
 interface Props {
-  item: Item;
-  onUpdateQuantity: ({productId, quantity}:CartProductData) => void;
+  item: CartItemType;
+  onUpdateQuantity: ({cartItemId, quantity}:UpdateCartItemDTO) => void;
   onDeleteItem: (productId: string) => void;
   isUpdating: boolean;
   isDeleting: boolean;
@@ -21,6 +18,7 @@ interface Props {
 
 export const CartItem = ({item, onUpdateQuantity, onDeleteItem, isUpdating, isDeleting}: Props) => {
   const navigate = useNavigate();
+  const color = ALL_COLORS.find(c => c.id === item.variants?.color)?.label;
 
   return (
      <article className="border-b relative border-gray-400 flex flex-col items-end lg:flex-row lg:items-end py-4">
@@ -42,12 +40,20 @@ export const CartItem = ({item, onUpdateQuantity, onDeleteItem, isUpdating, isDe
             />
           </div>
 
-          <div className="flex justify-between flex-col w-full">
+          <div className="flex justify-between flex-col w-full space-y-4">
             {/* Title - price */}
-            <div>
-              <h4 className="text-sm md:text-lg line-clamp-2 mb-1">{item.product.title}</h4>
-              <p className="text-xs lg:text-sm">precio unidad: <span className="font-bold">${currencyFormatters(item.product.price)}</span></p>
+            <div className="space-y-0.5">
+              <h4 className="text-sm md:text-lg line-clamp-2 mb-2 font-medium ">{item.product.title}</h4>
+              <p className="text-xs lg:text-sm">Precio unidad: <span className="font-bold">${currencyFormatters(item.product.price)}</span></p>
               <p className="text-xs lg:text-sm">Subtotal: <span className="font-bold">${currencyFormatters(item.product.price * item.quantity)}</span></p>
+
+              {
+                item.variants?.color && item.variants.size && 
+                <div className="flex gap-2">
+                  <p className="text-xs lg:text-sm">Color: <span className="font-bold capitalize">{color}</span></p>
+                  <p className="text-xs lg:text-sm">Talla: <span className="font-bold uppercase">{item.variants.size}</span></p>
+                </div>
+              }
             </div>
 
             {/* buttons actions */}
@@ -56,7 +62,7 @@ export const CartItem = ({item, onUpdateQuantity, onDeleteItem, isUpdating, isDe
                 <button
                   className={`text-gray-600 ${item.quantity <= 1 || isUpdating ? 'opacity-25' : 'cursor-pointer'}`}
                   aria-label="Disminuir cantidad"
-                  onClick={() => onUpdateQuantity({ productId: item.product.id, quantity: item.quantity - 1 })}
+                  onClick={() => onUpdateQuantity({ cartItemId: item.id, quantity: item.quantity - 1 })}
                   disabled={item.quantity <= 1 || isUpdating}
                 >
                   <FaMinus size={12} color="black"/>
@@ -65,10 +71,10 @@ export const CartItem = ({item, onUpdateQuantity, onDeleteItem, isUpdating, isDe
                 { isUpdating ? <Loading message="" width="w-4" height="h-4" spinMargin="my-0" borderStyle="border-t-gray-600" /> : <span className="text-center text-sm">{item.quantity}</span> }
 
                 <button
-                  className={`text-gray-600 ${item.quantity >= item.product.stock || isUpdating ? 'opacity-25' : 'cursor-pointer'}`}
+                  className={`text-gray-600 ${item.stockAvailable === 0 || isUpdating ? 'opacity-25' : 'cursor-pointer'}`}
                   aria-label="Aumentar cantidad"
-                  onClick={() => onUpdateQuantity({ productId: item.product.id, quantity: item.quantity + 1 })}
-                  disabled={item.quantity >= item.product.stock || isUpdating}
+                  onClick={() => onUpdateQuantity({ cartItemId: item.id, quantity: item.quantity + 1 })}
+                  disabled={item.stockAvailable === 0 || isUpdating}
                 >
                   <FaPlus size={12} color="black"/>
                 </button>
@@ -77,7 +83,7 @@ export const CartItem = ({item, onUpdateQuantity, onDeleteItem, isUpdating, isDe
               <button
                 className={`z-10 ${isUpdating || isDeleting ? 'opacity-50' : 'cursor-pointer'}`}
                 aria-label="Eliminar producto"
-                onClick={() => onDeleteItem(item.product.id)}
+                onClick={() => onDeleteItem(item.id)}
                 disabled={isUpdating || isDeleting}
               >
                 <MdDeleteOutline className="w-5 h-5 text-gray-700" />

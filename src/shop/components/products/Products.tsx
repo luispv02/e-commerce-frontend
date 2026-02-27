@@ -25,6 +25,7 @@ export const Products = ({productsQuery, category}: Props) => {
   const selectedProduct = useProductsStore((state) => state.selectedProduct)
   const productVariant = useProductsStore((state) => state.productVariant)
   const resetProductVariant = useProductsStore((state) => state.resetProductVariant)
+  const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
 
   if(productsQuery.isLoading) return <Loading message="Cargando productos..." />
   if(!productsQuery.data || productsQuery.data.data.products.length === 0) return <p className="text-center text-sm">No se encontrarón productos</p>
@@ -42,6 +43,7 @@ export const Products = ({productsQuery, category}: Props) => {
   }
   const handleHiddenModal = () => {
     resetProductVariant();
+    setSelectedProduct(null)
     setModalOpen(false)
   }
 
@@ -68,7 +70,7 @@ export const Products = ({productsQuery, category}: Props) => {
           <div className="space-y-6">
             <p className="mb-2 text-sm">Producto: {selectedProduct.title}</p>
             <ClothingProductVariants product={selectedProduct} />
-            <AddToCartButton product={selectedProduct} onAddProduct={() => addProductoToCart(selectedProduct)} disabled={!productVariant.selectedColor || !productVariant.selectedSize} loading={loading} className="py-1 rounded-sm"/>
+            <AddToCartButton product={selectedProduct} onAddProduct={() => addProductoToCart(selectedProduct)} disabled={!productVariant.color || !productVariant.size} loading={loading} className="py-1 rounded-sm"/>
           </div>
         </Modal>
       }

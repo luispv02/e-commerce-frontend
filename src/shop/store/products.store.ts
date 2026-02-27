@@ -27,8 +27,8 @@ export const useProductsStore = create<ProductsStore>()(
     isProductFiltersOpen: false,
     isModalOpen: false,
     productVariant: {
-      selectedColor: null,
-      selectedSize: null
+      color: null,
+      size: null
     },
 
 
@@ -53,7 +53,7 @@ export const useProductsStore = create<ProductsStore>()(
     },
 
     resetProductVariant: () => {
-      set({ productVariant: { selectedColor: null, selectedSize: null }}, false, 'products/resetProductVariant')
+      set({ productVariant: { color: null, size: null }}, false, 'products/resetProductVariant')
     }
   }))
 )

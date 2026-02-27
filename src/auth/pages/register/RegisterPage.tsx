@@ -5,42 +5,24 @@ import { FaArrowRight, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { GoStarFill } from "react-icons/go";
 import { LuShoppingBag } from "react-icons/lu";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
 import type { UserFormValues } from "../../interface/auth";
 import { Loading } from "../../../components/ui/Loading";
-import { useProductsStore } from "../../../shop/store/products.store";
-import { useCartMutations } from "../../../shop/hooks/cart/useCartMutations";
+import { useAuthSubmit } from "../../hooks/useAuthSubmit";
 
 
 export const RegisterPage = () => {
-
+  const location = useLocation();
+  const [showPassword, setShowPassword] = useState(false);
+  
+  const { handleAuthSubmit } = useAuthSubmit();
   const { registerMutation } = useAuth();
-  const selectedProduct = useProductsStore((state) => state.selectedProduct)
-  const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
-  const { addItemMutation } = useCartMutations();
-  const setModalOpen = useProductsStore((state) => state.setModalOpen);
-  const resetProductVariant = useProductsStore((state) => state.resetProductVariant);
 
   const { register, handleSubmit, formState: { errors } } = useForm<UserFormValues>();
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate()
-  const location = useLocation();
-  const from = location.state?.from || '/';
 
   const onSubmit: SubmitHandler<UserFormValues> = async(data) => {
-    setModalOpen(false)
-    try {
-      await registerMutation.mutateAsync(data);
-      if(selectedProduct){
-        await addItemMutation.mutateAsync({ productId: selectedProduct.id, quantity: 1 });
-        setSelectedProduct(null)
-        resetProductVariant()
-      }
-      navigate(from, { replace: true });
-    } catch {
-      // Error handled from onError
-    }
+    handleAuthSubmit(data, registerMutation)
   };
 
   return (

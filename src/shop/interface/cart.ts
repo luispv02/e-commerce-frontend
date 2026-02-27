@@ -1,4 +1,4 @@
-import type { Product } from "../../interfaces/product";
+import type { Product, ProductVariant } from "../../interfaces/product";
 
 export interface CartResponse {
   ok: boolean,
@@ -14,12 +14,21 @@ export interface Cart {
   user: string;
 }
 
-export interface CartProductData {
-  productId: string;
+export interface CartItem {
+  id: string;
+  product: Product;
   quantity: number;
+  stockAvailable: number;
+  variants?: ProductVariant;
 }
 
-interface CartItem {
-  product: Product;
+export interface AddCartItemDTO {
+  productId: string;
+  quantity: number;
+  variants?: ProductVariant;
+}
+
+export interface UpdateCartItemDTO {
+  cartItemId: string;
   quantity: number;
 }

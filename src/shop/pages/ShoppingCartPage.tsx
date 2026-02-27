@@ -5,7 +5,7 @@ import { useCart } from "../hooks/cart/useCart";
 import { useCartMutations } from "../hooks/cart/useCartMutations";
 import { CartItem } from "../components/cart/CartItem";
 import { Loading } from "../../components/ui/Loading";
-import type { CartProductData } from "../interface/cart";
+import type { UpdateCartItemDTO } from "../interface/cart";
 import { usePurchaseCart } from "../hooks/orders/usePurchaseCart";
 
 export const ShoppingCartPage = () => {
@@ -21,15 +21,15 @@ export const ShoppingCartPage = () => {
   const items = data?.cart.items ?? [];
   const totalPrice = items.reduce((acc, item) => acc + (item.product.price * item.quantity), 0)
 
-  const updatingProductId = updateQuantityItem.isPending ? updateQuantityItem.variables?.productId : null;
+  const updatingProductId = updateQuantityItem.isPending ? updateQuantityItem.variables?.cartItemId : null;
   const deletingProductId = deleteItemMutation.isPending ? deleteItemMutation.variables : null;
   
-  const handleUpdatedQuantityItem = ({productId, quantity}: CartProductData) => {
-    updateQuantityItem.mutate({productId, quantity})
+  const handleUpdatedQuantityItem = ({cartItemId, quantity}: UpdateCartItemDTO) => {
+    updateQuantityItem.mutate({cartItemId, quantity})
   }
 
-  const handleDeleteItem = (productId: string) => {
-    deleteItemMutation.mutate(productId);
+  const handleDeleteItem = (cartItemId: string) => {
+    deleteItemMutation.mutate(cartItemId);
   }
 
   const someProductsAreUnavailable = items.some(item => item.product.isActive === false);
@@ -45,7 +45,7 @@ export const ShoppingCartPage = () => {
         <div className="md:flex md:gap-10 md:mt-6">
           <div className="pt-4 flex-2">
             {items.map((item) => (
-              <CartItem key={item.product.id} item={item} onUpdateQuantity={handleUpdatedQuantityItem} onDeleteItem={handleDeleteItem} isUpdating={item.product.id === updatingProductId} isDeleting={item.product.id === deletingProductId}/>
+              <CartItem key={item.id} item={item} onUpdateQuantity={handleUpdatedQuantityItem} onDeleteItem={handleDeleteItem} isUpdating={item.id === updatingProductId} isDeleting={item.id === deletingProductId} />
             ))}
           </div>
 

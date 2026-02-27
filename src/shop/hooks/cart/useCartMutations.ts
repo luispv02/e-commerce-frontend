@@ -2,7 +2,7 @@
 import { addToCart, deleteCartItem, updateItem } from "../../actions/cart-action";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import type { CartProductData, CartResponse } from "../../interface/cart";
+import type { AddCartItemDTO, CartResponse, UpdateCartItemDTO } from "../../interface/cart";
 import type { ApiError } from "../../../interfaces/product";
 import type { AxiosError } from "axios";
 import { useAuthStore } from "../../../auth/store/auth.store";
@@ -16,7 +16,7 @@ export const useCartMutations = () => {
     queryClient.setQueryData(['cart', userId], data);
   };
 
-  const addItemMutation = useMutation<CartResponse, AxiosError<ApiError>, CartProductData>({
+  const addItemMutation = useMutation<CartResponse, AxiosError<ApiError>, AddCartItemDTO>({
     mutationFn: addToCart,
     onSuccess: setCartCache,
     onError: (error) => {
@@ -24,7 +24,7 @@ export const useCartMutations = () => {
     }
   })
 
-  const updateQuantityItem = useMutation<CartResponse, AxiosError<ApiError>, CartProductData>({
+  const updateQuantityItem = useMutation<CartResponse, AxiosError<ApiError>, UpdateCartItemDTO>({
     mutationFn: updateItem,
     onSuccess: setCartCache,
     onError: (error) => {

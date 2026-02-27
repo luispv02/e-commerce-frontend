@@ -9,7 +9,6 @@ import { ClothingProductVariants } from "./ClothingProductVariants";
 import { useProductsStore } from "../../store/products.store";
 import { useAuthStore } from "../../../auth/store/auth.store";
 import { useAddToCart } from "../../hooks/cart/useAddToCart";
-import { useEffect } from "react";
 
 export const ProductDetails = () => {
   const { id } = useParams();
@@ -23,23 +22,22 @@ export const ProductDetails = () => {
   
   const { data, isLoading, error } = useProduct(id || "");
 
-  useEffect(() => {
-    return () => { resetProductVariant()};
-  }, []);
-
   if(isLoading) return <Loading spinMargin="my-6"/>
   if(error || !data) return <p className="text-center text-sm mt-10">{ error?.response?.data.msg || 'Error al obtener producto.' }</p>
 
   const product = data.product;
   const { images, title, price, description, stock, category } = product;
 
-  const btnDisabled = stock === 0 || category === 'clothes' && (!productVariant.selectedSize || !productVariant.selectedColor);
-
+  const btnDisabled = stock === 0 || category === 'clothes' && (!productVariant.size || !productVariant.color);
   
+  const handleGoBack = () => {
+    resetProductVariant()
+    navigate(-1);
+  }
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-10">
-      <button aria-label="Volver atrás" onClick={() => navigate(-1)} className="mb-6 cursor-pointer block">
+      <button aria-label="Volver atrás" onClick={handleGoBack} className="mb-6 cursor-pointer block">
         <MdArrowBackIosNew className="w-5 h-5" />
       </button>
 

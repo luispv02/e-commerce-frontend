@@ -4,9 +4,8 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { Loading } from "../../../components/ui/Loading";
 import type { CartItem as CartItemType, UpdateCartItemDTO } from "../../interface/cart";
-import { clothesFilters } from "../../../data/filters/clothes-filters";
-
-const ALL_COLORS = clothesFilters.find(v => v.filterKey === 'colors')?.options || [];
+import { getColorLabel } from "../../../utils/get-color-label";
+import { useMemo } from "react";
 
 interface Props {
   item: CartItemType;
@@ -18,8 +17,12 @@ interface Props {
 
 export const CartItem = ({item, onUpdateQuantity, onDeleteItem, isUpdating, isDeleting}: Props) => {
   const navigate = useNavigate();
-  const color = ALL_COLORS.find(c => c.id === item.variants?.color)?.label;
 
+  const getColor = useMemo(() => {
+    const color = item.variants?.color;
+    return color ? getColorLabel(color) : undefined
+  }, [item.variants?.color])
+  
   return (
      <article className="border-b relative border-gray-400 flex flex-col items-end lg:flex-row lg:items-end py-4">
       
@@ -50,7 +53,7 @@ export const CartItem = ({item, onUpdateQuantity, onDeleteItem, isUpdating, isDe
               {
                 item.variants?.color && item.variants.size && 
                 <div className="flex gap-2">
-                  <p className="text-xs lg:text-sm">Color: <span className="font-bold capitalize">{color}</span></p>
+                  <p className="text-xs lg:text-sm">Color: <span className="font-bold capitalize">{getColor}</span></p>
                   <p className="text-xs lg:text-sm">Talla: <span className="font-bold uppercase">{item.variants.size}</span></p>
                 </div>
               }

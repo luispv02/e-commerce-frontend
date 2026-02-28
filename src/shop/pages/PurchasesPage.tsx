@@ -2,6 +2,7 @@
 import { Loading } from "../../components/ui/Loading";
 import { currencyFormatters } from "../../utils/currency-formatter";
 import { dateFormatter } from "../../utils/date-formatter";
+import { getColorLabel } from "../../utils/get-color-label";
 import { useOrders } from "../hooks/orders/useOrders";
 
 export const PurchasesPage = () => {
@@ -30,7 +31,7 @@ export const PurchasesPage = () => {
 
                 {
                   order.items.map(item => (
-                    <div key={item.productId} className="flex border-t border-gray-400 px-2 md:px-6 py-3 gap-3">
+                    <div key={item.id} className="flex border-t border-gray-400 px-2 md:px-6 py-3 gap-3">
                       <div className="image">
                         <img src={item.images[0].url} alt={item.title} className="w-22 h-30 md:w-30 object-contain" />
                       </div>
@@ -41,9 +42,17 @@ export const PurchasesPage = () => {
                         </div>
 
                         <div>
-                          <p className="text-xs lg:text-base">Cantidad: <span className="font-bold">{item.quantity}</span></p>
-                          <p className="text-xs lg:text-base">Precio unidad: <span className="font-bold">${currencyFormatters(item.pricePaid)}</span></p>
-                          <p className="text-xs lg:text-base">Subtotal: <span className="font-bold">${currencyFormatters(item.pricePaid * item.quantity)}</span></p>
+                            <p className="text-xs lg:text-sm">Cantidad: <span className="font-bold">{item.quantity}</span></p>
+                            <p className="text-xs lg:text-sm">Precio unidad: <span className="font-bold">${currencyFormatters(item.pricePaid)}</span></p>
+                            <p className="text-xs lg:text-sm">Subtotal: <span className="font-bold">${currencyFormatters(item.pricePaid * item.quantity)}</span></p>
+
+                          {
+                            item.variants?.color && item.variants.size && 
+                            <div className="flex gap-3">
+                              <p className="text-xs lg:text-sm">Color: <span className="font-bold capitalize">{getColorLabel(item.variants?.color)}</span></p>
+                              <p className="text-xs lg:text-sm">Talla: <span className="font-bold uppercase">{item.variants.size}</span></p>
+                            </div>
+                          }
                         </div>
                       </div>
                     </div>

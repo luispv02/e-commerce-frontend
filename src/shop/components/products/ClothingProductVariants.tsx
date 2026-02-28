@@ -8,14 +8,15 @@ interface Props {
   product: Product;
 }
 
+const ALL_COLORS = clothesFilters.find(v => v.filterKey === 'colors')?.options || [];
+
 export const ClothingProductVariants = ({ product }: Props) => {
 
   const productVariant = useProductsStore((state) => state.productVariant)
   const setProductVariant = useProductsStore((state) => state.setProductVariant);
 
   const productColors = product.category === 'clothes' ? product.colors : []
-  const allColors = clothesFilters.find(v => v.filterKey === 'colors')?.options || [];
-  const availableColors = allColors.filter(color => productColors.includes(color.id));
+  const availableColors = ALL_COLORS.filter(color => productColors.includes(color.id));
 
   return (
     <>

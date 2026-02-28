@@ -9,6 +9,7 @@ import { ClothingProductVariants } from "./ClothingProductVariants";
 import { useProductsStore } from "../../store/products.store";
 import { useAuthStore } from "../../../auth/store/auth.store";
 import { useAddToCart } from "../../hooks/cart/useAddToCart";
+import { useEffect, useRef } from "react";
 
 export const ProductDetails = () => {
   const { id } = useParams();
@@ -17,10 +18,22 @@ export const ProductDetails = () => {
   const { addProductoToCart, loading } = useAddToCart();
   const productVariant = useProductsStore((state) => state.productVariant);
   const resetProductVariant = useProductsStore((state) => state.resetProductVariant);
+  const selectedProduct = useProductsStore((state) => state.selectedProduct);
+
+  const selectedProductRef = useRef(selectedProduct);
+  selectedProductRef.current = selectedProduct;
 
   const role = useAuthStore((state) => state.role);
   
   const { data, isLoading, error } = useProduct(id || "");
+
+  useEffect(() => {
+    return () => {
+      if(!selectedProductRef.current){
+        resetProductVariant();
+      }
+    };
+  }, []);
 
   if(isLoading) return <Loading spinMargin="my-6"/>
   if(error || !data) return <p className="text-center text-sm mt-10">{ error?.response?.data.msg || 'Error al obtener producto.' }</p>
@@ -29,15 +42,9 @@ export const ProductDetails = () => {
   const { images, title, price, description, stock, category } = product;
 
   const btnDisabled = stock === 0 || category === 'clothes' && (!productVariant.size || !productVariant.color);
-  
-  const handleGoBack = () => {
-    resetProductVariant()
-    navigate(-1);
-  }
-
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-10">
-      <button aria-label="Volver atrás" onClick={handleGoBack} className="mb-6 cursor-pointer block">
+      <button onClick={() => navigate('/')} className="mb-6 cursor-pointer block">
         <MdArrowBackIosNew className="w-5 h-5" />
       </button>
 

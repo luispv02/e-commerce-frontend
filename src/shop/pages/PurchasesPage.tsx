@@ -1,4 +1,6 @@
 
+import { NotAuthenticated } from "../../auth/components/NotAuthenticated";
+import { useAuthStore } from "../../auth/store/auth.store";
 import { Loading } from "../../components/ui/Loading";
 import { currencyFormatters } from "../../utils/currency-formatter";
 import { dateFormatter } from "../../utils/date-formatter";
@@ -8,11 +10,14 @@ import { useOrders } from "../hooks/orders/useOrders";
 export const PurchasesPage = () => {
 
   const { data, isLoading, error } = useOrders()
+  const isAuth = useAuthStore((state) => state.isAuthenticated)
 
   if(isLoading) return <Loading message="Cargando compras..." />
   if(error) return <p className="text-center text-sm">{error.response?.data.msg || 'Error al obtener productos'}</p>
 
   const orders = data?.orders ?? [];
+
+  if(!isAuth) return <NotAuthenticated />
 
   return (
     <div className="max-w-2xl mx-auto">

@@ -13,7 +13,6 @@ export const UserMenu = () => {
   const handleLoginLogout = () => {
     if(isAuth){
       logout()
-      navigate('/', { replace: true })
     }else{
       navigate('/auth/login')
     }

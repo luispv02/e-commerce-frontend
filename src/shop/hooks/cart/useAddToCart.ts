@@ -44,6 +44,7 @@ export const useAddToCart = () => {
     addItemMutation.mutate(newProductData, {
       onSuccess: () => {
         resetProductVariant()
+        setSelectedProduct(null)
         setModalOpen(false)
       }
     });

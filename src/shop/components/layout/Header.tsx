@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
-import { Link, NavLink, useLocation, useSearchParams } from 'react-router';
+import { Link, NavLink, useLocation, useNavigate, useSearchParams } from 'react-router';
 import { CgShoppingCart } from 'react-icons/cg';
 import { ModalUserMenu } from '../user/ModalUserMenu';
 import { useAuthStore } from '../../../auth/store/auth.store';
 import { useCart } from '../../hooks/cart/useCart';
 
 export const Header = () => {
+
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams();
   const { data } = useCart();
 
@@ -13,6 +15,7 @@ export const Header = () => {
   const [iconCartAnimation, setIconCartAnimation] = useState(false);
   const { pathname } = useLocation();
   const isAuth = useAuthStore((state) => state.isAuthenticated);
+  const role = useAuthStore((state) => state.role);
 
   const totalItems = data?.cart.items.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
@@ -27,6 +30,7 @@ export const Header = () => {
       newSearchParams.delete('q');
     } else {
       newSearchParams.set('q', query);
+      navigate(`/?q=${encodeURIComponent(query)}`);
     }
     setSearchParams(newSearchParams);
   }
@@ -67,17 +71,20 @@ export const Header = () => {
           
 
           <div className='hidden md:flex items-center space-x-6'>
-            <NavLink to='/cart' className={`relative text-gray-700 hover:text-blue-600 transition-colors ${iconCartAnimation && pathname !== '/cart' ? 'animate-icon-cart' : ''}`}>
-              <CgShoppingCart className="w-6 h-6 text-gray-500" />
-              {
-                isAuth && 
-                <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  { totalItems }
-                </span>
-              }
+            {
+              role !== 'admin' &&
+              <NavLink to='/cart' className={`relative text-gray-700 hover:text-blue-600 transition-colors ${iconCartAnimation && pathname !== '/cart' ? 'animate-icon-cart' : ''}`}>
+                <CgShoppingCart className="w-6 h-6 text-gray-500" />
+                {
+                  isAuth && 
+                  <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    { totalItems }
+                  </span>
+                }
             </NavLink>
+            }
 
-            {isAuth ? (
+            { isAuth ? (
               <ModalUserMenu />
             ) : (
               <Link to='/auth/login' className="bg-black text-white border px-2 py-1 rounded-lg hover:bg-gray-700 transition-all font-medium text-sm">

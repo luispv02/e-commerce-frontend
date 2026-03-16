@@ -32,3 +32,12 @@ export interface UpdateCartItemDTO {
   cartItemId: string;
   quantity: number;
 }
+
+export interface CheckoutFormValues {
+  fullName: string;
+  address: string;
+  city: string;
+  postalCode: number;
+  phone: number;
+  notes?: string;
+}

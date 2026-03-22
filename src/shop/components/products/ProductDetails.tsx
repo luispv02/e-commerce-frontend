@@ -42,6 +42,7 @@ export const ProductDetails = () => {
   const { images, title, price, description, stock, category } = product;
 
   const btnDisabled = stock === 0 || category === 'clothes' && (!productVariant.size || !productVariant.color);
+
   return (
     <div className="max-w-7xl mx-auto p-4 md:px-10">
       <button onClick={() => navigate('/')} className="mb-6 cursor-pointer block">
@@ -55,9 +56,9 @@ export const ProductDetails = () => {
           <div className="space-y-6">
 
             <div>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">
                 {title}
-              </h2>
+              </h1>
             </div>
 
             <div className="flex flex-col gap-2">
@@ -100,7 +101,7 @@ export const ProductDetails = () => {
 
           {
             role !== 'admin' && 
-            <div className="mt-8">
+            <div data-testid="add-to-cart" className="mt-8">
               <AddToCartButton product={product} onAddProduct={() => addProductoToCart(product)} disabled={btnDisabled} loading={loading} className="rounded-md py-3"/>
             </div>
           }

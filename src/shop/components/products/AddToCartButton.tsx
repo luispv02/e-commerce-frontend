@@ -25,7 +25,7 @@ export const AddToCartButton = ({product, onAddProduct, disabled, loading, class
       
       { 
         loading 
-        ? <div className="w-4 h-4 border border-transparent border-t-white rounded-full animate-spin my-1"></div>
+        ? <div data-testid="spinner" className="w-4 h-4 border border-transparent border-t-white rounded-full animate-spin my-1"></div>
         : <span> {product.stock === 0 ? 'Producto sin stock' : 'Agregar al Carrito'} </span>
       }
       

@@ -18,12 +18,7 @@ jest.mock("../../../auth/store/auth.store", () => ({
   useAuthStore: (selector: (state: { role: string }) => string) => mockUseAuthStore(selector),
 }));
 
-jest.mock("../../../api/ecommerceApi", () => ({
-  ecommerceApi: {
-    get: jest.fn(),
-    post: jest.fn(),
-  },
-}));
+jest.mock("../../../api/ecommerceApi"); 
 
 describe('ProductCart', () => {
 

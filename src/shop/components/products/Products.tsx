@@ -28,7 +28,7 @@ export const Products = ({productsQuery, category}: Props) => {
   const setSelectedProduct = useProductsStore((state) => state.setSelectedProduct)
 
   if(productsQuery.isLoading) return <Loading message="Cargando productos..." />
-  if(!productsQuery.data || productsQuery.data.data.products.length === 0) return <p className="text-center text-sm">No se encontrarón productos</p>
+  if(!productsQuery.data || productsQuery.data.data.products.length === 0) return <p className="text-center text-sm">No se encontraron productos</p>
   
   const { products, pagination } = productsQuery.data.data;
 

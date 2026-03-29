@@ -1,12 +1,7 @@
 import ecommerceApi from "../../api/ecommerceApi";
 import { getProductById, getProducts } from "./get-products.action";
 
-jest.mock("../../api/ecommerceApi", () => ({
-  __esModule: true,
-  default: {
-    get: jest.fn(),
-  },
-}));
+jest.mock("../../api/ecommerceApi");
 
 const mockGet = ecommerceApi.get as jest.MockedFunction<typeof ecommerceApi.get>;
 

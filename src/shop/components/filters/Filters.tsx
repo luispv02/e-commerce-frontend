@@ -25,7 +25,7 @@ export const Filters = () => {
   const selectedCategory = CATEGORY_FILTERS[currentCategory];
 
   return (
-    <section>
+    <section data-testid="filters">
       <div className="flex justify-end items-center lg:hidden">
         <button name="Abrir filtros" className="cursor-pointer" onClick={() => setIsProductFiltersOpen(true)}>
           <LiaFilterSolid className="h-6 w-6" />

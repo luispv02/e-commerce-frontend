@@ -15,12 +15,7 @@ jest.mock("react-router", () => ({
 }));
 
 // Mock ecommerceApi
-jest.mock("../../../api/ecommerceApi", () => ({
-  ecommerceApi: {
-    get: jest.fn(),
-    post: jest.fn(),
-  },
-}));
+jest.mock("../../../api/ecommerceApi"); 
 
 // Mock swiper(slider)
 jest.mock('swiper/react', () => ({

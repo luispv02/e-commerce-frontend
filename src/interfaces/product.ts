@@ -33,7 +33,7 @@ export type Product = ClothingProduct | TechnologyProduct | OtherProduct;
 // Types
 export type Size = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
 export type Gender = 'men' | 'women' | 'kid';
-export type TypeClothing = 'shirts' | 't-shirts' | 'pants';
+export type TypeClothing = 'shirts' | 't-shirts' | 'pants' | 'others';
 export type ProductCategory =  'clothes' | 'technology' | 'others';
 
 

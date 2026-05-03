@@ -20,7 +20,7 @@ export const SalesOverTimeChart = ({ sales }: Props) => {
         responsive
         data={sales}
       >
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border-3)" />
+        <CartesianGrid strokeDasharray="3 3" stroke="transparent" />
         <XAxis dataKey="date" stroke="#a0a0a0" />
         <YAxis width="auto" stroke="#a0a0a0" />
         

@@ -37,7 +37,7 @@ export const UserMenu = () => {
 
             {
               user?.role === 'admin' && 
-              <Link to='/admin' className="flex items-center px-2 gap-2 text-gray-600 hover:bg-gray-200 transition-all cursor-pointer py-2">
+              <Link to='/admin/dashboard' className="flex items-center px-2 gap-2 text-gray-600 hover:bg-gray-200 transition-all cursor-pointer py-2">
                 <MdOutlineDashboard className="w-5 h-5 text-slate-500" />
                 <span className="text-sm font-medium">Dashboard</span>
               </Link>

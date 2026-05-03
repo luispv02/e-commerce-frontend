@@ -56,7 +56,7 @@ export const appRouter = createBrowserRouter([
         element: <AdminLayout />,
         children: [
           {
-            index: true,
+            path: 'dashboard',
             element: <DashboardPage />
           },
           {

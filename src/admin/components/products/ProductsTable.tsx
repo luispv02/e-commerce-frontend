@@ -73,7 +73,9 @@ export const ProductsTable = ({ products, pagination }: Props) => {
                 </td>
 
                 <td className="px-4 py-3 whitespace-nowrap lg:whitespace-normal text-sm text-gray-900">
-                  {producto.title}
+                  <Link to={`/product/${producto.id}`} target="_blank" className="hover:underline">
+                    {producto.title}
+                  </Link>
                 </td>
 
                 <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">

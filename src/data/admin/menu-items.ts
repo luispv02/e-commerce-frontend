@@ -9,6 +9,6 @@ export interface MenuItem {
 }
 
 export const adminMenuItems: MenuItem[] = [
-  { to: "/admin", label: "Dashboard", icon: MdOutlineDashboard },
+  { to: "/admin/dashboard", label: "Dashboard", icon: MdOutlineDashboard },
   { to: "/admin/products", label: "Productos", icon: CgShoppingCart },
 ];

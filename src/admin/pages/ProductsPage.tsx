@@ -5,6 +5,7 @@ import { Loading } from "../../components/ui/Loading";
 import { ProductsTable } from "../components/products/ProductsTable";
 import { useProductsFilters } from "../../shop/hooks/products/useProductsFilters";
 import { useEffect } from "react";
+import { PageTitle } from "../components/layout/PageTitle";
 
 export const ProductsPage = () => {
   const [searchParams] = useSearchParams();
@@ -39,10 +40,8 @@ export const ProductsPage = () => {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="flex justify-between items-start">
-        <div>
-          <h2 className="text-gray-600 text-lg font-bold">Productos</h2>
-          <p className="text-gray-500 text-sm">Gestiona tus productos</p>
-        </div>
+        <PageTitle title="Productos" subtitle="Gestiona tus productos"/>
+        
         <Link to='/admin/products/new' aria-label="Crear producto nuevo" className="bg-cyan-200 p-1 rounded border border-cyan-300 hover:bg-cyan-300 transition cursor-pointer">
           <FiPlus className="text-xl text-cyan-700" />
         </Link>

@@ -2,7 +2,7 @@
 
 Página web tipo e-commerce para usuarios y administrador, construida con ReactJs, TypeScript y Vite.  
 Como usuarios podemos ver productos, filtrarlos, ordenarlos y hacer búsquedas, podemos agregar al carrito, simular la compra y ver productos comprados.  
-Como administrador podemos editar, agregar, eliminar y cambiar estatus de todos los productos.  
+Como administrador podemos consultar métricas del dashboard, revisar ventas, pedidos recientes y productos más vendidos; además de editar, agregar, eliminar y cambiar estatus de todos los productos.  
 
 
 **[Ver Demo](https://e-commerce-app-teal-psi.vercel.app/)**
@@ -12,6 +12,7 @@ Como administrador podemos editar, agregar, eliminar y cambiar estatus de todos 
 - Catálogo de productos con filtrado y búsqueda
 - Carrito de compras
 - Login y registro de usuarios
+- Dashboard administrativo con métricas de ventas, ingresos, pedidos, usuarios y productos más vendidos
 - Crud de productos(Admin)
 - Diseño Responsivo
 
@@ -27,6 +28,7 @@ Como administrador podemos editar, agregar, eliminar y cambiar estatus de todos 
 - **React Router**
 - **React Icons**
 - **React Toastify**
+- **Recharts**
 
 
 ## Instalación

@@ -15,13 +15,13 @@ describe("AddToCartButton", () => {
     images: [
       {
         url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767741109/ecommerce/products/vgr4web3w2vvmuyc9pjk.jpg",
-        public_id: "ecommerce/products/vgr4web3w2vvmuyc9pjk",
-        _id: "695d96b67a178b1b58c80d4a",
+        publicId: "ecommerce/products/vgr4web3w2vvmuyc9pjk",
+        id: "695d96b67a178b1b58c80d4a",
       }, 
       {
         url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767741109/ecommerce/products/exkx62ptd72farn9dbef.jpg",
-        public_id: "ecommerce/products/exkx62ptd72farn9dbef",
-        _id: "695d96b67a178b1b58c80d4b",
+        publicId: "ecommerce/products/exkx62ptd72farn9dbef",
+        id: "695d96b67a178b1b58c80d4b",
       },
     ],
     sizes: ["m", "l", "xl", "xxl"],

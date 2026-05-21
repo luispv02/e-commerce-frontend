@@ -11,7 +11,7 @@ export interface Cart {
   id: string;
   items: CartItem[];
   updatedAt: string;
-  user: string;
+  userid: string;
 }
 
 export interface CartItem {

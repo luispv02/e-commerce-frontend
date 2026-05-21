@@ -98,9 +98,9 @@ export interface ProductsFilters {
 }
 
 export interface ProductImage {
-  _id: string;
+  id: string;
   url: string;
-  public_id: string;
+  publicId: string;
 }
 
 export interface ApiError {

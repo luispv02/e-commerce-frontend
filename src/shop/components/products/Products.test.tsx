@@ -71,9 +71,9 @@ describe("Products", () => {
               isActive: true,
               images: [
                 {
-                  _id: "1",
+                  id: "1",
                   url: "https://res.cloudinary.com/dtz2cdzjp/image/upload/v1767741109/ecommerce/products/vgr4web3w2vvmuyc9pjk.jpg",
-                  public_id: "ecommerce/products/vgr4web3w2vvmuyc9pjk",
+                  publicId: "ecommerce/products/vgr4web3w2vvmuyc9pjk",
                 },
               ],
             },

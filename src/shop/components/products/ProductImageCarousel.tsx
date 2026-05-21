@@ -28,7 +28,7 @@ export const ProductImageCarousel = ({images}: Props) => {
         >
           {
             images.map((image, i) => (
-              <SwiperSlide key={image._id}>
+              <SwiperSlide key={image.id}>
                 <img src={image.url} alt={`imagen producto ${i + 1}`} className="h-full w-full object-contain transition-transform duration-300 hover:scale-105"/>
               </SwiperSlide>
             ))
@@ -39,7 +39,7 @@ export const ProductImageCarousel = ({images}: Props) => {
       <div className="grid grid-cols-4 gap-2 mt-4">
         {
           images.map((img, idx) => (
-            <div key={img._id} className={`overflow-hidden rounded-lg cursor-pointer border hover:border-gray-400 ${activeIndex === idx ? "border-blue-500 " : "border-gray-200"}`} onClick={() => goToSlide(idx)}>
+            <div key={img.id} className={`overflow-hidden rounded-lg cursor-pointer border hover:border-gray-400 ${activeIndex === idx ? "border-blue-500 " : "border-gray-200"}`} onClick={() => goToSlide(idx)}>
               <img src={img.url} alt={`imagen producto ${idx + 1}`} className="h-full w-full object-contain"/>
             </div>
           ))

@@ -57,7 +57,7 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
       setValue('files', updatedFiles, { shouldValidate: true });
       return;
     }
-    const updatedUrls = productImages.filter(img => img.public_id !== image);
+    const updatedUrls = productImages.filter(img => img.publicId !== image);
     setValue("images", updatedUrls, { shouldValidate: true });
     setValue('deletedImages', [...deletedImages, image], { shouldValidate: true })
   }
@@ -107,19 +107,19 @@ export const UploadProductImage = ({ register, setValue, watch, errors, getValue
           ? <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-8 gap-2">
             {productImages.map((img) => (
               <div
-                key={img._id}
+                key={img.id}
                 className="relative group rounded-md overflow-hidden border border-gray-200 box-shadow-md"
               >
                 <img
                   src={img.url}
-                  alt={`imagen-${img._id}`}
+                  alt={`imagen-${img.id}`}
                   className="w-full h-25 object-contain"
                 />
                 <button
                   type="button"
                   className="absolute top-1 right-1 bg-white/90 text-red-600 hover:bg-white rounded-full p-2 shadow-md transition cursor-pointer"
                   aria-label="Eliminar imagen"
-                  onClick={() => handleRemoveImage(img.public_id)}
+                  onClick={() => handleRemoveImage(img.publicId)}
                 >
                   <FaTrashAlt size={14} />
                 </button>

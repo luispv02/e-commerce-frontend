@@ -63,7 +63,7 @@ export const DashboardContent = ({ data }: Props) => {
         />
          <StatCard
           title="Crecimiento"
-          value={`${summary.growth}%`}
+          value={`${summary.growth !== null ? `${summary.growth}%` : '-' }`}
           hint={"Comparado con el periodo anterior"}
           icon={<FiPercent className="text-xl" />}
           className="bg-yellow-100 text-yellow-800 border-yellow-300"
